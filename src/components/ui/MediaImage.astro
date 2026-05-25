@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import defaultPlaceholder from '@assets/images/default-placeholder.avif';
+
+export interface Props {
+  src?: any;
+  alt?: string;
+  class?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  [key: string]: any;
+}
+
+const { src, alt, ...rest } = Astro.props;
+const altText = alt || "Imagen de IMB Institute";
+
+// Type checks for source
+const isEsmImport = src && typeof src === 'object' && 'src' in src;
+const isRemoteUrl = typeof src === 'string' && src.startsWith('http');
+const isPublicPath = typeof src === 'string' && src.startsWith('/');
+
+// Fallback logic
+const fallbackSrc = defaultPlaceholder.src;
+---
+
+{isEsmImport && (
+  <Image src={src} alt={altText} {...rest} />
+)}
+
+{isRemoteUrl && (
+  <img src={src} alt={altText} {...rest} />
+)}
+
+{isPublicPath && (
+  <img src={src} alt={altText} {...rest} />
+)}
+
+{!src && (
+  <Image src={defaultPlaceholder} alt={altText} {...rest} />
+)}

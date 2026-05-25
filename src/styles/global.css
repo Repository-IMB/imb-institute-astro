@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/*
+  IMB Institute — Design System: Premium Editorial
+  Reference: STYLES_GUIDE.MD
+  Fonts: Montserrat (display), Inter (body)
+*/
+
+@theme {
+  /* Brand Core */
+  --color-imb: #841822;
+  --color-imb-hover: #A62632;
+  --color-imb-dark: #5E1118;
+
+  /* Semantic tokens — Light (default) */
+  --color-surface-0: #FFFFFF;
+  --color-surface-50: #F8F9FA;
+  --color-surface-100: #F3F4F6;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #6B7280;
+
+  --color-border-subtle: #E5E7EB;
+  --color-border-muted: #F3F4F6;
+
+  --color-icon-muted: #9CA3AF;
+
+  --shadow-premium: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-premium-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+
+  /* Font Families */
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-surface-50);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.75;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Typography: Display (Montserrat) for headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 5vw + 1rem, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-size: clamp(1.875rem, 3vw + 1rem, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    line-height: 1.75;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-50);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-subtle);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-icon-muted);
+  }
+
+  /* Hide scrollbar for horizontal scroll elements */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Autofill override to maintain clean look */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px var(--color-surface-0) inset !important;
+    -webkit-text-fill-color: var(--color-text-primary) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+/* Glass effect for scrolled header */
+.glass {
+  background-color: color-mix(in srgb, var(--color-surface-0) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border-subtle);
+}

@@ -1,17 +1,252 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import MediaImage from '../components/ui/MediaImage.astro';
+import FormContacto from '../components/forms/FormContacto.astro';
+import { cursos } from '../data/cursos';
+import {
+  Award, MonitorPlay, Users, Target, Globe2, Briefcase,
+  Globe, Cpu, Building, Activity, BarChart2, Clock,
+  Quote, Phone, Mail, ArrowRight
+} from 'lucide-astro';
+import { ROUTES, COURSE_ROUTES } from '../config/routes';
+import logoArgos from '../assets/images/logo-argos.avif';
+import logoCerroVerde from '../assets/images/logo-cerro-verde.avif';
+import logoFerreyros from '../assets/images/logo-ferreyros.avif';
+import logoKia from '../assets/images/logo-kia.avif';
+import logoMundoMujer from '../assets/images/logo-mundo-mujer.avif';
+import logoRankAgile from '../assets/images/logo-rank-agile.avif';
 
+export const prerender = true;
+
+const featuredCourses = cursos.slice(0, 3);
+
+const whyItems = [
+  { icon: Award, title: "Certificaciones con valor curricular", desc: "Respaldamos tu aprendizaje con documentos oficiales que validan tus competencias en el mercado." },
+  { icon: MonitorPlay, title: "Formación online y asincrónica", desc: "Flexibilidad total sin perder rigor. Aprende en tiempo real con expertos o a tu ritmo." },
+  { icon: Users, title: "Asesoría personalizada", desc: "Seguimiento docente continuo para asegurar tu dominio absoluto de los temas impartidos." },
+  { icon: Target, title: "Enfoque aplicado a casos reales", desc: "Aplica lo aprendido inmediatamente en el entorno de tu propia empresa o industria." },
+  { icon: Globe2, title: "Docentes internacionales", desc: "Aprende de directivos y consultores que aplican a diario las metodologías que enseñan." },
+  { icon: Briefcase, title: "Networking estratégico", desc: "Conecta con profesionales y líderes de la industria, ampliando tu red de contactos corporativos." }
+];
+
+const stats = [
+  { number: '1500+', label: 'Inscritos' },
+  { number: '100+', label: 'Talleres' },
+  { number: '150+', label: 'Cursos' },
+  { number: '20+', label: 'Eventos' }
+];
+
+const brands = [
+  { name: 'Argos', src: logoArgos },
+  { name: 'Cerro Verde', src: logoCerroVerde },
+  { name: 'Ferreyros', src: logoFerreyros },
+  { name: 'Kia', src: logoKia },
+  { name: 'Mundo Mujer', src: logoMundoMujer },
+  { name: 'Rank Agile', src: logoRankAgile }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="IMB Institute | Formación Especializada de Alto Impacto" description="Programas de capacitación en calidad, mantenimiento, tecnología, gestión y más. Aprende con expertos, aplica el conocimiento y destaca en tu industria.">
+
+  <!-- Hero -->
+  <Wrapper class="relative bg-gray-950 overflow-hidden" full>
+    <div class="absolute inset-0 z-0">
+      <MediaImage src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2000" alt="Executive Meeting" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/95 via-gray-900/85 to-gray-900/95"></div>
+    </div>
+    <div class="max-w-[1100px] mx-auto text-center relative z-10">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight">
+        Lidera tu crecimiento profesional con <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">formación especializada</span> de alto impacto.
+      </h1>
+      <p class="font-sans text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+        Programas de capacitación en calidad, mantenimiento, tecnología, gestión y más. Aprende con expertos, aplica el conocimiento y destaca en tu industria.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <Button href={ROUTES.CURSOS} variant="primary" class="py-4 px-8 text-base shadow-premium">Ver programas</Button>
+        <Button href="#contacto" variant="outline" class="py-4 px-8 text-base border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-transparent hover:text-white!">
+          Solicitar información
+        </Button>
+      </div>
+    </div>
+  </Wrapper>
+
+  <!-- Trusted Brands -->
+  <Wrapper class="bg-surface-50 text-center" padded={false} class:list={["py-12"]}>
+    <div class="flex justify-between items-center w-full gap-2 sm:gap-4 opacity-40">
+      {brands.map(brand => (
+        <MediaImage src={brand.src} alt={brand.name} class="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain brightness-0 min-w-0 shrink select-none" />
+      ))}
+    </div>
+  </Wrapper>
+
+  <!-- Stats -->
+  <Wrapper class="bg-surface-0 border-b border-border-muted" padded={false} class:list={["py-16 lg:py-24"]}>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-8">
+      {stats.map(stat => (
+        <div class="text-center md:text-left">
+          <div class="font-display text-5xl lg:text-6xl font-extrabold mb-2 tracking-tighter">{stat.number.replace(/\+/, '')}<span class="text-imb">+</span></div>
+          <p class="font-sans text-xs font-bold uppercase tracking-widest text-text-secondary">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </Wrapper>
+
+  <!-- ¿Por qué IMB? -->
+  <Wrapper class="bg-surface-0">
+    <div class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-20">
+      <div class="max-w-2xl">
+        <h2 class="font-display text-3xl lg:text-4xl font-bold tracking-tight">Excelencia Académica.<br />¿Por qué IMB?</h2>
+      </div>
+      <div class="lg:max-w-md pt-2 lg:pt-4">
+        <p class="font-sans text-lg text-text-secondary leading-relaxed">
+          En IMB Institute impulsamos el crecimiento de profesionales y organizaciones a través de una capacitación práctica, flexible y con respaldo académico.
+        </p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {whyItems.map(item => (
+        <Card class="p-6 group hover:shadow-premium">
+          <div class="w-10 h-10 bg-surface-50 rounded-xl flex items-center justify-center text-imb mb-4 shadow-sm">
+            <item.icon size={20} />
+          </div>
+          <h3 class="font-display text-lg font-bold mb-2 leading-snug">{item.title}</h3>
+          <p class="text-text-secondary leading-relaxed">{item.desc}</p>
+        </Card>
+      ))}
+    </div>
+  </Wrapper>
+
+  <!-- Cursos Destacados -->
+  <Wrapper class="bg-surface-50">
+    <div class="mb-16 max-w-3xl text-center mx-auto">
+      <h2 class="font-display text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
+        Formación de alto nivel,<br/>accesible y efectiva
+      </h2>
+      <p class="font-sans text-lg text-text-secondary leading-relaxed">
+        Explora nuestros programas más destacados, diseñados para potenciar tus habilidades y acelerar tu crecimiento profesional.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {featuredCourses.map(course => (
+        <Card href={COURSE_ROUTES.DETAIL(course.slug)} class="overflow-hidden flex flex-col group">
+          <div class="relative h-48 overflow-hidden">
+            <div class="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10"></div>
+            <MediaImage src={course.imagen} alt={course.nombre} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+          </div>
+          <div class="p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-2 mb-2 text-text-secondary">
+              <BarChart2 size={16} class="text-imb" />
+              <span class="font-sans text-xs font-medium">{course.instructor}</span>
+            </div>
+            <h3 class="font-display text-lg font-bold mb-4 group-hover:text-imb transition-colors line-clamp-2 leading-snug">
+              {course.nombre}
+            </h3>
+            <div class="mt-auto flex items-center gap-4 text-text-secondary font-sans text-xs font-medium border-t border-border-muted pt-4">
+              <div class="flex items-center gap-1.5">
+                <Clock size={16} class="text-icon-muted" />
+                <span>{course.duracion}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <Award size={16} class="text-icon-muted" />
+                <span>{course.nivel}</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    <div class="mt-16 text-center">
+      <Button href={ROUTES.CURSOS} variant="primary" class="px-8 py-4 shadow-sm text-base font-bold flex items-center gap-2 mx-auto">
+        Ver todos los programas <ArrowRight size={16} />
+      </Button>
+    </div>
+  </Wrapper>
+
+  <!-- Testimonios -->
+  <Wrapper class="bg-surface-0 relative overflow-hidden">
+    <div class="relative z-10">
+      <div class="mb-16 max-w-3xl text-center mx-auto">
+        <h2 class="font-display text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
+          Ideas que inspiran.<br/>Conocimiento que transforma.
+        </h2>
+        <p class="font-sans text-lg text-text-secondary">
+          Explora nuevas perspectivas junto a expertos, sumérgete en conocimientos innovadores y amplía tus horizontes con cada conversación.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5 lg:gap-6 max-w-6xl mx-auto">
+        <Card class="p-6 lg:p-8 relative group">
+          <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
+          <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10">
+            "Cuando estableces un comportamiento de trabajo y procesos con calidad, das el primer paso hacia la excelencia. Esta actitud se convierte en una conducta que, con la práctica, se transforma en una habilidad productiva."
+          </blockquote>
+          <div class="flex items-center gap-4 mt-auto">
+            <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm">
+              <Users size={20} />
+            </div>
+            <div>
+              <h4 class="font-display text-sm font-bold">Ing. Yassín Vázquez</h4>
+              <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">Docente Principal / Área de Mantenimiento</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card class="p-6 lg:p-8 relative group">
+          <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
+          <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10">
+            "Quiero compartir una gran satisfacción personal: haber culminado el curso de Recursos Humanos en IMB Institute. Esta experiencia no solo me brindó conocimientos valiosos, sino que también me ayudó a desenvolverme mejor en mi área profesional."
+          </blockquote>
+          <div class="flex items-center gap-4 mt-auto">
+            <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm">
+              <Award size={20} />
+            </div>
+            <div>
+              <h4 class="font-display text-sm font-bold">Alumno Egresado</h4>
+              <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">Programa de Recursos Humanos</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  </Wrapper>
+
+  <!-- Contacto Rápido -->
+  <Wrapper id="contacto" class="bg-surface-50">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="max-w-xl">
+        <h2 class="font-display text-3xl lg:text-4xl font-bold mb-6 tracking-tight">Da el siguiente paso en tu carrera profesional</h2>
+        <p class="font-sans text-lg text-text-secondary leading-relaxed mb-8">Déjanos tus datos y un asesor académico especializado se comunicará contigo.</p>
+        <div class="flex flex-col gap-5">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-surface-0 rounded-xl flex items-center justify-center text-imb shadow-sm">
+              <Phone size={20} />
+            </div>
+            <div>
+              <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Llámanos</p>
+              <h3 class="font-display text-xl font-bold">+51 900 800 700</h3>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-surface-0 rounded-xl flex items-center justify-center text-imb shadow-sm">
+              <Mail size={20} />
+            </div>
+            <div>
+              <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Escríbenos</p>
+              <h3 class="font-display text-xl font-bold">admision@imbinstitute.edu</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Card class="rounded-2xl p-8 lg:p-12 shadow-premium relative">
+        <h3 class="font-display text-2xl font-bold mb-10 tracking-tight">Solicita Información</h3>
+        <FormContacto />
+      </Card>
+    </div>
+  </Wrapper>
+
+</BaseLayout>

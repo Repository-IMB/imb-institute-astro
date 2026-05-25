@@ -12,6 +12,20 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.3.3"
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^13.5.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.3",
+    "intl-tel-input": "^28.1.0",
+    "lucide-astro": "^0.556.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.92.0"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "cloakbrowser": "^0.3.28",
+    "playwright-core": "^1.60.0"
   }
 }

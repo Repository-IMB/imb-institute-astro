@@ -1,0 +1,145 @@
+---
+interface Props {
+  id?: string;
+  name?: string;
+  label?: string;
+  required?: boolean;
+  class?: string;
+}
+
+const { 
+  id = "phone-input", 
+  name = "telefono", 
+  label = "Teléfono", 
+  required = true,
+  class: className = ""
+} = Astro.props;
+
+// Base styles for the input field to match the rest of the UI
+const inputClasses = "w-full pl-3 pr-4 py-2 bg-transparent border-0 border-b-2 border-border-subtle focus:ring-0 focus:border-imb focus:outline-none transition-all font-sans text-base text-text-primary placeholder:text-icon-muted/50";
+---
+
+<div class:list={["relative group intl-tel-input-container", className]}>
+  {label && (
+    <label for={id} class="block font-sans text-sm font-medium text-text-secondary mb-1 transition-colors group-focus-within:text-imb">
+      {label} {required && <span class="text-imb">*</span>}
+    </label>
+  )}
+  
+  <div class="relative w-full">
+    <input
+      type="tel"
+      id={id}
+      name={name}
+      required={required}
+      class={inputClasses}
+    />
+    <!-- Hidden input to store the full E.164 formatted number -->
+    <input type="hidden" name={`${name}_full`} id={`${id}-full`} />
+    <!-- Validation error message container -->
+    <div id={`${id}-error`} class="hidden mt-1 text-xs text-imb font-medium absolute top-full left-0"></div>
+  </div>
+</div>
+
+<style is:global>
+  /* Override intl-tel-input default styles to match the design system */
+  .iti.iti--input-container.iti--allow-dropdown.iti--show-flags.iti--inline-dropdown {
+    width: 100%;
+  }
+  .iti__selected-country-primary {
+    cursor: pointer;
+    margin-bottom: 0.4rem;
+  }
+  /* .iti__selected-dial-code {
+    padding-bottom: 0.15rem;
+  } */
+</style>
+
+<script>
+  import intlTelInput from 'intl-tel-input';
+  import 'intl-tel-input/dist/css/intlTelInput.css';
+
+  // Initialize all phone inputs on the page
+  const initPhoneInputs = () => {
+    const containers = document.querySelectorAll('.intl-tel-input-container');
+    
+    containers.forEach(container => {
+      const input = container.querySelector('input[type="tel"]') as HTMLInputElement;
+      const hiddenInput = container.querySelector('input[type="hidden"]') as HTMLInputElement;
+      const errorMsg = container.querySelector('div[id$="-error"]') as HTMLDivElement;
+      
+      if (!input || input.dataset.initialized) return;
+      input.dataset.initialized = "true";
+
+      const iti = intlTelInput(input, {
+        initialCountry: "auto",
+        geoIpLookup: () => {
+          return fetch("https://get.geojs.io/v1/ip/country.json")
+            .then(res => res.json())
+            .then(data => data.country)
+            .catch(() => "pe"); // Default to Peru if fails
+        },
+        loadUtils: () => import("intl-tel-input/utils"),
+        strictMode: true,
+        separateDialCode: true,
+        formatOnDisplay: true,
+      });
+
+      const getErrorMessage = (errorCode: number | null) => {
+        switch (errorCode) {
+          case 1: return "Código de país inválido"; // INVALID_COUNTRY_CODE
+          case 2: return "Número muy corto"; // TOO_SHORT
+          case 3: return "Número muy largo"; // TOO_LONG
+          case 4: return "Número inválido"; // INVALID_NUMBER
+          default: return "Número inválido";
+        }
+      };
+
+      const reset = () => {
+        input.classList.remove("border-imb");
+        errorMsg.textContent = "";
+        errorMsg.classList.add("hidden");
+        hiddenInput.value = "";
+      };
+
+      const validate = () => {
+        reset();
+        if (input.value.trim()) {
+          if (iti.isValidNumber()) {
+            hiddenInput.value = iti.getNumber();
+          } else {
+            input.classList.add("border-imb"); // Red border for error
+            const errorCode = iti.getValidationError();
+            errorMsg.textContent = getErrorMessage(errorCode);
+            errorMsg.classList.remove("hidden");
+            hiddenInput.value = ""; // Don't submit invalid numbers
+          }
+        }
+      };
+
+      // Validate on blur
+      input.addEventListener('blur', validate);
+      
+      // Clear error on focus or keyup
+      input.addEventListener('focus', reset);
+      input.addEventListener('keyup', () => {
+         if(errorMsg.classList.contains('hidden')) return;
+         reset();
+      });
+
+      // Provide visual feedback for strict mode rejection
+      input.addEventListener("strict:reject", () => {
+        input.classList.add("border-imb");
+        setTimeout(() => input.classList.remove("border-imb"), 300);
+      });
+      
+      // Update validation if country changes manually
+      input.addEventListener("countrychange", validate);
+    });
+  };
+
+  // Run on load and after Astro view transitions
+  document.addEventListener('astro:page-load', initPhoneInputs);
+  // Also run immediately for the first load if not using view transitions
+  initPhoneInputs();
+</script>

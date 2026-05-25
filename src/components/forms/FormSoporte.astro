@@ -1,0 +1,56 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import Button from '../ui/Button.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<form
+  method="POST"
+  action="/actions/soporte"
+  class:list={["space-y-8", className]}
+>
+  <InputField label="Nombres Completos" name="nombres" placeholder="Tus nombres y apellidos" />
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
+    <PhoneInput label="Teléfono / WhatsApp" name="telefono" id="soporte-telefono" />
+  </div>
+
+  <InputField label="Curso matriculado" name="curso" placeholder="Ej. Diplomado en Mantenimiento" />
+
+  <SelectField
+    label="Categoría de ayuda"
+    name="categoria"
+    options={[
+      { value: '', label: 'Seleccione el motivo de su consulta...' },
+      'Problemas con el Aula Virtual',
+      'Consulta sobre Certificados',
+      'Soporte Técnico',
+      'Links de clase y Grabaciones',
+      'Otros'
+    ]}
+  />
+
+  <InputField label="Mensaje" name="mensaje" type="textarea" rows={4} placeholder="Detalla tu problema para ayudarte mejor..." />
+
+  <div class="flex items-start gap-3">
+    <input type="checkbox" name="terminos" required class="mt-1 w-4 h-4 text-imb bg-surface-50 rounded border-gray-300 focus:ring-imb/20 cursor-pointer" />
+    <p class="font-sans text-sm text-text-secondary leading-relaxed">
+      Acepto los términos y condiciones y el tratamiento de mis datos personales para gestionar esta solicitud.
+    </p>
+  </div>
+
+  <Button
+    type="submit"
+    class="w-full py-4"
+  >
+    Enviar Consulta al Soporte
+  </Button>
+</form>

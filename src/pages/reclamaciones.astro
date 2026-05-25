@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import FormReclamaciones from '../components/forms/FormReclamaciones.astro';
+
+export const prerender = true;
+---
+
+<BaseLayout title="Libro de Reclamaciones | IMB Institute" description="Libro de Reclamaciones Virtual conforme a la normativa vigente. Valoramos tus sugerencias para nuestra mejora continua.">
+  <Wrapper class="pt-12 pb-24" padded={false}>
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-12">
+        <h1 class="font-display text-3xl lg:text-4xl font-extrabold text-text-primary mb-4 tracking-tight">Libro de Reclamaciones Virtual</h1>
+        <p class="font-sans text-lg text-text-secondary leading-relaxed">
+          Conforme a lo establecido en la normativa vigente, ponemos a tu disposición este formulario. En IMB Institute, valoramos cada una de tus sugerencias para nuestra mejora continua.
+        </p>
+      </div>
+
+      <Card class="rounded-3xl p-8 lg:p-14 shadow-premium">
+        <FormReclamaciones />
+      </Card>
+    </div>
+  </Wrapper>
+</BaseLayout>

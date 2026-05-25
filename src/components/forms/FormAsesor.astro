@@ -1,0 +1,31 @@
+---
+import InputField from '../ui/InputField.astro';
+import Button from '../ui/Button.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+
+export interface Props {
+  cursoNombre: string;
+  class?: string;
+}
+
+const { cursoNombre, class: className } = Astro.props;
+---
+
+<form
+  method="POST"
+  action={`/actions/asesor?cursoNombre=${encodeURIComponent(cursoNombre)}`}
+  class:list={["space-y-8", className]}
+>
+  <InputField label="Nombres y Apellidos" name="nombres" placeholder="Ej. Carlos Mendoza" />
+  <PhoneInput label="Teléfono / WhatsApp" name="telefono" id="asesor-telefono" />
+  <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
+
+  <div class="pt-2">
+    <Button
+      type="submit"
+      class="w-full py-4"
+    >
+      Solicitar Información
+    </Button>
+  </div>
+</form>

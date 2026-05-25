@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import FormMatricula from '../components/forms/FormMatricula.astro';
+
+export const prerender = true;
+---
+
+<BaseLayout title="Matrícula Oficial | IMB Institute" description="Completa tu ficha de matrícula y asegura tu vacante en nuestros programas de capacitación.">
+  <Wrapper class="pt-12 pb-24" padded={false}>
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="font-display text-4xl font-extrabold text-text-primary mb-4 tracking-tight">Ficha de Matrícula</h1>
+        <p class="font-sans text-lg text-text-secondary">Completa el formulario para asegurar tu vacante y formar parte de IMB Institute.</p>
+      </div>
+
+      <Card class="rounded-3xl p-8 lg:p-14 shadow-premium">
+        <FormMatricula />
+      </Card>
+    </div>
+  </Wrapper>
+</BaseLayout>

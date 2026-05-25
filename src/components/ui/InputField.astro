@@ -1,0 +1,46 @@
+---
+interface Props {
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+  rows?: number;
+  class?: string;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  placeholder,
+  required = true,
+  rows,
+  class: className,
+} = Astro.props;
+
+const inputClasses = "w-full px-0 py-2 bg-transparent border-0 border-b-2 border-border-subtle focus:ring-0 focus:border-imb focus:outline-none transition-all font-display text-base text-text-primary placeholder:text-icon-muted";
+---
+
+<div class:list={["relative group", className]}>
+  <label class="block font-sans text-sm font-medium text-text-secondary mb-1 transition-colors group-focus-within:text-imb">
+    {label} {required && <span class="text-imb">*</span>}
+  </label>
+  {type === 'textarea' ? (
+    <textarea
+      name={name}
+      required={required}
+      rows={rows || 4}
+      class={`${inputClasses} resize-y min-h-30`}
+      placeholder={placeholder}
+    ></textarea>
+  ) : (
+    <input
+      type={type}
+      name={name}
+      required={required}
+      class={inputClasses}
+      placeholder={placeholder}
+    />
+  )}
+</div>

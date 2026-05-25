@@ -1,0 +1,22 @@
+---
+export interface Props {
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center' | 'right';
+  class?: string;
+}
+
+const { title, subtitle, align = 'center', class: className } = Astro.props;
+
+const alignmentClasses = {
+  left: 'text-left',
+  center: 'text-center mx-auto',
+  right: 'text-right ml-auto'
+};
+---
+
+<div class:list={["max-w-3xl mb-12", alignmentClasses[align], className]}>
+  <h2>{title}</h2>
+  {subtitle && <p class="text-text-secondary text-lg">{subtitle}</p>}
+  <slot />
+</div>

@@ -1,0 +1,64 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import Button from '../ui/Button.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<form
+  method="POST"
+  action="/actions/alianzas"
+  class:list={["space-y-8", className]}
+>
+  <InputField label="Nombre de la Empresa" name="empresa" placeholder="Razón social corporativa" />
+
+  <SelectField
+    label="¿Qué tipo de alianza busca?"
+    name="tipoAlianza"
+    options={[
+      { value: '', label: 'Seleccione una opción...' },
+      'Convenios Institucionales',
+      'Capacitación IN house',
+      'Patrocinios y alianzas',
+      'Bolsa de trabajo',
+      'Networking y Ruedas de Negocios',
+      'Otros'
+    ]}
+  />
+
+  <SelectField
+    label="¿En qué sector se encuentra?"
+    name="sector"
+    options={[
+      { value: '', label: 'Seleccione su sector...' },
+      'MINERÍA',
+      'CONSTRUCCIÓN',
+      'SALUD',
+      'TECNOLOGÍA',
+      'FINANZAS',
+      'RECURSOS HUMANOS',
+      'LOGÍSTICA Y PRODUCCIÓN',
+      'TECNOLOGÍAS DE LA INFORMACIÓN',
+      'DERECHO Y LEYES'
+    ]}
+  />
+
+  <InputField label="Correo electrónico corporativo" name="correo" type="email" placeholder="correo@empresa.com" />
+  <PhoneInput label="Teléfono de contacto" name="telefono" id="alianzas-telefono" required={false} />
+  <InputField label="Cuéntanos más sobre tu proyecto" name="descripcion" type="textarea" rows={4} required={false} placeholder="¿Cuáles son los objetivos principales de capacitación para su equipo?" />
+
+  <div class="pt-2">
+    <Button
+      type="submit"
+      class="w-full py-4"
+    >
+      Solicitar Asesoría B2B
+    </Button>
+  </div>
+</form>

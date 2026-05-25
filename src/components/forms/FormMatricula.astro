@@ -1,0 +1,212 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import Button from '../ui/Button.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+---
+
+<form
+  id="matricula-form"
+  method="POST"
+  action="/actions/matricula"
+  class="space-y-8"
+>
+  <!-- Wizard Progress -->
+  <div class="flex items-center justify-between mb-12 relative px-2">
+    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 rounded-full z-0"></div>
+    <div id="progress-bar" class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-imb rounded-full z-0 transition-all duration-500" style="width: 0%"></div>
+
+    {[1, 2, 3, 4].map((s) => (
+      <div
+        id={`step-circle-${s}`}
+        class={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm transition-all duration-300 border-2 ${s === 1 ? 'bg-imb text-white border-imb shadow-md' : 'bg-surface-0 text-gray-400 border-gray-200'}`}
+      >
+        <span class="step-number">{s}</span>
+        <svg class="step-check hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+      </div>
+    ))}
+  </div>
+
+  <!-- Step 1: Selección de Programa -->
+  <div id="step-1" class="step-content space-y-8">
+    <h3 class="font-display text-2xl font-bold text-text-primary">Selección de Programa</h3>
+    <SelectField
+      label="Curso / Diplomado a matricularse"
+      name="curso"
+      options={[
+        { value: '', label: 'Selecciona un programa de la lista...' },
+        'Diplomado en Gestión de Mantenimiento Industrial',
+        'Especialización en Logística y Supply Chain',
+        'Gestión Estratégica de Recursos Humanos',
+        'Análisis de Datos para la Toma de Decisiones'
+      ]}
+    />
+  </div>
+
+  <!-- Step 2: Datos Personales -->
+  <div id="step-2" class="step-content space-y-8 hidden">
+    <h3 class="font-display text-2xl font-bold text-text-primary">Datos Personales</h3>
+    <InputField label="Nombres y Apellidos Completos" name="nombres" placeholder="Ej. Carlos Mendoza" />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Tipo y Número de Documento" name="documento" placeholder="Ej. DNI / Pasaporte" />
+      <InputField label="País de Residencia" name="pais" placeholder="Ej. Perú" />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
+      <PhoneInput label="Número de WhatsApp" name="whatsapp" id="matricula-whatsapp" />
+    </div>
+  </div>
+
+  <!-- Step 3: Perfil Profesional -->
+  <div id="step-3" class="step-content space-y-8 hidden">
+    <h3 class="font-display text-2xl font-bold text-text-primary">Perfil Profesional</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Área de Formación o Profesión" name="formacion" placeholder="Ej. Ingeniería Industrial" />
+      <InputField label="Empresa Actual (Opcional)" name="empresa" required={false} placeholder="Nombre de la empresa" />
+    </div>
+    <InputField label="Cargo u Ocupación" name="cargo" placeholder="Ej. Jefe de Planta" />
+    <SelectField
+      label="Familiaridad Tecnológica"
+      name="familiaridad_tecnologica"
+      options={[
+        { value: '', label: 'Seleccione su nivel de conocimiento tecnológico...' },
+        'Básico (Uso redes sociales, correo)',
+        'Intermedio (Uso Office, Zoom, plataformas web)',
+        'Avanzado (Dominio de software especializado)'
+      ]}
+    />
+  </div>
+
+  <!-- Step 4: Facturación -->
+  <div id="step-4" class="step-content space-y-8 hidden">
+    <h3 class="font-display text-2xl font-bold text-text-primary">Facturación y Complementos</h3>
+    <SelectField
+      label="Tipo de Comprobante"
+      name="tipo_comprobante"
+      options={[
+        { value: '', label: 'Seleccione el tipo de comprobante que requiere...' },
+        'Boleta Electrónica (Personal)',
+        'Factura Electrónica (Empresa)'
+      ]}
+    />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Razón Social / Nombre a Facturar" name="razon_social" placeholder="Nombre para la facturación" />
+      <InputField label="Número Tributario (RUC/RUT/NIT)" name="numero_tributario" placeholder="Identificación tributaria" />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Nivel actual de Inglés" name="nivel_ingles" placeholder="Ej. Intermedio" />
+      <InputField label="Nivel actual de Excel" name="nivel_excel" placeholder="Ej. Avanzado" />
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="mt-12 flex justify-between items-center pt-8 border-t border-gray-100">
+    <Button
+      type="button"
+      id="btn-back"
+      variant="outline"
+      class="hidden"
+    >
+      Regresar
+    </Button>
+    <div></div>
+    <Button
+      type="button"
+      id="btn-next"
+      class="px-10 py-4"
+    >
+      Siguiente Paso
+    </Button>
+    <Button
+      type="submit"
+      id="btn-submit"
+      class="hidden px-10 py-4"
+    >
+      Finalizar Matrícula
+    </Button>
+  </div>
+</form>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  const stepContents = document.querySelectorAll('.step-content');
+  const circles = [1, 2, 3, 4].map(i => document.getElementById(`step-circle-${i}`));
+  const progressBar = document.getElementById('progress-bar');
+  const btnBack = document.getElementById('btn-back');
+  const btnNext = document.getElementById('btn-next');
+  const btnSubmit = document.getElementById('btn-submit');
+
+  function updateWizard() {
+    // Update step visibility
+    stepContents.forEach((el, i) => {
+      el.classList.toggle('hidden', i + 1 !== currentStep);
+    });
+
+    // Update progress bar
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    if (progressBar) progressBar.style.width = `${progress}%`;
+
+    // Update circles
+    circles.forEach((circle, i) => {
+      const stepNum = i + 1;
+      const numEl = circle?.querySelector('.step-number');
+      const checkEl = circle?.querySelector('.step-check');
+
+      if (stepNum < currentStep) {
+        // Completed step
+        circle?.classList.remove('bg-surface-0', 'text-gray-400', 'border-gray-200');
+        circle?.classList.add('bg-imb', 'text-white', 'border-imb', 'shadow-md');
+        numEl?.classList.add('hidden');
+        checkEl?.classList.remove('hidden');
+      } else if (stepNum === currentStep) {
+        // Current step
+        circle?.classList.remove('bg-surface-0', 'text-gray-400', 'border-gray-200');
+        circle?.classList.add('bg-imb', 'text-white', 'border-imb', 'shadow-md');
+        numEl?.classList.remove('hidden');
+        checkEl?.classList.add('hidden');
+      } else {
+        // Future step
+        circle?.classList.remove('bg-imb', 'text-white', 'border-imb', 'shadow-md');
+        circle?.classList.add('bg-surface-0', 'text-gray-400', 'border-gray-200');
+        numEl?.classList.remove('hidden');
+        checkEl?.classList.add('hidden');
+      }
+    });
+
+    // Update buttons
+    if (currentStep === 1) {
+      btnBack?.classList.add('hidden');
+    } else {
+      btnBack?.classList.remove('hidden');
+    }
+
+    if (currentStep === totalSteps) {
+      btnNext?.classList.add('hidden');
+      btnSubmit?.classList.remove('hidden');
+    } else {
+      btnNext?.classList.remove('hidden');
+      btnSubmit?.classList.add('hidden');
+    }
+  }
+
+  btnNext?.addEventListener('click', () => {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateWizard();
+    }
+  });
+
+  btnBack?.addEventListener('click', () => {
+    if (currentStep > 1) {
+      currentStep--;
+      updateWizard();
+    }
+  });
+
+  // Initialize
+  updateWizard();
+</script>

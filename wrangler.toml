@@ -1,0 +1,7 @@
+name = "imb-website"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "imb-submissions"
+database_id = "REEMPLAZAR_CON_ID_REAL"

@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import Wrapper from '../../components/ui/Wrapper.astro';
+import MediaImage from '../../components/ui/MediaImage.astro';
+import { cursos, categorias } from '../../data/cursos';
+import { BarChart2, Clock, Award, Search } from 'lucide-astro';
+import { ROUTES, COURSE_ROUTES, slugify } from '../../config/routes';
+
+export const prerender = true;
+---
+
+<BaseLayout title="Programas de Capacitación | IMB Institute" description="Explora nuestra oferta formativa. Filtra por tu área de interés o busca directamente el diplomado, curso o especialización que necesitas.">
+
+  <Wrapper class="bg-surface-50" padded={false} class:list={["pt-8 lg:pt-12"]}>
+    <!-- Header -->
+    <div class="mb-10 lg:mb-12">
+      <div class="max-w-3xl">
+        <h1 class="font-display text-4xl lg:text-5xl font-extrabold text-text-primary mb-6 tracking-tight">Encuentra tu próximo paso</h1>
+        <p class="font-sans text-lg text-text-secondary leading-relaxed">
+          Explora nuestra oferta formativa. Filtra por tu área de interés o busca directamente el diplomado, curso o especialización que necesitas para potenciar tu perfil profesional.
+        </p>
+      </div>
+    </div>
+
+  </Wrapper>
+
+  <!-- Full-width Sticky Search & Filter Bar -->
+  <div class="sticky top-16 z-20 bg-surface-50 pt-6 pb-6 mb-6">
+    <div class="mx-auto max-w-360  px-4 md:px-8 lg:px-12">
+      <div class="mb-6 relative w-full lg:max-w-2xl">
+        <Search size={20} class="absolute left-4 top-1/2 -translate-y-1/2 text-icon-muted" />
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Buscar programa o docente..."
+          class="w-full pl-12 pr-4 py-4 bg-surface-0 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-imb/20 transition-all font-sans text-base text-text-primary placeholder:text-icon-muted"
+        />
+      </div>
+
+      <div id="category-filters" class="flex gap-3 overflow-x-auto hide-scrollbar w-full pb-2">
+        {categorias.map(cat => (
+          <button
+            data-category={cat}
+            data-slug={slugify(cat)}
+            class:list={[
+              "category-pill px-6 py-2.5 rounded-full whitespace-nowrap font-sans text-sm font-semibold transition-all duration-200 cursor-pointer",
+              cat === 'Todos' 
+                ? "bg-imb text-white shadow-md" 
+                : "bg-surface-0 text-text-secondary hover:bg-imb hover:text-white shadow-sm"
+            ]}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <Wrapper class="pt-4!">
+    <!-- Course Grid -->
+    <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {cursos.map(course => (
+        <Card 
+          href={COURSE_ROUTES.DETAIL(course.slug)} 
+          class="overflow-hidden flex flex-col group course-card" 
+          data-category={course.categoria} 
+          data-category-slug={slugify(course.categoria)}
+          data-title={course.nombre.toLowerCase()} 
+          data-instructor={course.instructor.toLowerCase()}
+        >
+          <div class="relative h-48 overflow-hidden">
+            <div class="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10"></div>
+            <MediaImage src={course.imagen} alt={course.nombre} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+          </div>
+          <div class="p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-2 mb-2 text-text-secondary">
+              <BarChart2 size={16} class="text-imb" />
+              <span class="font-sans text-xs font-medium">{course.instructor}</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-text-primary mb-4 group-hover:text-imb transition-colors line-clamp-2 leading-snug">
+              {course.nombre}
+            </h3>
+            <div class="mt-auto flex items-center gap-4 text-text-secondary font-sans text-xs font-medium border-t border-border-muted pt-4">
+              <div class="flex items-center gap-1.5">
+                <Clock size={16} class="text-icon-muted" />
+                <span>{course.duracion}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <Award size={16} class="text-icon-muted" />
+                <span>{course.nivel}</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-20 bg-surface-0 rounded-2xl shadow-sm">
+      <div class="w-16 h-16 bg-surface-50 rounded-full flex items-center justify-center mx-auto mb-4 text-icon-muted">
+        <Search size={32} />
+      </div>
+      <h3 class="font-display text-xl font-bold text-text-primary mb-2">No se encontraron programas</h3>
+      <p class="font-sans text-text-secondary">Intenta ajustando los filtros o utilizando otros términos de búsqueda.</p>
+      <Button variant="outline" class="mt-6" id="btn-clear-search">Limpiar búsqueda</Button>
+    </div>
+  </Wrapper>
+
+  <script is:inline>
+    // Robust slugify for client-side
+    const slugify = (text) => text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+
+    const searchInput = document.getElementById('search-input');
+    const categoryPills = document.querySelectorAll('.category-pill');
+    const courseCards = document.querySelectorAll('.course-card');
+    const emptyState = document.getElementById('empty-state');
+    const coursesGrid = document.getElementById('courses-grid');
+    const btnClearSearch = document.getElementById('btn-clear-search');
+
+    let currentCategorySlug = 'todos';
+    let searchQuery = '';
+
+    function getCategorySlugFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('category') || 'todos';
+    }
+
+    function updateUrl(categorySlug) {
+      const url = new URL(window.location);
+      if (categorySlug === 'todos') {
+        url.searchParams.delete('category');
+      } else {
+        url.searchParams.set('category', categorySlug);
+      }
+      
+      if (window.location.search !== url.search) {
+        history.pushState(null, '', url);
+      }
+    }
+
+    function filterCourses() {
+      let visibleCount = 0;
+      courseCards.forEach(card => {
+        const cardCategorySlug = card.dataset.categorySlug;
+        const cardTitle = card.dataset.title;
+        const cardInstructor = card.dataset.instructor;
+
+        const matchesCategory = currentCategorySlug === 'todos' || cardCategorySlug === currentCategorySlug;
+        const matchesSearch = !searchQuery || cardTitle.includes(searchQuery.toLowerCase()) || cardInstructor.includes(searchQuery.toLowerCase());
+
+        if (matchesCategory && matchesSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (visibleCount === 0) {
+        if (coursesGrid) coursesGrid.style.display = 'none';
+        if (emptyState) emptyState.classList.remove('hidden');
+      } else {
+        if (coursesGrid) coursesGrid.style.display = 'grid';
+        if (emptyState) emptyState.classList.add('hidden');
+      }
+    }
+
+    function updatePillsUI() {
+      categoryPills.forEach(p => {
+        if (p.dataset.slug === currentCategorySlug) {
+          p.classList.remove('bg-surface-0', 'text-text-secondary', 'shadow-sm', 'hover:bg-imb', 'hover:text-white');
+          p.classList.add('bg-imb', 'text-white', 'shadow-md');
+        } else {
+          p.classList.remove('bg-imb', 'text-white', 'shadow-md');
+          p.classList.add('bg-surface-0', 'text-text-secondary', 'shadow-sm', 'hover:bg-imb', 'hover:text-white');
+        }
+      });
+    }
+
+    searchInput?.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      filterCourses();
+    });
+
+    categoryPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        currentCategorySlug = pill.dataset.slug;
+        updatePillsUI();
+        filterCourses();
+        updateUrl(currentCategorySlug);
+      });
+    });
+
+    btnClearSearch?.addEventListener('click', () => {
+      searchQuery = '';
+      currentCategorySlug = 'todos';
+      if (searchInput) searchInput.value = '';
+      updatePillsUI();
+      filterCourses();
+      updateUrl('todos');
+    });
+
+    // Initialize
+    currentCategorySlug = getCategorySlugFromUrl();
+    updatePillsUI();
+    filterCourses();
+
+    window.addEventListener('popstate', () => {
+      currentCategorySlug = getCategorySlugFromUrl();
+      updatePillsUI();
+      filterCourses();
+    });
+  </script>
+
+</BaseLayout>

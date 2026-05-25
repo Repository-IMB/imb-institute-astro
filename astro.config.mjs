@@ -1,5 +1,19 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
+import tailwindv4 from '@tailwindcss/vite';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  output: 'server',          // necesario para Actions y D1
+  adapter: cloudflare({
+    imageService: 'passthrough'
+  }),
+  image: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'placehold.co' }
+    ],
+  },
+  vite: {
+    plugins: [tailwindv4()],
+  },
+});

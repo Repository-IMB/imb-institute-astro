@@ -1,0 +1,112 @@
+---
+import { Menu, X } from 'lucide-astro';
+import Button from './Button.astro';
+import { ROUTES } from '../../config/routes';
+import MediaImage from './MediaImage.astro';
+import logo from "@assets/images/logo-negro.avif";
+
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { name: 'Inicio', href: ROUTES.HOME },
+  { name: 'Programas', href: ROUTES.CURSOS },
+  { name: 'Contacto', href: ROUTES.CONTACTO },
+  { name: 'Nosotros', href: ROUTES.NOSOTROS },
+];
+
+// Helper to determine if a link is active
+const isActive = (href: string) => {
+  if (href === ROUTES.HOME) {
+    return currentPath === href;
+  }
+  return currentPath.startsWith(href);
+};
+---
+
+<nav
+  id="main-header"
+  class="sticky top-0 w-full z-50 transition-all duration-200 py-4 border-b border-transparent bg-surface-50"
+>
+  <div class="max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2">
+      <MediaImage src={logo} class="w-14" loading="eager" fetchpriority="high" />
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-8 font-sans text-sm font-medium">
+      {navLinks.map(link => (
+        <a 
+          href={link.href} 
+          class:list={[
+            "transition-colors duration-200",
+            isActive(link.href) ? "text-imb font-bold" : "text-text-secondary hover:text-imb"
+          ]}
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+
+    <!-- Desktop Actions -->
+    <div class="hidden md:flex items-center gap-4">
+    </div>
+
+    <!-- Mobile Actions -->
+    <div class="md:hidden flex items-center gap-3">
+      <Button
+        id="mobile-menu-toggle"
+        variant="ghost"
+        class="!p-2 !text-text-primary"
+        aria-label="Toggle menu"
+      >
+        <Menu id="menu-icon" size={24} />
+        <X id="close-icon" class="hidden" size={24} />
+      </Button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-surface-0 border-t border-border-subtle shadow-lg py-4 px-6">
+    <div class="flex flex-col gap-4">
+      {navLinks.map(link => (
+        <a 
+          href={link.href} 
+          class:list={[
+            "text-base py-2 transition-colors",
+            isActive(link.href) ? "text-imb font-bold" : "text-text-secondary font-medium hover:text-imb"
+          ]}
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<script>
+  const header = document.getElementById('main-header');
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  // Scroll effect — glass header on scroll
+  const handleScroll = () => {
+    if (window.scrollY > 20) {
+      header?.classList.add('glass');
+    } else {
+      header?.classList.remove('glass');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+
+  // Mobile menu toggle
+  toggle?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+</script>

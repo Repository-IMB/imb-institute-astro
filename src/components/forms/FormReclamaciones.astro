@@ -1,0 +1,83 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import Button from '../ui/Button.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<form
+  method="POST"
+  action="/actions/reclamaciones"
+  class:list={["space-y-12", className]}
+>
+  <!-- Bloque 1: Datos del Consumidor -->
+  <div class="space-y-8">
+    <h3 class="font-display text-xl font-bold text-text-primary border-b-2 border-gray-100 pb-4">1. Datos del Consumidor</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Fecha del suceso" name="fecha" type="date" />
+      <InputField label="Nombre Completo" name="nombres" placeholder="Sus nombres y apellidos" />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <InputField label="Documento de Identidad" name="documento" placeholder="Ej. DNI / Pasaporte" />
+      <PhoneInput label="Teléfono / Celular" name="telefono" id="reclamaciones-telefono" />
+    </div>
+    <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <InputField label="Dirección" name="direccion" placeholder="Calle y número" />
+      <InputField label="Ciudad" name="ciudad" placeholder="Ciudad" />
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <InputField label="Región/Estado" name="region" placeholder="Región" />
+      <InputField label="País" name="pais" placeholder="País" />
+    </div>
+    <InputField label="Nombre del Apoderado (Solo si es menor de edad)" name="apoderado" required={false} placeholder="Nombres del tutor" />
+  </div>
+
+  <!-- Bloque 2: Detalle del Bien Contratado -->
+  <div class="space-y-8">
+    <h3 class="font-display text-xl font-bold text-text-primary border-b-2 border-gray-100 pb-4">2. Detalle del Bien Contratado</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <SelectField
+        label="Tipo de Bien"
+        name="tipoBien"
+        options={[
+          { value: '', label: 'Seleccione el tipo de servicio...' },
+          'Servicio Educativo (Curso/Diplomado)',
+          'Producto Físico/Certificado'
+        ]}
+      />
+      <InputField label="Número de Comprobante / Boleta" name="comprobante" required={false} placeholder="Ej. B001-000000" />
+    </div>
+    <InputField label="Nombre exacto del curso o servicio adquirido" name="detalleBien" placeholder="Ej. Diplomado en Mantenimiento" />
+  </div>
+
+  <!-- Bloque 3: Detalle del Reclamo -->
+  <div class="space-y-8">
+    <h3 class="font-display text-xl font-bold text-text-primary border-b-2 border-gray-100 pb-4">3. Detalle del Reclamo o Queja</h3>
+    <SelectField
+      label="Tipo de Solicitud"
+      name="tipoSolicitud"
+      options={[
+        { value: '', label: 'Seleccione el motivo de su reporte...' },
+        'Reclamo (Disconformidad con el servicio)',
+        'Queja (Malestar por atención recibida)'
+      ]}
+    />
+    <InputField label="Detalle exhaustivo del reclamo" name="detalleReclamo" type="textarea" rows={4} placeholder="Describa detalladamente los hechos ocurridos..." />
+  </div>
+
+  <div class="pt-6">
+    <Button
+      type="submit"
+      class="w-full py-4"
+    >
+      Registrar Reclamación Oficial
+    </Button>
+  </div>
+</form>

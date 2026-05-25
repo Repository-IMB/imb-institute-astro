@@ -1,0 +1,23 @@
+---
+export interface Props {
+  class?: string;
+  as?: "section" | "article" | "div" | "header" | "footer" | "nav";
+  padded?: boolean;
+  full?: boolean;
+  [key: string]: any;
+}
+
+const { class: className, as: Tag = "section", padded, full = false, ...rest } = Astro.props;
+
+// Swiss Tech priority: High whitespace for separation
+const isPadded = padded ?? (Tag === "section");
+---
+
+<Tag class:list={[isPadded ? "py-24 md:py-32 lg:py-48" : "", className]} {...rest}>
+  <div class:list={[
+    "mx-auto px-4 md:px-8 lg:px-12",
+    full ? "max-w-full" : "max-w-360"
+  ]}>
+    <slot />
+  </div>
+</Tag>
