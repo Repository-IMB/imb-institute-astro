@@ -1,5 +1,5 @@
 import { defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
+import { z } from 'astro/zod';
 
 export const server = {
   contacto: defineAction({
@@ -9,7 +9,7 @@ export const server = {
       apellidos: z.string().min(2),
       codigo_pais: z.string().default('+51'),
       telefono: z.string().min(8),
-      correo: z.string().email(),
+      correo: z.email(),
       consulta: z.string().min(10).optional(),
     }),
     handler: async (input) => {
@@ -42,7 +42,7 @@ export const server = {
       nombres: z.string().min(2),
       documento: z.string().min(8),
       telefono: z.string().min(8),
-      correo: z.string().email(),
+      correo: z.email(),
       direccion: z.string().min(5),
       ciudad: z.string().min(2),
       region: z.string().min(2),
@@ -66,7 +66,7 @@ export const server = {
       empresa: z.string().min(2),
       tipoAlianza: z.string(),
       sector: z.string(),
-      correo: z.string().email(),
+      correo: z.email(),
       telefono: z.string().min(8),
       descripcion: z.string().min(10).optional(),
     }),
@@ -81,7 +81,7 @@ export const server = {
     input: z.object({
       nombres: z.string().min(2),
       telefono: z.string().min(8),
-      correo: z.string().email(),
+      correo: z.email(),
       cursoNombre: z.string().optional(),
     }),
     handler: async (input) => {
@@ -97,7 +97,7 @@ export const server = {
       nombres: z.string().min(2),
       documento: z.string().min(8),
       pais: z.string().min(2),
-      correo: z.string().email(),
+      correo: z.email(),
       whatsapp: z.string().min(8),
       formacion: z.string().min(2),
       empresa: z.string().optional(),

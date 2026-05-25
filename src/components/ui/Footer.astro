@@ -4,7 +4,7 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-surface-0 py-16 mt-auto">
-  <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+  <div class="max-w-360 mx-auto px-6 lg:px-12">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 mb-8">
       <!-- Column 1: Logo + Description + Contact -->
       <div class="lg:col-span-1">
@@ -15,18 +15,18 @@ const currentYear = new Date().getFullYear();
           Transformando profesionales en líderes ejecutivos. Educación premium para la industria moderna.
         </p>
         <div class="font-sans text-sm text-text-secondary space-y-2 font-medium">
-          <p>contact@imbinstitute.edu</p>
+          <p>info@imbinstitute.com</p>
           <p>+1 (555) 000-0000</p>
         </div>
       </div>
 
-      <!-- Column 2: Programas y Servicios -->
+      <!-- Column 2: Programas y Admisión -->
       <div>
-        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Programas y Servicios</h4>
+        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Programas y Admisión</h4>
         <ul class="space-y-3 font-sans text-sm text-text-secondary">
-          <li><a href={ROUTES.CURSOS} class="hover:text-imb transition-colors">Catálogo de Cursos</a></li>
+          <li><a href={ROUTES.CURSOS} class="hover:text-imb transition-colors">Catálogo de Programas</a></li>
           <li><a href={ROUTES.MATRICULA} class="hover:text-imb transition-colors text-imb font-semibold">Proceso de Matrícula</a></li>
-          <li><a href={ROUTES.CONTACTO} class="hover:text-imb transition-colors">Soluciones In-House B2B</a></li>
+          <li><a href={ROUTES.CONTACTO} class="hover:text-imb transition-colors">Contacto</a></li>
         </ul>
       </div>
 
@@ -34,19 +34,16 @@ const currentYear = new Date().getFullYear();
       <div>
         <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Institución</h4>
         <ul class="space-y-3 font-sans text-sm text-text-secondary">
-          <li><a href={ROUTES.NOSOTROS} class="hover:text-imb transition-colors">Acerca de Nosotros</a></li>
-          <li><a href={ROUTES.SOPORTE} class="hover:text-imb transition-colors">Soporte Académico</a></li>
-          <li><a href={ROUTES.RECLAMACIONES} class="hover:text-imb transition-colors">Libro de Reclamaciones</a></li>
+          <li><a href={ROUTES.NOSOTROS} class="hover:text-imb transition-colors">Nosotros</a></li>
         </ul>
       </div>
 
-      <!-- Column 4: Soporte -->
+      <!-- Column 4: Ayuda -->
       <div>
-        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Soporte</h4>
+        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Ayuda</h4>
         <ul class="space-y-3 font-sans text-sm text-text-secondary">
-          <li><a href={ROUTES.SOPORTE} class="hover:text-imb transition-colors">Preguntas Frecuentes</a></li>
           <li><a href={ROUTES.SOPORTE} class="hover:text-imb transition-colors">Centro de Ayuda</a></li>
-          <li><a href={ROUTES.CONTACTO} class="hover:text-imb transition-colors">Contactar un Asesor</a></li>
+          <li><a href={ROUTES.RECLAMACIONES} class="hover:text-imb transition-colors">Libro de Reclamaciones</a></li>
         </ul>
       </div>
     </div>
@@ -54,7 +51,6 @@ const currentYear = new Date().getFullYear();
     <!-- Bottom bar -->
     <div class="border-t border-border-muted pt-8 flex flex-col md:flex-row justify-between items-center font-sans text-xs text-text-secondary font-medium uppercase tracking-wide">
       <p>&copy; {currentYear} IMB Institute. Todos los derechos reservados.</p>
-      <p class="mt-2 md:mt-0">Academic Excellence Program</p>
     </div>
   </div>
 </footer>

@@ -107,11 +107,11 @@ import PhoneInput from '../ui/PhoneInput.astro';
       type="button"
       id="btn-back"
       variant="outline"
-      class="hidden"
+      class="hidden!"
     >
       Regresar
     </Button>
-    <div></div>
+    <div class="grow"></div>
     <Button
       type="button"
       id="btn-next"
@@ -122,7 +122,7 @@ import PhoneInput from '../ui/PhoneInput.astro';
     <Button
       type="submit"
       id="btn-submit"
-      class="hidden px-10 py-4"
+      class="hidden! px-10 py-4"
     >
       Finalizar Matrícula
     </Button>
@@ -177,19 +177,19 @@ import PhoneInput from '../ui/PhoneInput.astro';
       }
     });
 
-    // Update buttons
+    // Update buttons using !hidden to ensure it overrides component base styles
     if (currentStep === 1) {
-      btnBack?.classList.add('hidden');
+      btnBack?.classList.add('!hidden');
     } else {
-      btnBack?.classList.remove('hidden');
+      btnBack?.classList.remove('!hidden');
     }
 
     if (currentStep === totalSteps) {
-      btnNext?.classList.add('hidden');
-      btnSubmit?.classList.remove('hidden');
+      btnNext?.classList.add('!hidden');
+      btnSubmit?.classList.remove('!hidden');
     } else {
-      btnNext?.classList.remove('hidden');
-      btnSubmit?.classList.add('hidden');
+      btnNext?.classList.remove('!hidden');
+      btnSubmit?.classList.add('!hidden');
     }
   }
 
