@@ -27,5 +27,8 @@
     "cheerio": "^1.2.0",
     "cloakbrowser": "^0.3.28",
     "playwright-core": "^1.60.0"
+  },
+  "overrides": {
+    "vite": "^7.3.3"
   }
 }
