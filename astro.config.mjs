@@ -5,7 +5,10 @@ import tailwindv4 from '@tailwindcss/vite';
 export default defineConfig({
   output: 'server',          // necesario para Actions y D1
   adapter: cloudflare({
-    imageService: 'passthrough'
+    imageService: 'passthrough',
+    platformProxy: {
+      enabled: false
+    }
   }),
   image: {
     remotePatterns: [

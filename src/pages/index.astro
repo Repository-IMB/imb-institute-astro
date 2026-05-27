@@ -12,6 +12,7 @@ import {
   Quote, Phone, Mail, ArrowRight
 } from 'lucide-astro';
 import { ROUTES, COURSE_ROUTES } from '../config/routes';
+import { CONTACT_INFO } from '../config/contact';
 import logoArgos from '../assets/images/logo-argos.avif';
 import logoCerroVerde from '../assets/images/logo-cerro-verde.avif';
 import logoFerreyros from '../assets/images/logo-ferreyros.avif';
@@ -228,7 +229,11 @@ const brands = [
             </div>
             <div>
               <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Llámanos</p>
-              <h3 class="font-display text-xl font-bold">+51 900 800 700</h3>
+              <h3 class="font-display text-xl font-bold">
+                <a href={`tel:${CONTACT_INFO.phones.supportRaw}`} class="hover:text-imb transition-colors">
+                  {CONTACT_INFO.phones.support}
+                </a>
+              </h3>
             </div>
           </div>
           <div class="flex items-center gap-4">
@@ -237,7 +242,11 @@ const brands = [
             </div>
             <div>
               <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Escríbenos</p>
-              <h3 class="font-display text-xl font-bold">admision@imbinstitute.edu</h3>
+              <h3 class="font-display text-xl font-bold">
+                <a href={`mailto:${CONTACT_INFO.emails.admission}`} class="hover:text-imb transition-colors">
+                  {CONTACT_INFO.emails.admission}
+                </a>
+              </h3>
             </div>
           </div>
         </div>

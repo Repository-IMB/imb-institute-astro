@@ -1,5 +1,6 @@
 ---
 import { ROUTES } from '../../config/routes';
+import { CONTACT_INFO } from '../../config/contact';
 const currentYear = new Date().getFullYear();
 ---
 
@@ -15,8 +16,16 @@ const currentYear = new Date().getFullYear();
           Transformando profesionales en líderes ejecutivos. Educación premium para la industria moderna.
         </p>
         <div class="font-sans text-sm text-text-secondary space-y-2 font-medium">
-          <p>info@imbinstitute.com</p>
-          <p>+1 (555) 000-0000</p>
+          <p>
+            <a href={`mailto:${CONTACT_INFO.emails.info}`} class="hover:text-imb transition-colors">
+              {CONTACT_INFO.emails.info}
+            </a>
+          </p>
+          <p>
+            <a href={`tel:${CONTACT_INFO.phones.supportRaw}`} class="hover:text-imb transition-colors">
+              {CONTACT_INFO.phones.support}
+            </a>
+          </p>
         </div>
       </div>
 

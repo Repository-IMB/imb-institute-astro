@@ -36,7 +36,7 @@ const inputClasses = "w-full px-0 py-2 bg-transparent border-0 border-b-2 border
     ></textarea>
   ) : (
     <input
-      type={type}
+      type={type as astroHTML.JSX.HTMLInputTypeAttribute}
       name={name}
       required={required}
       class={inputClasses}

@@ -1,0 +1,170 @@
+---
+import { env } from 'cloudflare:workers';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import type { FormType } from '../../../types/submission';
+import Card from '../../../components/ui/Card.astro';
+import { ArrowLeft, Calendar, FileText } from 'lucide-astro';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const submissionId = parseInt(id || '', 10);
+
+const db = env.DB;
+let submission: any = null;
+let error: string | null = null;
+
+if (!db) {
+  error = 'Base de datos no disponible. Asegúrate de configurar el D1 binding.';
+} else {
+  try {
+    const result = await db.prepare('SELECT * FROM submissions WHERE id = ?').bind(submissionId).first();
+    if (result) {
+      submission = {
+        id: result.id as number,
+        form_type: result.form_type as FormType,
+        data: JSON.parse(result.data as string) as Record<string, unknown>,
+        created_at: result.created_at as string,
+      };
+    } else {
+      error = `No se encontró ningún registro con el ID #${submissionId}`;
+    }
+  } catch (e) {
+    error = e instanceof Error ? e.message : 'Error al cargar el registro';
+  }
+}
+
+const formTypeLabels: Record<FormType, string> = {
+  contacto: 'Contacto',
+  soporte: 'Soporte',
+  reclamaciones: 'Reclamaciones',
+  alianzas: 'Alianzas',
+  asesor: 'Asesor',
+  matricula: 'Matrícula',
+};
+
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('es-ES', { 
+    day: '2-digit', 
+    month: 'long', 
+    year: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  });
+}
+
+const backUrl = submission ? `/admin/submissions?type=${submission.form_type}` : '/admin/submissions';
+const pageTitle = submission ? `Detalle de Formulario de ${formTypeLabels[submission.form_type as FormType]}` : 'Detalle de Registro';
+---
+
+<AdminLayout title={`${pageTitle} | Admin IMB`}>
+  <div class="space-y-8 animate-fade-in opacity-0">
+    <!-- Breadcrumb / Back Button -->
+    <div class="flex items-center gap-4">
+      <a 
+        href={backUrl} 
+        class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border-subtle bg-surface-0 hover:bg-surface-50 transition-colors text-text-secondary hover:text-text-primary"
+      >
+        <ArrowLeft size={16} />
+      </a>
+      <div>
+        <span class="text-xs font-bold text-text-secondary uppercase tracking-widest">Registros de Formularios</span>
+        <h1 class="font-display text-2xl font-bold text-text-primary tracking-tight mt-0.5">
+          {submission ? `${formTypeLabels[submission.form_type as FormType]} #${submission.id}` : 'Registro'}
+        </h1>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    {error && (
+      <div class="flex gap-4 p-5 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 shadow-sm max-w-2xl">
+        <div>
+          <h4 class="font-display font-semibold text-sm mb-1">Error al cargar datos</h4>
+          <p class="font-sans text-sm text-rose-700/90 leading-relaxed">{error}</p>
+        </div>
+      </div>
+    )}
+
+    {submission && (
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main details card (2/3 columns) -->
+        <Card class="lg:col-span-2 p-8 space-y-6">
+          <div class="pb-4 border-b border-border-subtle">
+            <h2 class="font-display text-lg font-bold text-text-primary">Datos Enviados</h2>
+            <p class="text-text-secondary text-xs mt-1 uppercase tracking-wider">Detalle completo de las respuestas del usuario</p>
+          </div>
+
+          <div class="divide-y divide-border-subtle font-sans text-sm">
+            {Object.entries(submission.data).map(([key, value]) => (
+              <div class="py-4 first:pt-0 last:pb-0 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <span class="text-xs font-bold text-text-secondary uppercase tracking-wider pt-0.5">{key}</span>
+                <span class="sm:col-span-2 text-text-primary font-medium text-sm whitespace-pre-wrap leading-relaxed">
+                  {value !== null && value !== undefined && value !== '' ? String(value) : '—'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <!-- Sidebar metadata card (1/3 column) -->
+        <div class="space-y-6">
+          <Card class="p-6 space-y-6 bg-surface-50/50">
+            <div class="pb-3 border-b border-border-subtle">
+              <h3 class="font-display text-sm font-bold text-text-primary uppercase tracking-wider">Información del Envío</h3>
+            </div>
+
+            <div class="space-y-4 font-sans text-sm">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary">
+                  <Calendar size={16} />
+                </div>
+                <div>
+                  <span class="block text-xs text-text-secondary uppercase tracking-wider font-semibold">Fecha y Hora</span>
+                  <span class="font-semibold text-text-primary mt-0.5 block">{formatDate(submission.created_at)}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary">
+                  <FileText size={16} />
+                </div>
+                <div>
+                  <span class="block text-xs text-text-secondary uppercase tracking-wider font-semibold">Tipo de Formulario</span>
+                  <span class="font-semibold text-text-primary mt-0.5 block">{formTypeLabels[submission.form_type as FormType]}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary">
+                  <span class="text-xs font-mono font-bold">#ID</span>
+                </div>
+                <div>
+                  <span class="block text-xs text-text-secondary uppercase tracking-wider font-semibold">Identificador Único</span>
+                  <span class="font-semibold text-text-primary mt-0.5 block font-mono">#{submission.id}</span>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    )}
+  </div>
+</AdminLayout>
+
+<style>
+  .animate-fade-in {
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

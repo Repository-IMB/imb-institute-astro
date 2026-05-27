@@ -26,3 +26,15 @@ pnpm-debug.log*
 # 
 CONTENT.MD
 GEMINI.MD
+.claude
+
+# Cloudflare Wrangler local state
+.wrangler/
+.dev.vars
+
+# Agentic coding assistant caches & logs
+.agents/
+.gemini/
+.antigravitycli/
+logs/
+.vscode/

@@ -7,13 +7,13 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/build.js",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/cloudflare": "^13.5.1",
+    "@astrojs/cloudflare": "^13.5.4",
     "@astrojs/tailwind": "^6.0.2",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.3",
@@ -24,6 +24,7 @@
     "wrangler": "^4.92.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260525.1",
     "cheerio": "^1.2.0",
     "cloakbrowser": "^0.3.28",
     "playwright-core": "^1.60.0"

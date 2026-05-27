@@ -8,10 +8,10 @@ export const ROUTES = {
   NOSOTROS: '/nosotros',
   CURSOS: '/cursos',
   CONTACTO: '/contacto',
-  MATRICULA: '/matricula',
+  MATRICULA: '/ficha-de-matricula',
   RECLAMACIONES: '/reclamaciones',
   SOPORTE: '/soporte',
-};
+} as const;
 
 /**
  * Helper to normalize strings into URL slugs

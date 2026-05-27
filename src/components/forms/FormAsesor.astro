@@ -16,7 +16,7 @@ const { cursoNombre, class: className } = Astro.props;
   action={`/actions/asesor?cursoNombre=${encodeURIComponent(cursoNombre)}`}
   class:list={["space-y-8", className]}
 >
-  <InputField label="Nombres y Apellidos" name="nombres" placeholder="Ej. Carlos Mendoza" />
+  <InputField label="Nombres y Apellidos" name="nombres" placeholder="Carlos Mendoza" />
   <PhoneInput label="Teléfono / WhatsApp" name="telefono" id="asesor-telefono" />
   <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
 

@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Get-ChildItem -Path D:\\\\proyectos\\\\work\\\\imb-institute-astro -Force | Where-Object { $_.Name -notin 'node_modules' } | Select-Object Name, Mode, Length)"
-    ]
-  }
-}
