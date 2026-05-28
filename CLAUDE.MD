@@ -116,7 +116,7 @@ La empresa ya usa Cloudflare. Todo el proyecto vive dentro de su ecosistema:
 │   └── schema.sql                       ← definición de tabla D1
 │
 ├── astro.config.mjs
-├── wrangler.toml                        ← config Cloudflare (D1 binding, etc.)
+├── wrangler.local.toml                  ← config Cloudflare (D1 binding, etc. - local use only)
 ├── tsconfig.json
 └── package.json
 ```
@@ -153,7 +153,7 @@ Decisión de diseño: los campos del formulario se guardan como JSON en la colum
 
 ## Configuración de archivos clave
 
-### `wrangler.toml`
+### `wrangler.local.toml`
 ```toml
 name = "imb-website"
 compatibility_date = "2025-01-01"
