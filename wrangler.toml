@@ -1,4 +1,4 @@
-name = "imb-website"
+name = "imb-institute-astro"
 compatibility_date = "2025-01-01"
 main = "@astrojs/cloudflare/entrypoints/server"
 
