@@ -155,7 +155,7 @@ Decisión de diseño: los campos del formulario se guardan como JSON en la colum
 
 ### `wrangler.toml`
 ```toml
-name = "imb-website"
+name = "imb-institute-astro"
 compatibility_date = "2025-01-01"
 main = "@astrojs/cloudflare/entrypoints/server"
 
