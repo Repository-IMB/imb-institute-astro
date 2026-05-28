@@ -76,26 +76,18 @@ const brands = [
 
   <!-- Trusted Brands -->
   <Wrapper class="bg-surface-50 text-center" padded={false} class:list={["py-12 overflow-hidden"]}>
-    <!-- Desktop static row -->
-    <div class="hidden md:flex justify-between items-center w-full gap-4 opacity-40">
-      {brands.map(brand => (
-        <MediaImage src={brand.src} alt={brand.name} class="h-8 md:h-10 lg:h-12 w-auto object-contain brightness-0 min-w-0 shrink select-none" />
-      ))}
-    </div>
-
-    <!-- Mobile infinite marquee loop -->
-    <div class="md:hidden overflow-hidden relative w-full opacity-40 mask-gradient select-none pointer-events-none">
-      <div class="flex gap-12 w-max animate-marquee-loop">
+    <div class="overflow-hidden relative w-full opacity-40 mask-gradient select-none">
+      <div class="flex gap-16 md:gap-24 w-max animate-marquee-loop cursor-pointer">
         {/* First list of brands */}
         {brands.map(brand => (
-          <div class="flex-shrink-0 flex items-center justify-center min-w-[100px]">
-            <MediaImage src={brand.src} alt={brand.name} class="h-6 w-auto object-contain brightness-0" />
+          <div class="flex-shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
+            <MediaImage src={brand.src} alt={brand.name} class="h-6 md:h-8 w-auto object-contain brightness-0" />
           </div>
         ))}
         {/* Second list of brands (duplicated for seamless looping) */}
         {brands.map(brand => (
-          <div class="flex-shrink-0 flex items-center justify-center min-w-[100px]">
-            <MediaImage src={brand.src} alt={brand.name} class="h-6 w-auto object-contain brightness-0" />
+          <div class="flex-shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
+            <MediaImage src={brand.src} alt={brand.name} class="h-6 md:h-8 w-auto object-contain brightness-0" />
           </div>
         ))}
       </div>
@@ -261,8 +253,8 @@ const brands = [
             </div>
             <div>
               <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Escríbenos</p>
-              <h3 class="font-display text-xl font-bold">
-                <a href={`mailto:${CONTACT_INFO.emails.admission}`} class="hover:text-imb transition-colors">
+              <h3 class="font-display text-[16px] sm:text-xl font-bold">
+                <a href={`mailto:${CONTACT_INFO.emails.admission}`} class="hover:text-imb transition-colors break-all">
                   {CONTACT_INFO.emails.admission}
                 </a>
               </h3>

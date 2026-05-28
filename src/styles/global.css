@@ -138,7 +138,10 @@
 }
 
 @utility animate-marquee-loop {
-  animation: marquee 25s linear infinite;
+  animation: marquee 30s linear infinite;
+  &:hover {
+    animation-play-state: paused;
+  }
 }
 
 @utility mask-gradient {
