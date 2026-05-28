@@ -121,8 +121,27 @@
 
 /* Glass effect for scrolled header */
 .glass {
-  background-color: color-mix(in srgb, var(--color-surface-0) 85%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface-0) 95%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* Infinite Marquee for Brands */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee-loop {
+  animation: marquee 25s linear infinite;
+}
+
+@utility mask-gradient {
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }

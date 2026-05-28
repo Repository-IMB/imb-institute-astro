@@ -75,11 +75,30 @@ const brands = [
   </Wrapper>
 
   <!-- Trusted Brands -->
-  <Wrapper class="bg-surface-50 text-center" padded={false} class:list={["py-12"]}>
-    <div class="flex justify-between items-center w-full gap-2 sm:gap-4 opacity-40">
+  <Wrapper class="bg-surface-50 text-center" padded={false} class:list={["py-12 overflow-hidden"]}>
+    <!-- Desktop static row -->
+    <div class="hidden md:flex justify-between items-center w-full gap-4 opacity-40">
       {brands.map(brand => (
-        <MediaImage src={brand.src} alt={brand.name} class="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain brightness-0 min-w-0 shrink select-none" />
+        <MediaImage src={brand.src} alt={brand.name} class="h-8 md:h-10 lg:h-12 w-auto object-contain brightness-0 min-w-0 shrink select-none" />
       ))}
+    </div>
+
+    <!-- Mobile infinite marquee loop -->
+    <div class="md:hidden overflow-hidden relative w-full opacity-40 mask-gradient select-none pointer-events-none">
+      <div class="flex gap-12 w-max animate-marquee-loop">
+        {/* First list of brands */}
+        {brands.map(brand => (
+          <div class="flex-shrink-0 flex items-center justify-center min-w-[100px]">
+            <MediaImage src={brand.src} alt={brand.name} class="h-6 w-auto object-contain brightness-0" />
+          </div>
+        ))}
+        {/* Second list of brands (duplicated for seamless looping) */}
+        {brands.map(brand => (
+          <div class="flex-shrink-0 flex items-center justify-center min-w-[100px]">
+            <MediaImage src={brand.src} alt={brand.name} class="h-6 w-auto object-contain brightness-0" />
+          </div>
+        ))}
+      </div>
     </div>
   </Wrapper>
 
