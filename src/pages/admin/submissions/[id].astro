@@ -41,6 +41,8 @@ const formTypeLabels: Record<FormType, string> = {
   alianzas: 'Alianzas',
   asesor: 'Asesor',
   matricula: 'Matrícula',
+  becarios: 'Becarios',
+  staff: 'Staff IMB',
 };
 
 function formatDate(dateStr: string): string {
@@ -100,7 +102,9 @@ const pageTitle = submission ? `Detalle de Formulario de ${formTypeLabels[submis
               <div class="py-4 first:pt-0 last:pb-0 grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <span class="text-xs font-bold text-text-secondary uppercase tracking-wider pt-0.5">{key}</span>
                 <span class="sm:col-span-2 text-text-primary font-medium text-sm whitespace-pre-wrap leading-relaxed">
-                  {value !== null && value !== undefined && value !== '' ? String(value) : '—'}
+                  {Array.isArray(value)
+                    ? value.map((item: any) => typeof item === 'object' ? `${item.name} (${Math.round(item.size / 1024)} KB)` : String(item)).join(', ')
+                    : (value !== null && value !== undefined && value !== '' ? String(value) : '—')}
                 </span>
               </div>
             ))}

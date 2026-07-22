@@ -5,9 +5,10 @@ import Wrapper from '../../components/ui/Wrapper.astro';
 import Accordion from '../../components/ui/Accordion.astro';
 import FormAsesor from '../../components/forms/FormAsesor.astro';
 import { cursos, categorias } from '../../data/cursos';
-import { Clock, MonitorPlay, FileText } from 'lucide-astro';
+import { Clock, Calendar, FileText } from 'lucide-astro';
 import MediaImage from '../../components/ui/MediaImage.astro';
 import { ROUTES, slugify } from '../../config/routes';
+import Badge from '../../components/ui/Badge.astro';
 
 const { slug } = Astro.params;
 
@@ -43,6 +44,11 @@ if (!course) {
           <div class="absolute inset-y-0 left-[-100vw] right-[-100vw] bg-surface-0 z-0 shadow-sm border-b border-border-subtle/30"></div>
           
           <div class="relative z-10">
+            <div class="mb-4">
+              <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>
+                {course.estado}
+              </Badge>
+            </div>
             <h1 class="font-display text-4xl lg:text-5xl font-extrabold text-text-primary leading-tight mb-6 tracking-tight">{course.nombre}</h1>
             <p class="font-sans text-xl text-text-secondary leading-relaxed mb-10">{course.descripcion}</p>
             
@@ -58,11 +64,11 @@ if (!course) {
               </div>
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-imb/5 flex items-center justify-center">
-                  <MonitorPlay size={20} class="text-imb" />
+                  <Calendar size={20} class="text-imb" />
                 </div>
                 <div>
-                  <p class="font-sans text-[10px] font-bold uppercase tracking-widest text-text-secondary">Modalidad</p>
-                  <h4 class="font-display text-base font-bold text-text-primary">{course.modalidad}</h4>
+                  <p class="font-sans text-[10px] font-bold uppercase tracking-widest text-text-secondary">Inicio y Fin</p>
+                  <h4 class="font-display text-base font-bold text-text-primary">{course.fechaInicio} / {course.fechaFin}</h4>
                 </div>
               </div>
               <div class="flex items-center gap-3">

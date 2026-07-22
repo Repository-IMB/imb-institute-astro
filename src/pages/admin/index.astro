@@ -38,6 +38,8 @@ const formTypeLabels: Record<FormType, string> = {
   alianzas: 'Alianzas',
   asesor: 'Asesor',
   matricula: 'Matrícula',
+  becarios: 'Becarios',
+  staff: 'Staff IMB',
 };
 
 const formTypeIcons: Record<FormType, any> = {
@@ -47,6 +49,8 @@ const formTypeIcons: Record<FormType, any> = {
   alianzas: Briefcase,
   asesor: UserCheck,
   matricula: GraduationCap,
+  becarios: FileText,
+  staff: User,
 };
 
 const formTypeColors: Record<FormType, { icon: string }> = {
@@ -56,6 +60,8 @@ const formTypeColors: Record<FormType, { icon: string }> = {
   alianzas: { icon: 'text-purple-600 bg-purple-50/80 border border-purple-100' },
   asesor: { icon: 'text-amber-600 bg-amber-50/80 border border-amber-100' },
   matricula: { icon: 'text-red-700 bg-red-50/80 border border-red-100' },
+  becarios: { icon: 'text-indigo-600 bg-indigo-50/80 border border-indigo-100' },
+  staff: { icon: 'text-slate-600 bg-slate-50/80 border border-slate-100' },
 };
 
 function formatDate(dateStr: string): string {

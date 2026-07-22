@@ -5,8 +5,9 @@ import Button from '../../components/ui/Button.astro';
 import Wrapper from '../../components/ui/Wrapper.astro';
 import MediaImage from '../../components/ui/MediaImage.astro';
 import { cursos, categorias } from '../../data/cursos';
-import { BarChart2, Clock, Award, Search } from 'lucide-astro';
+import { BarChart2, Clock, Calendar, Search } from 'lucide-astro';
 import { ROUTES, COURSE_ROUTES, slugify } from '../../config/routes';
+import Badge from '../../components/ui/Badge.astro';
 
 export const prerender = true;
 ---
@@ -27,7 +28,7 @@ export const prerender = true;
   </Wrapper>
 
   <!-- Full-width Sticky Search & Filter Bar -->
-  <div class="sticky top-16 z-20 bg-surface-50 pt-6 pb-6 mb-6">
+  <div class="sticky top-16 z-30 bg-surface-50 pt-6 pb-6 mb-6">
     <div class="mx-auto max-w-360  px-4 md:px-8 lg:px-12">
       <div class="mb-6 relative w-full lg:max-w-2xl">
         <Search size={20} class="absolute left-4 top-1/2 -translate-y-1/2 text-icon-muted" />
@@ -73,6 +74,11 @@ export const prerender = true;
           <div class="relative h-48 overflow-hidden">
             <div class="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10"></div>
             <MediaImage src={course.imagen} alt={course.nombre} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+            <div class="absolute top-4 left-4 z-20">
+              <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>
+                {course.estado}
+              </Badge>
+            </div>
           </div>
           <div class="p-5 flex flex-col flex-grow">
             <div class="flex items-center gap-2 mb-2 text-text-secondary">
@@ -88,8 +94,8 @@ export const prerender = true;
                 <span>{course.duracion}</span>
               </div>
               <div class="flex items-center gap-1.5">
-                <Award size={16} class="text-icon-muted" />
-                <span>{course.nivel}</span>
+                <Calendar size={16} class="text-icon-muted" />
+                <span>Inicio: {course.fechaInicio}</span>
               </div>
             </div>
           </div>

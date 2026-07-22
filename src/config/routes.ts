@@ -6,9 +6,11 @@
 export const ROUTES = {
   HOME: '/',
   NOSOTROS: '/nosotros',
-  CURSOS: '/cursos',
+  CAPACITACION: '/capacitacion',
   CONTACTO: '/contacto',
   MATRICULA: '/ficha-de-matricula',
+  PROGRAMA: '/programa-de-becarios',
+  STAFF: '/staff-imb',
   RECLAMACIONES: '/reclamaciones',
   SOPORTE: '/soporte',
 } as const;
@@ -33,10 +35,10 @@ export const slugify = (text: string) => {
  * Helper to generate course related paths
  */
 export const COURSE_ROUTES = {
-  LIST: ROUTES.CURSOS,
-  DETAIL: (slug: string) => `/cursos/${slug}`,
+  LIST: ROUTES.CAPACITACION,
+  DETAIL: (slug: string) => `${ROUTES.CAPACITACION}/${slug}`,
   CATEGORY: (category: string) => {
     const slug = slugify(category);
-    return slug === 'todos' ? ROUTES.CURSOS : `${ROUTES.CURSOS}?category=${slug}`;
+    return slug === 'todos' ? ROUTES.CAPACITACION : `${ROUTES.CAPACITACION}?category=${slug}`;
   }
 };

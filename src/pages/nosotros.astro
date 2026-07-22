@@ -4,7 +4,7 @@ import Card from '../components/ui/Card.astro';
 import Wrapper from '../components/ui/Wrapper.astro';
 import MediaImage from '../components/ui/MediaImage.astro';
 import FormContacto from '../components/forms/FormContacto.astro';
-import { Award, RefreshCw, HeartHandshake, Users2 } from 'lucide-astro';
+import { Award, RefreshCw, HeartHandshake, Users2, Target, Compass } from 'lucide-astro';
 
 export const prerender = true;
 
@@ -34,47 +34,44 @@ const valores = [
     </div>
   </Wrapper>
 
-  <!-- Stats Grandes -->
-  <Wrapper class="py-24">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-imb rounded-3xl p-10 lg:p-16 flex flex-col justify-center text-white shadow-premium">
-        <div class="font-display text-7xl lg:text-8xl font-bold tracking-tighter mb-4">95%</div>
-        <p class="font-sans text-lg lg:text-xl font-medium text-red-100 max-w-sm leading-relaxed">Tasa de empleabilidad y mejora laboral en nuestros egresados</p>
-      </div>
-      <div class="bg-gray-900 border border-white/5 rounded-3xl p-10 lg:p-16 flex flex-col justify-center text-white shadow-premium">
-        <div class="font-display text-7xl lg:text-8xl font-bold tracking-tighter mb-4">+10k</div>
-        <p class="font-sans text-lg lg:text-xl font-medium text-gray-400 max-w-sm leading-relaxed">Alumnos y ejecutivos capacitados en toda Latinoamérica</p>
-      </div>
-    </div>
-  </Wrapper>
-
   <!-- Quiénes Somos -->
-  <Wrapper class="mb-24" padded={false}>
-    <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start border-t border-border-subtle pt-16">
+  <Wrapper>
+    <!-- Intro Grid -->
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start mb-16">
       <div class="lg:col-span-5">
+        <span class="text-xs font-bold text-imb uppercase tracking-widest block mb-3">Nuestra Filosofía</span>
         <h2 class="font-display text-3xl lg:text-5xl font-bold text-text-primary tracking-tight leading-tight">
           Potenciando el talento en un mundo en evolución
         </h2>
       </div>
       <div class="lg:col-span-7 pt-2">
-        <p class="font-sans text-lg lg:text-xl text-text-secondary leading-relaxed mb-8">
+        <p class="font-sans text-lg lg:text-xl text-text-secondary leading-relaxed">
           Somos una institución líder en formación profesional y empresarial, dedicada a potenciar el talento y la competitividad. Nuestra metodología combina innovación, tecnología y asesoría especializada para brindar programas de alto impacto que transforman el aprendizaje en resultados reales.
         </p>
-        <div class="grid sm:grid-cols-2 gap-10 mt-12 pt-12 border-t border-border-subtle">
-          <div>
-            <h4 class="text-sm font-bold uppercase tracking-wide text-text-primary mb-3">Nuestra Misión</h4>
-            <p class="text-text-secondary leading-relaxed">
-              Brindar formación de alta calidad a profesionales que buscan potenciar sus talentos y optimizar procesos corporativos.
-            </p>
-          </div>
-          <div>
-            <h4 class="font-sans text-sm font-bold uppercase tracking-wide text-text-primary mb-3">Nuestra Visión</h4>
-            <p class="text-text-secondary leading-relaxed">
-              Ser la organización líder en América Latina en capacitación especializada en calidad, mantenimiento profesional y gestión empresarial.
-            </p>
-          </div>
-        </div>
       </div>
+    </div>
+
+    <!-- Misión y Visión (Debajo y Centradas) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-16 border-t border-border-subtle">
+      <Card class="p-8 border border-border-subtle bg-surface-0 hover:shadow-premium group flex flex-col items-center text-center">
+        <div class="w-12 h-12 bg-red-50 text-imb rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105">
+          <Target size={24} />
+        </div>
+        <h3 class="font-display text-xl font-bold text-text-primary mb-3">Nuestra Misión</h3>
+        <p class="text-text-secondary leading-relaxed">
+          Brindar formación de alta calidad a profesionales que buscan potenciar sus talentos y optimizar procesos corporativos, conectando el conocimiento práctico con las demandas actuales del sector industrial y empresarial.
+        </p>
+      </Card>
+
+      <Card class="p-8 border border-border-subtle bg-surface-0 hover:shadow-premium group flex flex-col items-center text-center">
+        <div class="w-12 h-12 bg-red-50 text-imb rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105">
+          <Compass size={24} />
+        </div>
+        <h3 class="font-display text-xl font-bold text-text-primary mb-3">Nuestra Visión</h3>
+        <p class="text-text-secondary leading-relaxed">
+          Consolidarnos como la institución líder en América Latina en capacitación especializada en calidad, mantenimiento profesional y gestión de operaciones, siendo reconocidos por la excelencia técnica y metodológica.
+        </p>
+      </Card>
     </div>
   </Wrapper>
 

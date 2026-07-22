@@ -4,7 +4,9 @@ export type FormType =
   | 'reclamaciones'
   | 'alianzas'
   | 'asesor'
-  | 'matricula';
+  | 'matricula'
+  | 'becarios'
+  | 'staff';
 
 export interface Submission {
   id: number;

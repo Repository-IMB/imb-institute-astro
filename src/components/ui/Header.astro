@@ -9,9 +9,11 @@ const currentPath = Astro.url.pathname;
 
 const navLinks = [
   { name: 'Inicio', href: ROUTES.HOME },
-  { name: 'Programas', href: ROUTES.CURSOS },
-  { name: 'Contacto', href: ROUTES.CONTACTO },
   { name: 'Nosotros', href: ROUTES.NOSOTROS },
+  { name: 'Capacitación', href: ROUTES.CAPACITACION },
+  { name: 'Programa de Becarios', href: ROUTES.PROGRAMA },
+  { name: 'Staff IMB', href: ROUTES.STAFF },
+  { name: 'Contacto', href: ROUTES.CONTACTO },
 ];
 
 // Helper to determine if a link is active
@@ -57,7 +59,7 @@ const isActive = (href: string) => {
       <Button
         id="mobile-menu-toggle"
         variant="ghost"
-        class="!p-2 !text-text-primary"
+        class="p-2! text-text-primary!"
         aria-label="Toggle menu"
       >
         <Menu id="menu-icon" size={24} />

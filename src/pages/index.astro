@@ -9,9 +9,10 @@ import { cursos } from '../data/cursos';
 import {
   Award, MonitorPlay, Users, Target, Globe2, Briefcase,
   Globe, Cpu, Building, Activity, BarChart2, Clock,
-  Quote, Phone, Mail, ArrowRight
+  Quote, Phone, Mail, ArrowRight, Calendar
 } from 'lucide-astro';
 import { ROUTES, COURSE_ROUTES } from '../config/routes';
+import Badge from '../components/ui/Badge.astro';
 import { CONTACT_INFO } from '../config/contact';
 import logoArgos from '../assets/images/logo-argos.avif';
 import logoCerroVerde from '../assets/images/logo-cerro-verde.avif';
@@ -66,7 +67,7 @@ const brands = [
         Programas de capacitación en calidad, mantenimiento, tecnología, gestión y más. Aprende con expertos, aplica el conocimiento y destaca en tu industria.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <Button href={ROUTES.CURSOS} variant="primary" class="py-4 px-8 text-base shadow-premium">Ver programas</Button>
+        <Button href={ROUTES.CAPACITACION} variant="primary" class="py-4 px-8 text-base shadow-premium">Ver programas</Button>
         <Button href="#contacto" variant="outline" class="py-4 px-8 text-base border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-transparent hover:text-white!">
           Solicitar información
         </Button>
@@ -77,16 +78,16 @@ const brands = [
   <!-- Trusted Brands -->
   <Wrapper class="bg-surface-50 text-center" padded={false} class:list={["py-12 overflow-hidden"]}>
     <div class="overflow-hidden relative w-full opacity-40 mask-gradient select-none">
-      <div class="flex gap-16 md:gap-24 w-max animate-marquee-loop cursor-pointer">
+      <div class="flex gap-16 md:gap-24 w-max animate-marquee-loop">
         {/* First list of brands */}
         {brands.map(brand => (
-          <div class="flex-shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
+          <div class="shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
             <MediaImage src={brand.src} alt={brand.name} class="h-6 md:h-8 w-auto object-contain brightness-0" />
           </div>
         ))}
         {/* Second list of brands (duplicated for seamless looping) */}
         {brands.map(brand => (
-          <div class="flex-shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
+          <div class="shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
             <MediaImage src={brand.src} alt={brand.name} class="h-6 md:h-8 w-auto object-contain brightness-0" />
           </div>
         ))}
@@ -148,6 +149,11 @@ const brands = [
           <div class="relative h-48 overflow-hidden">
             <div class="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10"></div>
             <MediaImage src={course.imagen} alt={course.nombre} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+            <div class="absolute top-4 left-4 z-10">
+              <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>
+                {course.estado}
+              </Badge>
+            </div>
           </div>
           <div class="p-5 flex flex-col flex-grow">
             <div class="flex items-center gap-2 mb-2 text-text-secondary">
@@ -163,8 +169,8 @@ const brands = [
                 <span>{course.duracion}</span>
               </div>
               <div class="flex items-center gap-1.5">
-                <Award size={16} class="text-icon-muted" />
-                <span>{course.nivel}</span>
+                <Calendar size={16} class="text-icon-muted" />
+                <span>Inicio: {course.fechaInicio}</span>
               </div>
             </div>
           </div>
@@ -173,7 +179,7 @@ const brands = [
     </div>
 
     <div class="mt-16 text-center">
-      <Button href={ROUTES.CURSOS} variant="primary" class="px-8 py-4 shadow-sm text-base font-bold flex items-center gap-2 mx-auto">
+      <Button href={ROUTES.CAPACITACION} variant="primary" class="px-8 py-4 shadow-sm text-base font-bold flex items-center gap-2 mx-auto">
         Ver todos los programas <ArrowRight size={16} />
       </Button>
     </div>

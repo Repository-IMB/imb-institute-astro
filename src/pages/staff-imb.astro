@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import Card from '../components/ui/Card.astro';
+import FormStaff from '../components/forms/FormStaff.astro';
+import { Briefcase, GraduationCap, Globe, FileText, Quote, Users } from 'lucide-astro';
+
+export const prerender = true;
+
+const stats = [
+  {
+    icon: Briefcase,
+    number: "47",
+    label: "Profesionales con trayectoria comprobada en entornos empresariales"
+  },
+  {
+    icon: GraduationCap,
+    number: "97%",
+    label: "Cuenta con formación de posgrado y especialización en sus áreas"
+  },
+  {
+    icon: Globe,
+    number: "12+",
+    label: "Países donde nuestro staff aporta experiencia y visión global"
+  }
+];
+
+const staff = [
+  {
+    name: "Juan David Cortés",
+    role: "Gestión Hospitalaria - Colombia",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/DAVID_Cortes-removebg-preview.png",
+    bios: [
+      "Profesional de la salud con experiencia integral en roles asistenciales, académicos y comerciales, destacado por integrar IA y análisis de datos.",
+      "Maestría en Salud Pública y formación en epidemiología, bioestadística y programación.",
+      "Experiencia en UCI, gestión hospitalaria y desarrollo comercial en Sanitas."
+    ]
+  },
+  {
+    name: "Gustavo C. Cerezo",
+    role: "Gerente Financiero y Contable - México",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/Retrato-de-hombre-elegante-y-confiado.png",
+    bios: [
+      "Gerente de Finanzas y Control Interno con más de 15 años de experiencia en auditoría, riesgos y cumplimiento.",
+      "Contador con Maestría en Contabilidad Internacional y certificaciones en auditoría interna.",
+      "Ha ocupado roles clave en PwC, Konfío y RSM."
+    ]
+  },
+  {
+    name: "Gerardo García",
+    role: "Finanzas - México",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/mag-gerardo-finanzas.png",
+    bios: [
+      "Licenciado en Finanzas con más de 10 años de experiencia en análisis de datos.",
+      "Máster en Finanzas Cuantitativas, experto en machine learning, Power BI y análisis macroeconómico.",
+      "Ha ocupado roles clave en Hewlett Packard Enterprise, Aruba y URREA."
+    ]
+  },
+  {
+    name: "Sebastián Jazme",
+    role: "Magister de Mantenimiento - Chile",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/Foto-Docente-Sebastian-Jazme.jpg",
+    bios: [
+      "Consultor experto en metodologías Kaizen, TPS, TPM y Lean Six Sigma.",
+      "Certificado internacional en TPM en Japón, Green Belt Lean Six Sigma y Auditor ISO 9001.",
+      "Más de 20.000 horas de capacitación a 10.000 profesionales."
+    ]
+  },
+  {
+    name: "Arturo Mora",
+    role: "Licenciado en Economía - México",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/4d88da79-5c14-4537-8861-b81fa6545db0.png",
+    bios: [
+      "Más de 10 años de experiencia como Product Manager en banca, salud, e-commerce y contabilidad.",
+      "Lidera estrategia de canales digitales en Scotiabank México.",
+      "Ha ocupado roles como Senior Product Manager y Product Owner."
+    ]
+  },
+  {
+    name: "Alejandra Victoria Inzunza",
+    role: "Gerente Financiera y Contable - México",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/alejandra-victoria-insunza-1.png",
+    bios: [
+      "Más de 17 años de experiencia en finanzas corporativas.",
+      "Especialista en análisis financiero, control presupuestario y gestión contable.",
+      "Experiencia en PwC, Aeroméxico, Nissan y Lincare USA."
+    ]
+  },
+  {
+    name: "Victor Valdivia Moreno",
+    role: "Economista - México",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/Retrato-formal-con-traje-y-corbata-1.png",
+    bios: [
+      "Más de 20 años de experiencia en alta dirección financiera como CFO y CEO.",
+      "Doctor en Economía y Finanzas, especialista en gestión de riesgos y regulación.",
+      "Experto en estrategia financiera, crecimiento de cartera y cumplimiento regulatorio."
+    ]
+  },
+  {
+    name: "Carlos Romero Gave",
+    role: "Ingeniero - Perú",
+    imgUrl: "https://epsanfrancisco.com/wp-content/uploads/image/2026/04/gonzalo-herrera/Carlos-romero-Gave-2.png",
+    bios: [
+      "Project Controls Specialist con experiencia en planificación y control de proyectos mineros e infraestructura.",
+      "Certificado PMP, experto en Oracle Primavera P6, EVM y Lean Construction.",
+      "Referente en control de costos, cronogramas y analítica con Power BI."
+    ]
+  }
+];
+
+const testimonial = {
+  quote: "Formar parte de IMB ha sido una experiencia muy valiosa en mi desarrollo profesional. Me brindó la oportunidad de crecer, adquirir nuevas habilidades y desenvolverme en un entorno que impulsa el aprendizaje constante.",
+  author: "Suemy J. Lima Vega",
+  country: "Perú",
+  area: "Bienestar y Responsabilidad Social"
+};
+---
+
+<BaseLayout 
+  title="Staff de Profesionales | IMB Institute" 
+  description="Conoce a nuestro equipo de docentes y profesionales expertos que lideran la capacitación ejecutiva y técnica en América Latina."
+>
+
+  <!-- Hero Section -->
+  <Wrapper class="relative bg-gray-950 overflow-hidden pt-20 pb-24" full>
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-gradient-to-tr from-gray-950 via-gray-900 to-imb/20"></div>
+      <!-- Subtle grid overlay -->
+      <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    </div>
+    <div class="max-w-[1100px] mx-auto text-center relative z-10">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-imb/10 border border-imb/30 text-red-400 mb-6 tracking-wide uppercase">
+        Docentes y Consultores
+      </span>
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight">
+        Staff de Profesionales de <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">Confianza</span> de IMB
+      </h1>
+      <p class="font-sans text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+        Un equipo de expertos con trayectoria comprobada que combina calidad, excelencia académica y experiencia empresarial en toda América Latina dentro de IMB Institute.
+      </p>
+    </div>
+  </Wrapper>
+
+  <!-- Stats Section (Flex layout: stacked on mobile, single row on desktop) -->
+  <Wrapper class="relative z-25 -mt-12" padded={false}>
+    <div class="flex flex-col md:flex-row justify-between items-stretch gap-6 md:gap-8 px-6 lg:px-12">
+      {stats.map((s) => (
+        <Card class="flex-1 p-6 md:p-8 flex flex-col items-center md:items-start text-center md:text-left group">
+          <div class="w-12 h-12 bg-red-50 text-imb rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-105 shrink-0">
+            <s.icon size={24} />
+          </div>
+          <div class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-text-primary tracking-tight mb-3 leading-none">
+            {s.number}
+          </div>
+          <h4 class="font-sans text-sm md:text-base font-medium text-text-secondary leading-relaxed">
+            {s.label}
+          </h4>
+        </Card>
+      ))}
+    </div>
+  </Wrapper>
+
+  <!-- Staff Grid Section -->
+  <Wrapper class="pt-16 pb-24">
+    <div class="text-center mb-16 max-w-2xl mx-auto">
+      <span class="text-xs font-bold text-imb uppercase tracking-widest block mb-3">Conoce al equipo</span>
+      <h2 class="font-display text-3xl lg:text-4xl font-bold text-text-primary mb-4 tracking-tight">
+        Integrantes del Staff que te acompañan en cada paso
+      </h2>
+      <p class="font-sans text-text-secondary leading-relaxed">
+        Pasa el cursor sobre la tarjeta de cada profesional para conocer en detalle su trayectoria académica y empresarial.
+      </p>
+    </div>
+
+    <!-- Flipping Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {staff.map((member) => (
+        <div class="imb-card-equipo-container group">
+          <div class="imb-card-equipo-inner">
+            
+            <!-- Front Card -->
+            <div class="imb-card-equipo-front border border-border-subtle shadow-premium">
+              <!-- Portrait Container -->
+              <div class="w-full h-80 bg-gradient-to-b from-surface-100 to-surface-50 flex items-end justify-center overflow-hidden relative">
+                <!-- Decorative subtle circle -->
+                <div class="w-56 h-56 rounded-full bg-imb/5 absolute bottom-4 left-1/2 -translate-x-1/2 blur-lg -z-1"></div>
+                <img 
+                  src={member.imgUrl} 
+                  alt={member.name} 
+                  class="h-[90%] object-contain filter drop-shadow-md transition-transform duration-500 group-hover:scale-105" 
+                  loading="lazy"
+                />
+              </div>
+              <!-- Text Overlay on Front -->
+              <div class="p-6 bg-surface-0 border-t border-border-muted relative text-center">
+                <h3 class="font-display text-lg font-bold text-text-primary mb-1 line-clamp-1">{member.name}</h3>
+                <p class="font-sans text-xs font-semibold text-imb tracking-wide uppercase line-clamp-1">{member.role.split(' - ')[0]}</p>
+                <p class="font-sans text-[10px] text-text-secondary mt-1">{member.role.includes(' - ') ? member.role.split(' - ')[1] : ''}</p>
+              </div>
+            </div>
+
+            <!-- Back Card -->
+            <div class="imb-card-equipo-back bg-surface-0 border border-imb/20 shadow-premium p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="font-display text-xl font-extrabold text-imb mb-1 text-center">{member.name}</h3>
+                <p class="font-sans text-sm font-bold text-text-primary text-center pb-2 border-b border-border-subtle mb-4">{member.role}</p>
+                
+                <div class="space-y-3 overflow-y-auto max-h-64 pr-1 custom-scrollbar">
+                  {member.bios.map((paragraph) => (
+                    <p class="font-sans text-sm text-text-secondary leading-relaxed text-left">
+                      • {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+              <div class="pt-4 text-center">
+                <span class="inline-flex items-center text-[10px] font-semibold text-imb uppercase tracking-wider">
+                  Trayectoria IMB
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+  </Wrapper>
+
+  <!-- Testimonials Section (Minimal, Single Item Card, Centered) -->
+  <Wrapper class="bg-surface-0 border-t border-b border-border-subtle py-16 lg:py-24 relative overflow-hidden" full>
+    <div class="relative z-10 max-w-4xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-imb uppercase tracking-widest block mb-3">Testimonios del Staff</span>
+        <h2 class="font-display text-3xl lg:text-4xl font-bold tracking-tight">Testimonios del Staff IMB</h2>
+      </div>
+
+      <div class="max-w-2xl mx-auto">
+        <Card class="p-6 lg:p-8 relative group">
+          <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
+          <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10 text-text-primary">
+            "{testimonial.quote}"
+          </blockquote>
+          <div class="flex items-center gap-4 mt-auto">
+            <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm">
+              <Users size={20} />
+            </div>
+            <div>
+              <h4 class="font-display text-sm font-bold text-text-primary">{testimonial.author}</h4>
+              <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">
+                {testimonial.area} / {testimonial.country}
+              </p>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  </Wrapper>
+
+  <!-- Formulario Section (No CTA above it, starts directly here) -->
+  <Wrapper id="formulario" class="py-20 bg-surface-50 border-t border-border-subtle">
+    <div class="max-w-xl mx-auto">
+      <Card class="rounded-3xl p-8 lg:p-12 shadow-premium bg-surface-0 border border-border-subtle">
+        <div class="text-center mb-10">
+          <div class="w-12 h-12 bg-red-50 text-imb rounded-xl flex items-center justify-center mb-4 mx-auto">
+            <FileText size={24} />
+          </div>
+          <h3 class="font-display text-2xl font-bold text-text-primary mb-2">Postulación al Staff de IMB</h3>
+          <p class="font-sans text-sm text-text-secondary">
+            Envíanos tus datos y currículum para evaluar tu incorporación a nuestro staff de profesionales.
+          </p>
+        </div>
+
+        <FormStaff />
+      </Card>
+    </div>
+  </Wrapper>
+
+</BaseLayout>
+
+<style>
+  /* Premium Flipping Card Styles */
+  .imb-card-equipo-container {
+    perspective: 1000px;
+    height: 440px; /* Stretched card height */
+  }
+  
+  .imb-card-equipo-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  
+  /* Flip action triggered by hover */
+  .imb-card-equipo-container:hover .imb-card-equipo-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .imb-card-equipo-front,
+  .imb-card-equipo-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+    overflow: hidden;
+  }
+  
+  .imb-card-equipo-front {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+  
+  .imb-card-equipo-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+  }
+
+  /* Custom scrollbar for bio list inside the back of the card */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-border-subtle);
+    border-radius: 2px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-imb);
+  }
+</style>

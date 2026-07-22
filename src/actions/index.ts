@@ -23,10 +23,10 @@ export const server = {
       nombres: z.string().min(2),
       apellidos: z.string().min(2),
       telefono: z.string().min(8),
-      correo: z.string().email(),
+      correo: z.email(),
       consulta: z.string().min(10).optional(),
     }),
-    handler: async (input, context) => {
+    handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'contacto', input);
       return { success: true, id };
@@ -37,14 +37,14 @@ export const server = {
     accept: 'form',
     input: z.object({
       nombres: z.string().min(2),
-      correo: z.string().email(),
+      correo: z.email(),
       telefono: z.string().min(8),
       curso: z.string().min(2),
       categoria: z.string(),
       mensaje: z.string().min(10),
       terminos: z.literal('on').optional(),
     }),
-    handler: async (input, context) => {
+    handler: async (input) => {
       if (input.terminos !== 'on') {
         throw new ActionError({
           code: 'BAD_REQUEST',
@@ -65,7 +65,7 @@ export const server = {
       nombres: z.string().min(2),
       documento: z.string().min(8),
       telefono: z.string().min(8),
-      correo: z.string().email(),
+      correo: z.email(),
       direccion: z.string().min(5),
       ciudad: z.string().min(2),
       region: z.string().min(2),
@@ -77,7 +77,7 @@ export const server = {
       tipoSolicitud: z.enum(['Reclamo (Disconformidad con el servicio)', 'Queja (Malestar por atención recibida)']),
       detalleReclamo: z.string().min(10),
     }),
-    handler: async (input, context) => {
+    handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'reclamaciones', input);
       return { success: true, id };
@@ -90,11 +90,11 @@ export const server = {
       empresa: z.string().min(2),
       tipoAlianza: z.string(),
       sector: z.string(),
-      correo: z.string().email(),
-      telefono: z.string().min(8),
-      descripcion: z.string().min(10).optional(),
+      correo: z.email(),
+      telefono: z.string().min(8).optional().or(z.literal('')),
+      descripcion: z.string().min(10).optional().or(z.literal('')),
     }),
-    handler: async (input, context) => {
+    handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'alianzas', input);
       return { success: true, id };
@@ -106,7 +106,7 @@ export const server = {
     input: z.object({
       nombres: z.string().min(2),
       telefono: z.string().min(8),
-      correo: z.string().email(),
+      correo: z.email(),
       cursoNombre: z.string().optional(),
     }),
     handler: async (input, context) => {
@@ -125,7 +125,7 @@ export const server = {
       nombres: z.string().min(2),
       documento: z.string().min(8),
       pais: z.string().min(2),
-      correo: z.string().email(),
+      correo: z.email(),
       whatsapp: z.string().min(8),
       formacion: z.string().min(2),
       empresa: z.string().optional(),
@@ -137,9 +137,85 @@ export const server = {
       nivel_ingles: z.string().optional(),
       nivel_excel: z.string().optional(),
     }),
-    handler: async (input, context) => {
+    handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'matricula', input);
+      return { success: true, id };
+    }
+  }),
+
+  becarios: defineAction({
+    accept: 'form',
+    input: z.object({
+      nombres: z.string().min(2),
+      apellidos: z.string().min(2),
+      documento: z.string().min(6),
+      fecha_nacimiento: z.string(),
+      correo: z.email(),
+      whatsapp: z.string().min(8),
+      universidad: z.string().min(2),
+      carrera: z.string().min(2),
+      ciclo: z.string(),
+      asociacion: z.string().min(2),
+      horario_semana: z.string().or(z.array(z.string())).optional(),
+      horario_finde: z.string().or(z.array(z.string())).optional(),
+      motivacion: z.string().min(10),
+    }),
+    handler: async (input, context) => {
+      const db = getDB();
+      
+      const formData = await context.request.clone().formData();
+      const files = formData.getAll('documentos') as File[];
+      const fileMetadata = files
+        .filter(f => f.name && f.size > 0)
+        .map(f => ({ name: f.name, size: f.size, type: f.type }));
+
+      if (fileMetadata.length === 0) {
+        throw new ActionError({
+          code: 'BAD_REQUEST',
+          message: 'Debe subir al menos un documento (bases, constancia, certificado o CV).',
+        });
+      }
+
+      const data = {
+        ...input,
+        documentos: fileMetadata,
+      };
+
+      const id = await insertSubmission(db, 'becarios', data);
+      return { success: true, id };
+    }
+  }),
+
+  staff: defineAction({
+    accept: 'form',
+    input: z.object({
+      nombre_completo: z.string().min(2),
+      correo_electronico: z.email(),
+      area_postulacion: z.string(),
+    }),
+    handler: async (input, context) => {
+      const db = getDB();
+      const formData = await context.request.clone().formData();
+      const file = formData.get('cv_pdf') as File;
+      
+      const fileMetadata = file && file.name && file.size > 0
+        ? { name: file.name, size: file.size, type: file.type }
+        : null;
+
+      if (!fileMetadata) {
+        throw new ActionError({
+          code: 'BAD_REQUEST',
+          message: 'Debe subir su currículum vitae en formato PDF.',
+        });
+      }
+
+      const data = {
+        ...input,
+        cv_pdf: fileMetadata,
+      };
+
+      const id = await insertSubmission(db, 'staff', data);
       return { success: true, id };
     }
   }),
@@ -151,7 +227,7 @@ export const server = {
       startDate: z.string().optional(),
       endDate: z.string().optional(),
     }),
-    handler: async (input, context) => {
+    handler: async (input) => {
       const db = getDB();
       const submissions = await getSubmissions(db, {
         form_type: input.form_type as FormType | undefined,

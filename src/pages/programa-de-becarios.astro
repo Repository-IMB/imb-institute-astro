@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import FormBecarios from '../components/forms/FormBecarios.astro';
+import { Users2, Award, FileText, Download, CheckCircle2 } from 'lucide-astro';
+
+export const prerender = true;
+---
+
+<BaseLayout 
+  title="Programa de Becarios IMB | IMB Institute" 
+  description="Postula al Programa de Becarios IMB. Accede a formación de alta calidad en calidad, mantenimiento y gestión, y potencia tu crecimiento académico."
+>
+  <!-- Hero Header -->
+  <Wrapper as="div" class="bg-gray-950 text-white text-center py-20 lg:py-24" full>
+    <div class="max-w-3xl mx-auto relative z-10">
+      <span class="text-xs font-bold text-red-400 uppercase tracking-widest block mb-3">Convocatoria de Excelencia</span>
+      <h1 class="font-display text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">
+        Programa de <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">Becarios</span> IMB
+      </h1>
+      <p class="font-sans text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+        Impulsamos el desarrollo de talentos sobresalientes brindando acceso a especializaciones académicas y oportunidades de aprendizaje colaborativo.
+      </p>
+    </div>
+  </Wrapper>
+
+  <!-- Main Content Grid -->
+  <Wrapper class="pb-32 pt-12" padded={false}>
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+      
+      <!-- Left Column: Program Information -->
+      <div class="lg:col-span-5 space-y-12">
+        
+        <!-- Info Card: A quién está dirigido -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-red-50 text-imb rounded-xl flex items-center justify-center border border-red-100/50">
+              <Users2 size={20} />
+            </div>
+            <h2 class="font-display text-xl font-bold text-text-primary">¿A quién está dirigido?</h2>
+          </div>
+          <p class="font-sans text-text-secondary leading-relaxed">
+            El programa está dirigido a estudiantes universitarios de los últimos ciclos de carreras afines, que demuestren buen rendimiento académico, responsabilidad y disponibilidad para participar en actividades académicas virtuales.
+          </p>
+        </div>
+
+        <!-- Info Card: Qué ofrece -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-red-50 text-imb rounded-xl flex items-center justify-center border border-red-100/50">
+              <Award size={20} />
+            </div>
+            <h2 class="font-display text-xl font-bold text-text-primary">¿Qué ofrece el Programa?</h2>
+          </div>
+          <ul class="space-y-3 font-sans text-text-secondary">
+            {[
+              "Acceso becado a programas académicos especializados de IMB.",
+              "Experiencia formativa en entornos de educación virtual.",
+              "Interacción académica con docentes y profesionales del sector.",
+              "Emisión de una Carta de Recomendación por la participación en el programa."
+            ].map((offer) => (
+              <li class="flex items-start gap-3">
+                <CheckCircle2 size={16} class="text-imb shrink-0 mt-1" />
+                <span class="leading-relaxed">{offer}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Info Card: Bases del Programa -->
+        <div class="space-y-4 pt-6 border-t border-border-subtle">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-red-50 text-imb rounded-xl flex items-center justify-center border border-red-100/50">
+              <FileText size={20} />
+            </div>
+            <h2 class="font-display text-xl font-bold text-text-primary">Bases del Programa</h2>
+          </div>
+          <p class="font-sans text-text-secondary leading-relaxed">
+            Los requisitos, perfil del becario, derechos, deberes, obligaciones, impedimentos y el proceso de postulación se encuentran detallados en las Bases del Programa de Becarios IMB, las cuales pueden ser descargadas para su revisión completa.
+          </p>
+          <div class="pt-2">
+            <!-- Download Button pointing to a public document (users can place their pdf in public/docs/) -->
+            <Button 
+              href="/docs/bases-programa-de-becarios.pdf" 
+              target="_blank" 
+              download="Bases_Programa_de_Becarios_IMB.pdf" 
+              variant="outline"
+              class="inline-flex items-center gap-2 px-6 py-3.5 cursor-pointer font-semibold"
+            >
+              <Download size={18} />
+              Descargar las Bases
+            </Button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Form Card -->
+      <div class="lg:col-span-7">
+        <Card class="rounded-3xl p-8 lg:p-12 shadow-premium bg-surface-0">
+          <div class="mb-8 border-b border-border-subtle pb-6">
+            <h2 class="font-display text-2xl font-bold text-text-primary">Formulario de Postulación</h2>
+            <p class="font-sans text-sm text-text-secondary mt-1">Completa todos los campos y adjunta tu documentación en formato PDF o imagen.</p>
+          </div>
+          <FormBecarios />
+        </Card>
+      </div>
+
+    </div>
+  </Wrapper>
+</BaseLayout>

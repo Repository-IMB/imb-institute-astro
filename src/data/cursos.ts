@@ -4,11 +4,12 @@ export interface Curso {
   categoria: string;
   instructor: string;
   duracion: string;
-  nivel: string;
-  modalidad: string;
   certificacion: string;
   imagen: string;
   descripcion: string;
+  fechaInicio: string;
+  fechaFin: string;
+  estado: 'Activo' | 'Inactivo';
   modulos: Array<{
     titulo: string;
     items: string[];
@@ -22,11 +23,12 @@ export const cursos: Curso[] = [
     categoria: 'Mantenimiento',
     instructor: 'Ing. Yassín Vázquez',
     duracion: '120 Horas',
-    nivel: 'Avanzado',
-    modalidad: 'Online en Vivo',
     certificacion: 'Diploma Oficial',
     imagen: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
     descripcion: 'Optimiza la disponibilidad de los activos, reduce costos operativos y lidera la transformación hacia el mantenimiento predictivo 4.0. En el entorno industrial actual, la gestión del mantenimiento ha dejado de ser un centro de costos para convertirse en un área estratégica que genera valor.',
+    fechaInicio: '2026-08-15',
+    fechaFin: '2026-11-15',
+    estado: 'Activo',
     modulos: [
       {
         titulo: 'Módulo I: Fundamentos y Estrategia de Mantenimiento',
@@ -62,11 +64,12 @@ export const cursos: Curso[] = [
     categoria: 'Logística',
     instructor: 'Mg. Elena Villalobos',
     duracion: '90 Horas',
-    nivel: 'Intermedio',
-    modalidad: 'Online en Vivo',
     certificacion: 'Diploma Oficial',
     imagen: 'https://images.unsplash.com/photo-1586528116311-ad8ed3c84a0c?auto=format&fit=crop&q=80&w=800',
     descripcion: 'Domina las estrategias de gestión de la cadena de suministro, desde la planificación de la demanda hasta la distribución final. Aprende a optimizar procesos logísticos y reducir costos operativos en toda la cadena de valor.',
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-11-01',
+    estado: 'Activo',
     modulos: [
       {
         titulo: 'Módulo I: Fundamentos de Supply Chain',
@@ -92,11 +95,12 @@ export const cursos: Curso[] = [
     categoria: 'Recursos Humanos',
     instructor: 'Dr. Roberto Santos',
     duracion: '100 Horas',
-    nivel: 'Experto',
-    modalidad: 'Online en Vivo',
     certificacion: 'Diploma Oficial',
     imagen: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
     descripcion: 'Atrae, desarrolla y retiene el mejor talento. Conoce las últimas tendencias en gestión de personas, clima laboral y compensaciones. Diseña estrategias de RRHH alineadas a los objetivos de negocio.',
+    fechaInicio: '2026-07-20',
+    fechaFin: '2026-09-20',
+    estado: 'Inactivo',
     modulos: [
       {
         titulo: 'Módulo I: Estrategia de Talento Humano',
@@ -122,11 +126,12 @@ export const cursos: Curso[] = [
     categoria: 'Tecnología',
     instructor: 'Ing. Carlos Díaz',
     duracion: '80 Horas',
-    nivel: 'Intermedio',
-    modalidad: 'Online en Vivo',
     certificacion: 'Diploma Oficial',
     imagen: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
     descripcion: 'Transforma datos en decisiones estratégicas. Aprende a utilizar herramientas de BI para identificar oportunidades y mejorar la rentabilidad. Desarrolla habilidades en análisis descriptivo, predictivo y prescriptivo.',
+    fechaInicio: '2026-10-05',
+    fechaFin: '2026-12-05',
+    estado: 'Activo',
     modulos: [
       {
         titulo: 'Módulo I: Fundamentos de Análisis de Datos',

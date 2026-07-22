@@ -1,0 +1,167 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import Button from '../ui/Button.astro';
+import { Upload } from 'lucide-astro';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<form id="postulacionForm" class:list={["space-y-6", className]}>
+  <InputField 
+    label="Nombre Completo" 
+    name="nombre_completo" 
+    required={true} 
+    placeholder="Ej. Juan Pérez" 
+  />
+
+  <InputField 
+    label="Correo Electrónico" 
+    name="correo_electronico" 
+    type="email" 
+    required={true} 
+    placeholder="juan@correo.com" 
+  />
+
+  <SelectField
+    label="Área de postulación"
+    name="area_postulacion"
+    required={true}
+    options={[
+      { value: '', label: 'Seleccionar área' },
+      'Docentes',
+      'Asesores de Venta',
+      'Growth',
+      'Product Management',
+      'Marketing',
+      'Responsabilidad Social',
+      'Otro'
+    ]}
+  />
+
+  <!-- CV File Input -->
+  <div class="relative group">
+    <label class="block font-sans text-sm font-medium text-text-secondary mb-2">
+      Adjuntar CV PDF <span class="text-imb">*</span>
+    </label>
+    <label class="imb-custom-file flex items-center justify-between border-2 border-dashed border-border-subtle rounded-xl p-4 cursor-pointer hover:border-imb transition-colors group/file bg-surface-50 hover:bg-red-50/10">
+      <input
+        type="file"
+        name="cv_pdf"
+        accept=".pdf,application/pdf"
+        required
+        class="hidden"
+        id="cv-file-input"
+      />
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary group-hover/file:text-imb group-hover/file:border-imb transition-all duration-300">
+          <Upload size={18} />
+        </div>
+        <div class="text-left">
+          <span class="block text-xs font-bold text-text-primary group-hover/file:text-imb transition-colors">Seleccionar archivo PDF</span>
+          <span class="block text-[10px] text-text-secondary file-name-display">Sin archivo seleccionado</span>
+        </div>
+      </div>
+      <span class="text-[10px] font-bold text-text-secondary uppercase tracking-wider bg-surface-0 border border-border-subtle rounded px-2.5 py-1.5 shadow-sm group-hover/file:border-imb transition-all">Buscar</span>
+    </label>
+  </div>
+
+  <!-- Alert Messages -->
+  <div id="form-alert" class="hidden rounded-xl p-4 text-sm flex gap-3 items-start border">
+    <div class="alert-icon-success hidden text-green-600">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div class="alert-icon-error hidden text-imb">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <p id="form-alert-msg" class="leading-snug font-sans text-xs"></p>
+  </div>
+
+  <div class="pt-2">
+    <Button
+      type="submit"
+      class="w-full py-4 text-base font-bold shadow-premium"
+      id="submit-button"
+    >
+      Enviar postulación
+    </Button>
+  </div>
+</form>
+
+<script>
+  import { actions } from 'astro:actions';
+
+  const initForm = () => {
+    const form = document.getElementById('postulacionForm') as HTMLFormElement;
+    const fileInput = document.getElementById('cv-file-input') as HTMLInputElement;
+    const fileNameDisplay = document.querySelector('.file-name-display');
+    const alertBox = document.getElementById('form-alert');
+    const alertMsg = document.getElementById('form-alert-msg');
+    const successIcon = document.querySelector('.alert-icon-success');
+    const errorIcon = document.querySelector('.alert-icon-error');
+    const submitBtn = document.getElementById('submit-button') as HTMLButtonElement;
+
+    if (!form || !fileInput) return;
+
+    // Display selected file name
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        fileNameDisplay!.textContent = fileInput.files[0].name;
+      } else {
+        fileNameDisplay!.textContent = 'Sin archivo seleccionado';
+      }
+    });
+
+    // Handle form submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Reset alert state
+      alertBox?.classList.add('hidden');
+      alertBox?.classList.remove('bg-green-50', 'border-green-200', 'text-green-800', 'bg-red-50', 'border-red-200', 'text-red-800');
+      successIcon?.classList.add('hidden');
+      errorIcon?.classList.add('hidden');
+
+      // Update button state
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando postulación...';
+
+      try {
+        const formData = new FormData(form);
+        const { data, error } = await actions.staff(formData);
+
+        if (error) {
+          throw new Error(error.message || 'Ocurrió un error al procesar su solicitud.');
+        }
+
+        // Success state
+        alertBox?.classList.remove('hidden');
+        alertBox?.classList.add('bg-green-50', 'border-green-200', 'text-green-800');
+        successIcon?.classList.remove('hidden');
+        alertMsg!.textContent = '¡Postulación enviada con éxito! Nuestro equipo revisará su CV y se pondrá en contacto pronto.';
+        
+        form.reset();
+        fileNameDisplay!.textContent = 'Sin archivo seleccionado';
+      } catch (err: any) {
+        // Error state
+        alertBox?.classList.remove('hidden');
+        alertBox?.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
+        errorIcon?.classList.remove('hidden');
+        alertMsg!.textContent = err.message || 'Error de conexión. Intente nuevamente.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      }
+    });
+  };
+
+  // Run on page load and after Astro transitions
+  document.addEventListener('astro:page-load', initForm);
+  // Run immediately for first non-transition page load
+  initForm();
+</script>

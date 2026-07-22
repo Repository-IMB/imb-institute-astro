@@ -76,7 +76,7 @@ const inputClasses = "w-full pl-3 pr-4 py-2 bg-transparent border-0 border-b-2 b
         geoIpLookup: () => {
           return fetch("https://get.geojs.io/v1/ip/country.json")
             .then(res => res.json())
-            .then(data => data.country)
+            .then((data: any) => data.country)
             .catch(() => "pe"); // Default to Peru if fails
         },
         loadUtils: () => import("intl-tel-input/utils"),
@@ -85,7 +85,7 @@ const inputClasses = "w-full pl-3 pr-4 py-2 bg-transparent border-0 border-b-2 b
         formatOnDisplay: true,
       });
 
-      const getErrorMessage = (errorCode: number | null) => {
+      const getErrorMessage = (errorCode: any) => {
         switch (errorCode) {
           case 1: return "Código de país inválido"; // INVALID_COUNTRY_CODE
           case 2: return "Número muy corto"; // TOO_SHORT
