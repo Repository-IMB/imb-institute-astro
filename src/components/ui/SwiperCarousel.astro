@@ -1,0 +1,106 @@
+---
+export interface Props {
+  slidesPerView?: number | "auto";
+  spaceBetween?: number;
+  loop?: boolean;
+  autoplay?: boolean | { delay: number; disableOnInteraction?: boolean };
+  pagination?: boolean | { clickable?: boolean; dynamicBullets?: boolean };
+  navigation?: boolean;
+  breakpoints?: Record<number, any>;
+  class?: string;
+}
+
+const {
+  slidesPerView = 1,
+  spaceBetween = 30,
+  loop = true,
+  autoplay = false,
+  pagination = true,
+  navigation = true,
+  breakpoints,
+  class: className = ""
+} = Astro.props;
+
+// Convert objects to JSON for attributes because Web Components only accept string attributes
+const autoplayAttr = autoplay ? (typeof autoplay === 'object' ? JSON.stringify(autoplay) : 'true') : 'false';
+const paginationAttr = pagination ? JSON.stringify({
+  ...(typeof pagination === 'object' ? pagination : {}),
+  el: '.custom-swiper-pagination',
+  clickable: true
+}) : 'false';
+const breakpointsAttr = breakpoints ? JSON.stringify(breakpoints) : undefined;
+---
+
+<div class="swiper-wrapper-container relative">
+  <swiper-container
+    class={className}
+    slides-per-view={slidesPerView}
+    space-between={spaceBetween}
+    loop={loop ? "true" : "false"}
+    autoplay={autoplayAttr}
+    pagination={paginationAttr}
+    navigation-next-el=".custom-swiper-next"
+    navigation-prev-el=".custom-swiper-prev"
+    breakpoints={breakpointsAttr}
+  >
+    <slot />
+  </swiper-container>
+
+  {pagination && (
+    <div class="custom-swiper-pagination flex justify-center items-center gap-2 mt-8"></div>
+  )}
+
+  {navigation && (
+    <>
+      <button class="custom-swiper-prev absolute top-1/2 -left-8 md:-left-12 -translate-y-1/2 z-10 text-imb hover:text-imb/80 transition-colors cursor-pointer" aria-label="Anterior">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </button>
+      <button class="custom-swiper-next absolute top-1/2 -right-8 md:-right-12 -translate-y-1/2 z-10 text-imb hover:text-imb/80 transition-colors cursor-pointer" aria-label="Siguiente">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+      </button>
+    </>
+  )}
+</div>
+
+<script>
+  import { register } from 'swiper/element/bundle';
+  // Register Swiper custom elements (only needs to be called once per page)
+  register();
+</script>
+
+<style is:global>
+  swiper-container {
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Estilos de Puntos (Paginación Externa) */
+  .custom-swiper-pagination .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    opacity: 0.2;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  .custom-swiper-pagination .swiper-pagination-bullet-active {
+    background-color: #8c2731;
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  /* Estilos para ocultar los botones de navegación si Swiper decide desactivarlos (ej. al inicio o fin) */
+  .swiper-button-disabled {
+    opacity: 0.35;
+    cursor: auto;
+    pointer-events: none;
+  }
+</style>

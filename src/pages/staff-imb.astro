@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Wrapper from '../components/ui/Wrapper.astro';
 import Card from '../components/ui/Card.astro';
+import SwiperCarousel from '../components/ui/SwiperCarousel.astro';
 import FormStaff from '../components/forms/FormStaff.astro';
 import MediaImage from '../components/ui/MediaImage.astro';
 import { Briefcase, GraduationCap, Globe, FileText, Quote, Users } from 'lucide-astro';
@@ -109,12 +110,26 @@ const staff = [
   }
 ];
 
-const testimonial = {
-  quote: "Formar parte de IMB ha sido una experiencia muy valiosa en mi desarrollo profesional. Me brindó la oportunidad de crecer, adquirir nuevas habilidades y desenvolverme en un entorno que impulsa el aprendizaje constante.",
-  author: "Suemy J. Lima Vega",
-  country: "Perú",
-  area: "Bienestar y Responsabilidad Social"
-};
+const testimonials = [
+  {
+    quote: "Formar parte de IMB ha sido una experiencia muy valiosa en mi desarrollo profesional. Me brindó la oportunidad de crecer, adquirir nuevas habilidades y desenvolverme en un entorno que impulsa el aprendizaje constante.",
+    author: "Suemy J. Lima Vega",
+    country: "Perú",
+    area: "Bienestar y Responsabilidad Social"
+  },
+  {
+    quote: "El nivel académico y el enfoque práctico de IMB superaron todas mis expectativas. Es inspirador trabajar con profesionales tan apasionados.",
+    author: "Carlos Martínez",
+    country: "Colombia",
+    area: "Gestión de Proyectos"
+  },
+  {
+    quote: "Una excelente oportunidad para hacer networking con expertos de toda Latinoamérica y potenciar mi perfil profesional a nivel internacional.",
+    author: "Andrea Salazar",
+    country: "México",
+    area: "Finanzas Corporativas"
+  }
+];
 ---
 
 <BaseLayout 
@@ -160,7 +175,6 @@ const testimonial = {
   <!-- Staff Grid Section -->
   <Wrapper class="pt-16 pb-24">
     <div class="text-center mb-16 max-w-2xl mx-auto">
-      <span class="text-xs font-bold text-imb uppercase tracking-widest block mb-3">Conoce al equipo</span>
       <h2 class="font-display text-3xl lg:text-4xl font-bold text-text-primary mb-4 tracking-tight">
         Integrantes del Staff que te acompañan en cada paso
       </h2>
@@ -223,32 +237,41 @@ const testimonial = {
     </div>
   </Wrapper>
 
-  <!-- Testimonials Section (Minimal, Single Item Card, Centered) -->
+  <!-- Testimonials Section -->
   <Wrapper class="bg-surface-0 border-t border-b border-border-subtle py-16 lg:py-24 relative overflow-hidden" full>
-    <div class="relative z-10 max-w-4xl mx-auto px-6">
+    <div class="relative z-10 max-w-6xl mx-auto px-6">
       <div class="text-center mb-12">
-        <span class="text-xs font-bold text-imb uppercase tracking-widest block mb-3">Testimonios del Staff</span>
         <h2 class="font-display text-3xl lg:text-4xl font-bold tracking-tight">Testimonios del Staff IMB</h2>
       </div>
 
-      <div class="max-w-2xl mx-auto">
-        <Card class="p-6 lg:p-8 relative group">
-          <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
-          <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10 text-text-primary">
-            "{testimonial.quote}"
-          </blockquote>
-          <div class="flex items-center gap-4 mt-auto">
-            <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm">
-              <Users size={20} />
-            </div>
-            <div>
-              <h4 class="font-display text-sm font-bold text-text-primary">{testimonial.author}</h4>
-              <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">
-                {testimonial.area} / {testimonial.country}
-              </p>
-            </div>
-          </div>
-        </Card>
+      <div class="max-w-3xl mx-auto">
+        <SwiperCarousel 
+          slidesPerView={1} 
+          spaceBetween={24}
+          autoplay={{ delay: 6000, disableOnInteraction: true }}
+        >
+          {testimonials.map((t) => (
+            <swiper-slide class="h-auto">
+              <Card class="p-6 lg:p-8 relative group h-full flex flex-col">
+                <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
+                <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10 text-text-primary flex-grow">
+                  "{t.quote}"
+                </blockquote>
+                <div class="flex items-center gap-4 mt-auto pt-4 border-t border-border-subtle">
+                  <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm shrink-0">
+                    <Users size={20} />
+                  </div>
+                  <div>
+                    <h4 class="font-display text-sm font-bold text-text-primary">{t.author}</h4>
+                    <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">
+                      {t.area} / {t.country}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </swiper-slide>
+          ))}
+        </SwiperCarousel>
       </div>
     </div>
   </Wrapper>
