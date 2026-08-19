@@ -104,7 +104,7 @@ const { class: className } = Astro.props;
             </svg>
           </div>
           <p class="font-sans text-sm text-text-primary font-semibold mb-1">Haz clic o arrastra archivos a esta área</p>
-          <p class="font-sans text-xs text-text-secondary mb-3">Hasta 5 archivos. Máximo 10 MB en total.</p>
+          <p class="font-sans text-xs text-text-secondary mb-3">Hasta 5 archivos. Máximo 1 MB en total.</p>
           <p class="font-sans text-xs text-text-secondary max-w-md leading-relaxed">Bases, constancia de tercio o quinto superior, certificados o CV documentado.</p>
           <input type="file" id="documentos-input" name="documentos" multiple class="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
         </div>
@@ -252,6 +252,14 @@ const { class: className } = Astro.props;
 
       try {
         const formData = new FormData(form);
+        
+        // Validación de tamaño máximo de archivo (1MB en total)
+        let totalSize = 0;
+        selectedFiles.forEach(f => totalSize += f.size);
+        if (totalSize > 1048576) {
+          throw new Error('El peso total de los archivos supera 1 MB. Por favor comprima sus documentos.');
+        }
+
         const { error } = await actions.becarios(formData);
 
         if (error) {
@@ -263,6 +271,13 @@ const { class: className } = Astro.props;
                 spanError.textContent = messages[0];
                 spanError.classList.remove('hidden');
               }
+            }
+            
+            // Hacer scroll hacia el primer error visible
+            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
+            if (firstErrorSpan) {
+              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
+              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
             return;
           }

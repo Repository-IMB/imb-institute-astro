@@ -1,4 +1,5 @@
 import { defineAction, ActionError } from 'astro:actions';
+import { buildGenericEmail } from '../lib/email/templates/generic';
 import { z } from 'astro/zod';
 import { env } from 'cloudflare:workers';
 import { insertSubmission } from '../lib/db';
@@ -55,6 +56,14 @@ export const contactoActions = {
       const cursoNombre = context.url.searchParams.get('cursoNombre') || input.cursoNombre;
       const data = { ...input, cursoNombre };
       const id = await insertSubmission(db, 'asesor', data);
+      
+      const emailTemplate = buildGenericEmail('Asesor', data);
+      try {
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'asesor' });
+      } catch (err) {
+        console.error('[asesor] Error enviando correo:', err);
+      }
+      
       return { success: true, id };
     }
   }),

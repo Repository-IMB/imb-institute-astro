@@ -1,4 +1,7 @@
 import { defineAction, ActionError } from 'astro:actions';
+import { sendMail } from '../lib/email';
+import { buildGenericEmail } from '../lib/email/templates/generic';
+import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
 import { insertSubmission } from '../lib/db';
 import { getDB } from './utils';
@@ -26,6 +29,12 @@ export const academicoActions = {
     handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'matricula', input);
+      const emailTemplate = buildGenericEmail('Matricula', input);
+      try {
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'matricula' });
+      } catch (err) {
+        console.error('[matricula] Error enviando correo:', err);
+      }
       return { success: true, id };
     }
   }),
@@ -69,6 +78,12 @@ export const academicoActions = {
       };
 
       const id = await insertSubmission(db, 'becarios', data);
+      const emailTemplate = buildGenericEmail('Programa_Becarios', data);
+      try {
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'becarios' });
+      } catch (err) {
+        console.error('[becarios] Error enviando correo:', err);
+      }
       return { success: true, id };
     }
   })

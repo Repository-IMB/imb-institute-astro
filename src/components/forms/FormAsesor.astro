@@ -94,6 +94,13 @@ const { cursoNombre, class: className } = Astro.props;
                 spanError.classList.remove('hidden');
               }
             }
+            
+            // Hacer scroll hacia el primer error visible
+            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
+            if (firstErrorSpan) {
+              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
+              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
             return;
           }
           throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');

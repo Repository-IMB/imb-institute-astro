@@ -117,6 +117,13 @@ const { class: className } = Astro.props;
 
       try {
         const formData = new FormData(form);
+        
+        // Validación de tamaño máximo de archivo (1MB)
+        const cvFile = formData.get('cv_pdf');
+        if (cvFile && cvFile.size > 1048576) {
+          throw new Error('El archivo PDF pesa demasiado. El límite es 1 MB.');
+        }
+
         const { error } = await actions.staff(formData);
 
         if (error) {
@@ -128,6 +135,13 @@ const { class: className } = Astro.props;
                 spanError.textContent = messages[0];
                 spanError.classList.remove('hidden');
               }
+            }
+            
+            // Hacer scroll hacia el primer error visible
+            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
+            if (firstErrorSpan) {
+              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
+              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
             return;
           }
