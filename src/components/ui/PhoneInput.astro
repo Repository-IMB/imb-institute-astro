@@ -11,7 +11,7 @@ const {
   id = "phone-input", 
   name = "telefono", 
   label = "Teléfono", 
-  required = true,
+  required = false,
   class: className = ""
 } = Astro.props;
 
@@ -37,7 +37,7 @@ const inputClasses = "w-full pl-3 pr-4 py-2 bg-transparent border-0 border-b-2 b
     <!-- Hidden input to store the full E.164 formatted number -->
     <input type="hidden" name={`${name}_full`} id={`${id}-full`} />
     <!-- Validation error message container -->
-    <div id={`${id}-error`} class="hidden mt-1 text-xs text-imb font-medium absolute top-full left-0"></div>
+    <div id={`${id}-error`} data-error-for={name} class="hidden mt-1 text-xs text-rose-600 font-medium absolute top-full left-0"></div>
   </div>
 </div>
 

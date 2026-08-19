@@ -26,6 +26,7 @@ pnpm-debug.log*
 
 # Files only used for AI agent context (not project source)
 CONTENT.MD
+CURSOS_API.MD
 
 # Cloudflare Wrangler local state (D1 local DB, KV cache, etc.)
 .wrangler/
@@ -34,4 +35,4 @@ CONTENT.MD
 .agents/
 .gemini/
 .antigravitycli/
-logs/
+logs/scratch/

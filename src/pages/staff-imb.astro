@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Wrapper from '../components/ui/Wrapper.astro';
 import Card from '../components/ui/Card.astro';
 import FormStaff from '../components/forms/FormStaff.astro';
+import MediaImage from '../components/ui/MediaImage.astro';
 import { Briefcase, GraduationCap, Globe, FileText, Quote, Users } from 'lucide-astro';
 
 export const prerender = true;
@@ -124,16 +125,12 @@ const testimonial = {
   <!-- Hero Section -->
   <Wrapper class="relative bg-gray-950 overflow-hidden pt-20 pb-24" full>
     <div class="absolute inset-0 z-0">
-      <div class="absolute inset-0 bg-gradient-to-tr from-gray-950 via-gray-900 to-imb/20"></div>
-      <!-- Subtle grid overlay -->
-      <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      <MediaImage src="/images/colleagues-working-together-project.webp" alt="Colleagues working together" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-gray-950/90"></div>
     </div>
     <div class="max-w-[1100px] mx-auto text-center relative z-10">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-imb/10 border border-imb/30 text-red-400 mb-6 tracking-wide uppercase">
-        Docentes y Consultores
-      </span>
       <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight">
-        Staff de Profesionales de <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">Confianza</span> de IMB
+        Staff de Profesionales de <span class="text-imb">Confianza</span> de IMB
       </h1>
       <p class="font-sans text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
         Un equipo de expertos con trayectoria comprobada que combina calidad, excelencia académica y experiencia empresarial en toda América Latina dentro de IMB Institute.

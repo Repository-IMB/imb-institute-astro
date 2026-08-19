@@ -14,7 +14,7 @@ const {
   name,
   type = 'text',
   placeholder,
-  required = true,
+  required = false,
   rows,
   class: className,
 } = Astro.props;
@@ -43,4 +43,6 @@ const inputClasses = "w-full px-0 py-2 bg-transparent border-0 border-b-2 border
       placeholder={placeholder}
     />
   )}
+
+  <span class="text-rose-600 text-xs hidden mt-1 font-medium" data-error-for={name}></span>
 </div>

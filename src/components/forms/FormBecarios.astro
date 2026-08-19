@@ -1,7 +1,6 @@
 ---
 import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
-import Button from '../ui/Button.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
 
 export interface Props {
@@ -11,109 +10,76 @@ export interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class:list={["relative", className]}>
-  <!-- Success Message State -->
-  <div id="becarios-success-message" class="hidden text-center py-12 px-6 animate-fade-in">
-    <div class="w-16 h-16 bg-red-50 text-imb rounded-full flex items-center justify-center mx-auto mb-6 border border-red-100">
-      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 6 9 17l-5-5"/>
+<div id="form-becarios-wrapper" class:list={[className]}>
+  <div id="form-becarios-success" class="hidden flex-col items-center text-center py-12 px-6 gap-4">
+    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
+      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
       </svg>
     </div>
-    <h3 class="font-display text-2xl font-bold text-text-primary mb-3">¡Postulación Enviada!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-md mx-auto">
+    <h3 class="font-display text-2xl font-bold text-text-primary">¡Postulación Enviada!</h3>
+    <p class="font-sans text-text-secondary leading-relaxed max-w-md">
       Tu postulación al Programa de Becarios IMB ha sido registrada con éxito. Nuestro comité académico evaluará tu perfil y documentos y se pondrá en contacto contigo muy pronto.
     </p>
   </div>
 
-  <!-- Main Form -->
-  <form
-    id="becarios-form"
-    method="POST"
-    enctype="multipart/form-data"
-    class="space-y-8"
-  >
-    <!-- Personal Information Section -->
+  <form id="form-becarios" method="POST" class="space-y-8" novalidate>
     <div class="space-y-6">
       <h3 class="font-display text-lg font-bold text-text-primary border-b border-border-subtle pb-3">1. Datos Personales</h3>
-      
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <InputField label="Nombre" name="nombres" placeholder="Ej. Juan Andrés" />
         <InputField label="Apellidos" name="apellidos" placeholder="Ej. Mendoza Rojas" />
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <InputField label="DNI / Pasaporte" name="documento" placeholder="Ej. 72465198" />
         <InputField label="Fecha de Nacimiento" name="fecha_nacimiento" type="date" />
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <InputField label="Correo electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
         <PhoneInput label="Número de Teléfono / WhatsApp" name="whatsapp" id="becarios-whatsapp" />
       </div>
     </div>
 
-    <!-- Academic Information Section -->
     <div class="space-y-6 pt-6">
       <h3 class="font-display text-lg font-bold text-text-primary border-b border-border-subtle pb-3">2. Perfil Académico</h3>
-      
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <InputField label="Universidad / Institución" name="universidad" placeholder="Ej. Universidad Nacional Mayor de San Marcos" />
         <InputField label="Carrera Universitaria" name="carrera" placeholder="Ej. Ingeniería Industrial" />
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <SelectField
           label="Ciclo Actual / Semestre"
           name="ciclo"
           options={[
             { value: '', label: 'Selecciona tu ciclo actual...' },
-            '5to Ciclo',
-            '6to Ciclo',
-            '7mo Ciclo',
-            '8vo Ciclo',
-            '9no Ciclo',
-            '10mo Ciclo',
-            'Egresado',
-            'Bachiller'
+            '5to Ciclo', '6to Ciclo', '7mo Ciclo', '8vo Ciclo',
+            '9no Ciclo', '10mo Ciclo', 'Egresado', 'Bachiller'
           ]}
         />
-        <InputField label="Capítulo o Asociación Estudiantil a la que pertenece" name="asociacion" placeholder="Ej. Capítulo IEEE IMB / Ninguno" />
+        <InputField label="Capítulo o Asociación Estudiantil" name="asociacion" placeholder="Ej. Capítulo IEEE IMB / Ninguno" />
       </div>
     </div>
 
-    <!-- Availability Section -->
     <div class="space-y-6 pt-6">
       <h3 class="font-display text-lg font-bold text-text-primary border-b border-border-subtle pb-3">3. Disponibilidad Horaria</h3>
-      
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="space-y-3">
           <label class="block font-sans text-sm font-medium text-text-secondary">Lunes a Viernes <span class="text-imb">*</span></label>
           <div class="flex flex-wrap gap-4 pt-1">
             {['Mañana', 'Tarde', 'Noche'].map((time) => (
               <label class="flex items-center gap-2 cursor-pointer font-sans text-sm text-text-primary">
-                <input 
-                  type="checkbox" 
-                  name="horario_semana" 
-                  value={time} 
-                  class="w-4 h-4 text-imb bg-surface-50 rounded border-gray-300 focus:ring-imb/20 cursor-pointer" 
-                />
+                <input type="checkbox" name="horario_semana" value={time} class="w-4 h-4 text-imb bg-surface-50 rounded border-gray-300 focus:ring-imb/20 cursor-pointer" />
                 {time}
               </label>
             ))}
           </div>
         </div>
-
         <div class="space-y-3">
           <label class="block font-sans text-sm font-medium text-text-secondary">Sábados y Domingos <span class="text-imb">*</span></label>
           <div class="flex flex-wrap gap-4 pt-1">
             {['Mañana', 'Tarde', 'Noche'].map((time) => (
               <label class="flex items-center gap-2 cursor-pointer font-sans text-sm text-text-primary">
-                <input 
-                  type="checkbox" 
-                  name="horario_finde" 
-                  value={time} 
-                  class="w-4 h-4 text-imb bg-surface-50 rounded border-gray-300 focus:ring-imb/20 cursor-pointer" 
-                />
+                <input type="checkbox" name="horario_finde" value={time} class="w-4 h-4 text-imb bg-surface-50 rounded border-gray-300 focus:ring-imb/20 cursor-pointer" />
                 {time}
               </label>
             ))}
@@ -122,156 +88,104 @@ const { class: className } = Astro.props;
       </div>
     </div>
 
-    <!-- Motivation Section -->
     <div class="space-y-6 pt-6">
       <h3 class="font-display text-lg font-bold text-text-primary border-b border-border-subtle pb-3">4. Declaración de Interés</h3>
-      <InputField 
-        label="Motivación" 
-        name="motivacion" 
-        type="textarea" 
-        rows={4} 
-        placeholder="Breve descripción de por qué desea participar en el Programa de Becarios IMB..." 
-      />
+      <InputField label="Motivación" name="motivacion" type="textarea" rows={4} placeholder="Breve descripción de por qué desea participar en el Programa de Becarios IMB..." />
     </div>
 
-    <!-- Documents Upload Section -->
     <div class="space-y-6 pt-6">
       <h3 class="font-display text-lg font-bold text-text-primary border-b border-border-subtle pb-3">5. Documentos de Respaldo</h3>
-      
       <div class="space-y-2">
-        <label class="block font-sans text-sm font-medium text-text-secondary">
-          Documentos <span class="text-imb">*</span>
-        </label>
+        <label class="block font-sans text-sm font-medium text-text-secondary">Documentos <span class="text-imb">*</span></label>
         <div id="file-drop-zone" class="border-2 border-dashed border-border-subtle rounded-2xl p-8 text-center cursor-pointer hover:border-imb hover:bg-surface-50 transition-all duration-300 group flex flex-col items-center">
           <div class="w-12 h-12 rounded-xl bg-surface-50 flex items-center justify-center text-icon-muted mb-3 group-hover:text-imb transition-colors border border-border-subtle">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
-              <path d="M12 12v9"/>
-              <path d="m16 16-4-4-4 4"/>
+              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4-4-4 4"/>
             </svg>
           </div>
-          <p class="font-sans text-sm text-text-primary font-semibold mb-1">Haz clic o arrastra archivos a esta área para subirlos</p>
-          <p class="font-sans text-xs text-text-secondary mb-3">Puedes subir hasta 5 archivos. Tamaño máximo de 10 MB en total.</p>
-          <p class="font-sans text-xs text-text-secondary max-w-md leading-relaxed">
-            Adjunte aquí las bases y otros documentos, como constancia de tercio o quinto superior, certificados o CV documentado.
-          </p>
-          <input 
-            type="file" 
-            id="documentos-input" 
-            name="documentos" 
-            multiple 
-            required 
-            class="hidden" 
-            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" 
-          />
+          <p class="font-sans text-sm text-text-primary font-semibold mb-1">Haz clic o arrastra archivos a esta área</p>
+          <p class="font-sans text-xs text-text-secondary mb-3">Hasta 5 archivos. Máximo 10 MB en total.</p>
+          <p class="font-sans text-xs text-text-secondary max-w-md leading-relaxed">Bases, constancia de tercio o quinto superior, certificados o CV documentado.</p>
+          <input type="file" id="documentos-input" name="documentos" multiple class="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
         </div>
         <div id="file-list" class="space-y-2 mt-4"></div>
       </div>
     </div>
 
-    <!-- Error Message Container -->
-    <div id="becarios-form-error" class="hidden p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm"></div>
+    <div id="form-becarios-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
+      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span id="form-becarios-error-msg"></span>
+    </div>
 
-    <!-- Submit Button -->
     <div class="pt-6">
-      <Button
+      <button
+        id="form-becarios-btn"
         type="submit"
-        id="becarios-submit-btn"
-        class="w-full py-4 text-center justify-center"
+        class="w-full py-4 text-center inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        Enviar Postulación
-      </Button>
+        <span class="btn-text">Enviar Postulación</span>
+        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+      </button>
     </div>
   </form>
 </div>
 
 <script>
-  import { actions } from 'astro:actions';
+  import { actions, isInputError } from 'astro:actions';
 
-  const initBecariosForm = () => {
-    const form = document.getElementById('becarios-form') as HTMLFormElement;
+  function initBecarios() {
+    const form = document.getElementById('form-becarios') as HTMLFormElement;
     if (!form || form.dataset.initialized) return;
     form.dataset.initialized = 'true';
 
     const dropZone = document.getElementById('file-drop-zone');
     const fileInput = document.getElementById('documentos-input') as HTMLInputElement;
     const fileList = document.getElementById('file-list');
-    const successMsg = document.getElementById('becarios-success-message');
-    const errorMsg = document.getElementById('becarios-form-error');
-    const submitBtn = document.getElementById('becarios-submit-btn');
-
     let selectedFiles: File[] = [];
 
-    // Trigger file selection on drop zone click
     dropZone?.addEventListener('click', () => fileInput?.click());
-
-    // Highlight drop zone on drag over
-    dropZone?.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('border-imb', 'bg-surface-50');
-    });
-
-    dropZone?.addEventListener('dragleave', () => {
-      dropZone.classList.remove('border-imb', 'bg-surface-50');
-    });
-
+    dropZone?.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-imb', 'bg-surface-50'); });
+    dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('border-imb', 'bg-surface-50'));
     dropZone?.addEventListener('drop', (e) => {
       e.preventDefault();
       dropZone.classList.remove('border-imb', 'bg-surface-50');
-      if (e.dataTransfer?.files) {
-        addFiles(e.dataTransfer.files);
-      }
+      if (e.dataTransfer?.files) addFiles(e.dataTransfer.files);
     });
-
-    fileInput?.addEventListener('change', () => {
-      if (fileInput.files) {
-        addFiles(fileInput.files);
-      }
-    });
+    fileInput?.addEventListener('change', () => { if (fileInput.files) addFiles(fileInput.files); });
 
     function addFiles(files: FileList) {
       for (let i = 0; i < files.length; i++) {
-        if (selectedFiles.length >= 5) {
-          alert('Solo puedes subir un máximo de 5 archivos.');
-          break;
-        }
+        if (selectedFiles.length >= 5) { alert('Solo puedes subir un máximo de 5 archivos.'); break; }
         const file = files[i];
-        
-        // Prevent duplicate file names
-        if (!selectedFiles.some(f => f.name === file.name)) {
-          selectedFiles.push(file);
-        }
+        if (!selectedFiles.some((f) => f.name === file.name)) selectedFiles.push(file);
       }
       updateFileList();
       syncFileInput();
     }
 
-    function removeFile(index: number) {
-      selectedFiles.splice(index, 1);
-      updateFileList();
-      syncFileInput();
-    }
+    function removeFile(index: number) { selectedFiles.splice(index, 1); updateFileList(); syncFileInput(); }
 
     function syncFileInput() {
-      // Sync file list back to the file input element via DataTransfer API
-      const dataTransfer = new DataTransfer();
-      selectedFiles.forEach(file => dataTransfer.items.add(file));
-      if (fileInput) fileInput.files = dataTransfer.files;
+      const dt = new DataTransfer();
+      selectedFiles.forEach((f) => dt.items.add(f));
+      if (fileInput) fileInput.files = dt.files;
     }
 
-    function formatBytes(bytes: number, decimals = 2) {
+    function formatBytes(bytes: number) {
       if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const dm = decimals < 0 ? 0 : decimals;
       const sizes = ['Bytes', 'KB', 'MB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
     function updateFileList() {
       if (!fileList) return;
       fileList.innerHTML = '';
-      
       selectedFiles.forEach((file, index) => {
         const item = document.createElement('div');
         item.className = 'flex items-center justify-between p-3 bg-surface-0 border border-border-subtle rounded-xl text-sm';
@@ -283,99 +197,94 @@ const { class: className } = Astro.props;
               <p class="text-xs text-text-secondary">${formatBytes(file.size)}</p>
             </div>
           </div>
-          <button type="button" class="text-xs font-bold text-imb hover:underline ml-2 shrink-0 cursor-pointer remove-file-btn" data-index="${index}">
-            Eliminar
-          </button>
-        `;
+          <button type="button" class="text-xs font-bold text-imb hover:underline ml-2 shrink-0 cursor-pointer remove-file-btn" data-index="${index}">Eliminar</button>`;
         fileList.appendChild(item);
       });
-
-      // Bind delete events
-      fileList.querySelectorAll('.remove-file-btn').forEach(btn => {
+      fileList.querySelectorAll('.remove-file-btn').forEach((btn) => {
         btn.addEventListener('click', (e) => {
-          const index = parseInt((e.target as HTMLElement).dataset.index || '0');
-          removeFile(index);
-        });
+          removeFile(parseInt((e.target as HTMLElement).dataset.index || '0'));
+    });
+
+    // Ocultar error cuando el usuario modifica un campo
+    form.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+      if (target.name) {
+        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
+        if (errorSpan && !errorSpan.classList.contains('hidden')) {
+          errorSpan.classList.add('hidden');
+        }
+      }
+    });
       });
     }
 
-    // Submit form handler
-    form?.addEventListener('submit', async (e) => {
+    const errorEl = document.getElementById('form-becarios-error');
+    const errorMsg = document.getElementById('form-becarios-error-msg');
+    const successEl = document.getElementById('form-becarios-success');
+    const btn = document.getElementById('form-becarios-btn') as HTMLButtonElement;
+    const btnText = btn?.querySelector('.btn-text');
+    const btnSpinner = btn?.querySelector('.btn-spinner');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Basic validation for schedules checkboxes
+
+
       const horarioSemana = form.querySelectorAll('input[name="horario_semana"]:checked');
       const horarioFinde = form.querySelectorAll('input[name="horario_finde"]:checked');
-
       if (horarioSemana.length === 0 || horarioFinde.length === 0) {
-        if (errorMsg) {
-          errorMsg.textContent = 'Debe seleccionar al menos una opción de disponibilidad horaria para Lunes a Viernes y otra para Sábados y Domingos.';
-          errorMsg.classList.remove('hidden');
-        }
+        if (errorMsg) errorMsg.textContent = 'Debes seleccionar al menos una opción de disponibilidad para Lunes a Viernes y para Sábados y Domingos.';
+        errorEl?.classList.remove('hidden');
+        errorEl?.classList.add('flex');
         return;
       }
-
       if (selectedFiles.length === 0) {
-        if (errorMsg) {
-          errorMsg.textContent = 'Debe subir al menos un documento (bases, constancia o CV).';
-          errorMsg.classList.remove('hidden');
-        }
+        if (errorMsg) errorMsg.textContent = 'Debes subir al menos un documento (bases, constancia o CV).';
+        errorEl?.classList.remove('hidden');
+        errorEl?.classList.add('flex');
         return;
       }
 
-      if (errorMsg) errorMsg.classList.add('hidden');
-      if (submitBtn) {
-        submitBtn.setAttribute('disabled', 'true');
-        submitBtn.innerHTML = '<span class="inline-flex items-center gap-2"><svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Enviando...</span>';
-      }
+      errorEl?.classList.add('hidden');
+      errorEl?.classList.remove('flex');
+      btn.disabled = true;
+      if (btnText) btnText.textContent = 'Enviando...';
+      btnSpinner?.classList.remove('hidden');
 
       try {
         const formData = new FormData(form);
         const { error } = await actions.becarios(formData);
 
         if (error) {
-          if (errorMsg) {
-            errorMsg.textContent = error.message || 'Error al procesar la solicitud.';
-            errorMsg.classList.remove('hidden');
+          if (isInputError(error)) {
+            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
+            for (const [field, messages] of Object.entries(error.fields)) {
+              const spanError = form.querySelector(`[data-error-for="${field}"]`);
+              if (spanError && messages) {
+                spanError.textContent = messages[0];
+                spanError.classList.remove('hidden');
+              }
+            }
+            return;
           }
-        } else {
-          // Success
-          form.classList.add('hidden');
-          successMsg?.classList.remove('hidden');
-          successMsg?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
         }
-      } catch (err) {
-        if (errorMsg) {
-          errorMsg.textContent = 'Ocurrió un error inesperado al enviar el formulario.';
-          errorMsg.classList.remove('hidden');
-        }
+
+        form.classList.add('hidden');
+        successEl?.classList.remove('hidden');
+        successEl?.classList.add('flex');
+        
+      } catch (err: any) {
+        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
+        errorEl?.classList.remove('hidden');
+        errorEl?.classList.add('flex');
       } finally {
-        if (submitBtn) {
-          submitBtn.removeAttribute('disabled');
-          submitBtn.textContent = 'Enviar Postulación';
-        }
+        btn.disabled = false;
+        if (btnText) btnText.textContent = 'Enviar Postulación';
+        btnSpinner?.classList.add('hidden');
       }
     });
-  };
+  }
 
-  // Run on transitions or initial load
-  document.addEventListener('astro:page-load', initBecariosForm);
-  initBecariosForm();
+  document.addEventListener('astro:page-load', initBecarios);
+  initBecarios();
 </script>
-
-<style>
-  .animate-fade-in {
-    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

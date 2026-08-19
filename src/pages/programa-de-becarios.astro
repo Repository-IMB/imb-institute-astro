@@ -4,6 +4,7 @@ import Wrapper from '../components/ui/Wrapper.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import FormBecarios from '../components/forms/FormBecarios.astro';
+import MediaImage from '../components/ui/MediaImage.astro';
 import { Users2, Award, FileText, Download, CheckCircle2 } from 'lucide-astro';
 
 export const prerender = true;
@@ -14,11 +15,14 @@ export const prerender = true;
   description="Postula al Programa de Becarios IMB. Accede a formación de alta calidad en calidad, mantenimiento y gestión, y potencia tu crecimiento académico."
 >
   <!-- Hero Header -->
-  <Wrapper as="div" class="bg-gray-950 text-white text-center py-20 lg:py-24" full>
-    <div class="max-w-3xl mx-auto relative z-10">
-      <span class="text-xs font-bold text-red-400 uppercase tracking-widest block mb-3">Convocatoria de Excelencia</span>
-      <h1 class="font-display text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">
-        Programa de <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">Becarios</span> IMB
+  <Wrapper as="div" class="relative bg-gray-950 overflow-hidden py-20 lg:py-24" full>
+    <div class="absolute inset-0 z-0">
+      <MediaImage src="https://recursos.imbinstitute.com/5dc4ba098ea8c8c4bd4396de53ef228b/bg-programa-de-becarios.webp" alt="Programa de Becarios" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-gray-950/90"></div>
+    </div>
+    <div class="max-w-3xl mx-auto text-center relative z-10">
+      <h1 class="font-display text-4xl lg:text-5xl font-extrabold text-white mb-6 tracking-tight">
+        Programa de <span class="text-imb">Becarios</span> IMB
       </h1>
       <p class="font-sans text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
         Impulsamos el desarrollo de talentos sobresalientes brindando acceso a especializaciones académicas y oportunidades de aprendizaje colaborativo.

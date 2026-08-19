@@ -1,7 +1,6 @@
 ---
 import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
-import Button from '../ui/Button.astro';
 import { Upload } from 'lucide-astro';
 
 export interface Props {
@@ -11,157 +10,157 @@ export interface Props {
 const { class: className } = Astro.props;
 ---
 
-<form id="postulacionForm" class:list={["space-y-6", className]}>
-  <InputField 
-    label="Nombre Completo" 
-    name="nombre_completo" 
-    required={true} 
-    placeholder="Ej. Juan Pérez" 
-  />
+<div id="form-staff-wrapper" class:list={[className]}>
+  <form id="form-staff" method="POST" class:list={["space-y-6", className]} novalidate>
+    <InputField label="Nombre Completo" name="nombre_completo" placeholder="Ej. Juan Pérez" />
+    <InputField label="Correo Electrónico" name="correo_electronico" type="email" placeholder="juan@correo.com" />
 
-  <InputField 
-    label="Correo Electrónico" 
-    name="correo_electronico" 
-    type="email" 
-    required={true} 
-    placeholder="juan@correo.com" 
-  />
+    <SelectField
+      label="Área de postulación"
+      name="area_postulacion"
+      options={[
+        { value: '', label: 'Seleccionar área' },
+        'Docentes', 'Asesores de Venta', 'Growth', 'Product Management',
+        'Marketing', 'Responsabilidad Social', 'Otro'
+      ]}
+    />
 
-  <SelectField
-    label="Área de postulación"
-    name="area_postulacion"
-    required={true}
-    options={[
-      { value: '', label: 'Seleccionar área' },
-      'Docentes',
-      'Asesores de Venta',
-      'Growth',
-      'Product Management',
-      'Marketing',
-      'Responsabilidad Social',
-      'Otro'
-    ]}
-  />
-
-  <!-- CV File Input -->
-  <div class="relative group">
-    <label class="block font-sans text-sm font-medium text-text-secondary mb-2">
-      Adjuntar CV PDF <span class="text-imb">*</span>
-    </label>
-    <label class="imb-custom-file flex items-center justify-between border-2 border-dashed border-border-subtle rounded-xl p-4 cursor-pointer hover:border-imb transition-colors group/file bg-surface-50 hover:bg-red-50/10">
-      <input
-        type="file"
-        name="cv_pdf"
-        accept=".pdf,application/pdf"
-        required
-        class="hidden"
-        id="cv-file-input"
-      />
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary group-hover/file:text-imb group-hover/file:border-imb transition-all duration-300">
-          <Upload size={18} />
+    <div class="relative group">
+      <label class="block font-sans text-sm font-medium text-text-secondary mb-2">
+        Adjuntar CV PDF <span class="text-imb">*</span>
+      </label>
+      <label class="imb-custom-file flex items-center justify-between border-2 border-dashed border-border-subtle rounded-xl p-4 cursor-pointer hover:border-imb transition-colors group/file bg-surface-50 hover:bg-red-50/10">
+        <input type="file" name="cv_pdf" accept=".pdf,application/pdf" required class="hidden" id="cv-file-input" />
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary group-hover/file:text-imb group-hover/file:border-imb transition-all duration-300">
+            <Upload size={18} />
+          </div>
+          <div class="text-left">
+            <span class="block text-xs font-bold text-text-primary group-hover/file:text-imb transition-colors">Seleccionar archivo PDF</span>
+            <span id="cv-file-name" class="block text-[10px] text-text-secondary">Sin archivo seleccionado</span>
+          </div>
         </div>
-        <div class="text-left">
-          <span class="block text-xs font-bold text-text-primary group-hover/file:text-imb transition-colors">Seleccionar archivo PDF</span>
-          <span class="block text-[10px] text-text-secondary file-name-display">Sin archivo seleccionado</span>
-        </div>
-      </div>
-      <span class="text-[10px] font-bold text-text-secondary uppercase tracking-wider bg-surface-0 border border-border-subtle rounded px-2.5 py-1.5 shadow-sm group-hover/file:border-imb transition-all">Buscar</span>
-    </label>
-  </div>
-
-  <!-- Alert Messages -->
-  <div id="form-alert" class="hidden rounded-xl p-4 text-sm flex gap-3 items-start border">
-    <div class="alert-icon-success hidden text-green-600">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span class="text-[10px] font-bold text-text-secondary uppercase tracking-wider bg-surface-0 border border-border-subtle rounded px-2.5 py-1.5 shadow-sm group-hover/file:border-imb transition-all">Buscar</span>
+      </label>
     </div>
-    <div class="alert-icon-error hidden text-imb">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    </div>
-    <p id="form-alert-msg" class="leading-snug font-sans text-xs"></p>
-  </div>
 
-  <div class="pt-2">
-    <Button
-      type="submit"
-      class="w-full py-4 text-base font-bold shadow-premium"
-      id="submit-button"
-    >
-      Enviar postulación
-    </Button>
+    <div id="form-staff-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
+      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span id="form-staff-error-msg"></span>
+    </div>
+
+    <div class="pt-2">
+      <button
+        id="form-staff-btn"
+        type="submit"
+        class="w-full py-4 text-base font-bold inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-premium disabled:opacity-60 disabled:cursor-not-allowed"
+      >
+        <span class="btn-text">Enviar postulación</span>
+        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+      </button>
+    </div>
+  </form>
+
+  <div id="form-staff-success" class="hidden flex-col items-center text-center py-8 gap-4">
+    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
+      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <h3 class="font-display text-xl font-bold text-text-primary">¡Postulación enviada!</h3>
+    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
+      Nuestro equipo revisará tu CV y se pondrá en contacto pronto si tu perfil encaja con lo que buscamos.
+    </p>
   </div>
-</form>
+</div>
 
 <script>
-  import { actions } from 'astro:actions';
+  import { actions, isInputError } from 'astro:actions';
 
-  const initForm = () => {
-    const form = document.getElementById('postulacionForm') as HTMLFormElement;
+  function initStaff() {
+    const form = document.getElementById('form-staff') as HTMLFormElement;
+    if (!form || form.dataset.initialized) return;
+    form.dataset.initialized = 'true';
+
     const fileInput = document.getElementById('cv-file-input') as HTMLInputElement;
-    const fileNameDisplay = document.querySelector('.file-name-display');
-    const alertBox = document.getElementById('form-alert');
-    const alertMsg = document.getElementById('form-alert-msg');
-    const successIcon = document.querySelector('.alert-icon-success');
-    const errorIcon = document.querySelector('.alert-icon-error');
-    const submitBtn = document.getElementById('submit-button') as HTMLButtonElement;
+    const fileNameEl = document.getElementById('cv-file-name');
 
-    if (!form || !fileInput) return;
-
-    // Display selected file name
-    fileInput.addEventListener('change', () => {
+    fileInput?.addEventListener('change', () => {
       if (fileInput.files && fileInput.files.length > 0) {
-        fileNameDisplay!.textContent = fileInput.files[0].name;
+        if (fileNameEl) fileNameEl.textContent = fileInput.files[0].name;
       } else {
-        fileNameDisplay!.textContent = 'Sin archivo seleccionado';
+        if (fileNameEl) fileNameEl.textContent = 'Sin archivo seleccionado';
       }
     });
 
-    // Handle form submit
+    const errorEl = document.getElementById('form-staff-error');
+    const errorMsg = document.getElementById('form-staff-error-msg');
+    const successEl = document.getElementById('form-staff-success');
+    const btn = document.getElementById('form-staff-btn') as HTMLButtonElement;
+    const btnText = btn?.querySelector('.btn-text');
+    const btnSpinner = btn?.querySelector('.btn-spinner');
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Reset alert state
-      alertBox?.classList.add('hidden');
-      alertBox?.classList.remove('bg-green-50', 'border-green-200', 'text-green-800', 'bg-red-50', 'border-red-200', 'text-red-800');
-      successIcon?.classList.add('hidden');
-      errorIcon?.classList.add('hidden');
 
-      // Update button state
-      const originalBtnText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Enviando postulación...';
+      errorEl?.classList.add('hidden');
+      errorEl?.classList.remove('flex');
+      btn.disabled = true;
+      if (btnText) btnText.textContent = 'Enviando...';
+      btnSpinner?.classList.remove('hidden');
 
       try {
         const formData = new FormData(form);
-        const { data, error } = await actions.staff(formData);
+        const { error } = await actions.staff(formData);
 
         if (error) {
-          throw new Error(error.message || 'Ocurrió un error al procesar su solicitud.');
+          if (isInputError(error)) {
+            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
+            for (const [field, messages] of Object.entries(error.fields)) {
+              const spanError = form.querySelector(`[data-error-for="${field}"]`);
+              if (spanError && messages) {
+                spanError.textContent = messages[0];
+                spanError.classList.remove('hidden');
+              }
+            }
+            return;
+          }
+          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
         }
 
-        // Success state
-        alertBox?.classList.remove('hidden');
-        alertBox?.classList.add('bg-green-50', 'border-green-200', 'text-green-800');
-        successIcon?.classList.remove('hidden');
-        alertMsg!.textContent = '¡Postulación enviada con éxito! Nuestro equipo revisará su CV y se pondrá en contacto pronto.';
+        form.classList.add('hidden');
+        successEl?.classList.remove('hidden');
+        successEl?.classList.add('flex');
         
-        form.reset();
-        fileNameDisplay!.textContent = 'Sin archivo seleccionado';
       } catch (err: any) {
-        // Error state
-        alertBox?.classList.remove('hidden');
-        alertBox?.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
-        errorIcon?.classList.remove('hidden');
-        alertMsg!.textContent = err.message || 'Error de conexión. Intente nuevamente.';
+        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
+        errorEl?.classList.remove('hidden');
+        errorEl?.classList.add('flex');
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
+        btn.disabled = false;
+        if (btnText) btnText.textContent = 'Enviar postulación';
+        btnSpinner?.classList.add('hidden');
       }
     });
-  };
 
-  // Run on page load and after Astro transitions
-  document.addEventListener('astro:page-load', initForm);
-  // Run immediately for first non-transition page load
-  initForm();
+    // Ocultar error cuando el usuario modifica un campo
+    form.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+      if (target.name) {
+        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
+        if (errorSpan && !errorSpan.classList.contains('hidden')) {
+          errorSpan.classList.add('hidden');
+        }
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initStaff);
+  initStaff();
 </script>

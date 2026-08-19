@@ -3,11 +3,13 @@ import cloudflare from '@astrojs/cloudflare';
 import tailwindv4 from '@tailwindcss/vite';
 
 export default defineConfig({
-  output: 'server',          // necesario para Actions y D1
+  output: 'server',
+  actions: true,
   adapter: cloudflare({
     imageService: 'passthrough',
     platformProxy: {
-      enabled: true
+      enabled: true,
+      configPath: 'wrangler.jsonc'
     }
   }),
   image: {

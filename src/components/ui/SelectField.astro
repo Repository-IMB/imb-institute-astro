@@ -11,7 +11,7 @@ const {
   label,
   name,
   options,
-  required = true,
+  required = false,
   class: className,
 } = Astro.props;
 
@@ -33,4 +33,5 @@ const selectClasses = "w-full px-0 py-2 bg-transparent border-0 border-b-2 borde
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute right-0 bottom-3 w-5 h-5 text-icon-muted pointer-events-none">
     <path d="m6 9 6 6 6-6"/>
   </svg>
+  <span class="text-rose-600 text-xs hidden mt-1 font-medium" data-error-for={name}></span>
 </div>
