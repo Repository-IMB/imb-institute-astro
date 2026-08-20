@@ -5,6 +5,7 @@ import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
 import { insertSubmission } from '../lib/db';
 import { getDB } from './utils';
+import { Buffer } from 'node:buffer';
 
 export const academicoActions = {
   matricula: defineAction({
@@ -61,9 +62,19 @@ export const academicoActions = {
       
       const formData = await context.request.clone().formData();
       const files = formData.getAll('documentos') as File[];
-      const fileMetadata = files
-        .filter(f => f.name && f.size > 0)
-        .map(f => ({ name: f.name, size: f.size, type: f.type }));
+      const validFiles = files.filter(f => f.name && f.size > 0);
+      const fileMetadata = validFiles.map(f => ({ name: f.name, size: f.size, type: f.type }));
+      
+      const attachments = await Promise.all(
+        validFiles.map(async (f) => {
+          const arrayBuffer = await f.arrayBuffer();
+          return {
+            filename: f.name,
+            contentType: f.type,
+            content: Buffer.from(arrayBuffer).toString('base64')
+          };
+        })
+      );
 
       if (fileMetadata.length === 0) {
         throw new ActionError({
@@ -80,7 +91,7 @@ export const academicoActions = {
       const id = await insertSubmission(db, 'becarios', data);
       const emailTemplate = buildEmail('Programa_Becarios', data);
       try {
-        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'becarios' });
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'becarios', attachments });
       } catch (err) {
         console.error('[becarios] Error enviando correo:', err);
       }

@@ -5,6 +5,7 @@ import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
 import { insertSubmission } from '../lib/db';
 import { getDB } from './utils';
+import { Buffer } from 'node:buffer';
 
 export const institucionalActions = {
   soporte: defineAction({
@@ -108,6 +109,16 @@ export const institucionalActions = {
       const fileMetadata = file && file.name && file.size > 0
         ? { name: file.name, size: file.size, type: file.type }
         : null;
+        
+      let attachments: any[] = [];
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        attachments.push({
+          filename: file.name,
+          contentType: file.type,
+          content: Buffer.from(arrayBuffer).toString('base64')
+        });
+      }
 
       if (!fileMetadata) {
         throw new ActionError({
@@ -124,7 +135,7 @@ export const institucionalActions = {
       const id = await insertSubmission(db, 'staff', data);
       const emailTemplate = buildEmail('Postulacion_Staff', data);
       try {
-        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'staff' });
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'staff', attachments });
       } catch (err) {
         console.error('[staff] Error enviando correo:', err);
       }
