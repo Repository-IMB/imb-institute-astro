@@ -13,7 +13,7 @@ export interface SendMailOptions {
   htmlContent: string;
   textContent?: string;
   tag?: string;
-  attachments?: { filename: string; content: string; contentType?: string }[];
+  attachment?: { name: string; content?: string; url?: string }[];
 }
 
 /**

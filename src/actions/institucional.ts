@@ -118,12 +118,11 @@ export const institucionalActions = {
         ? { name: file.name, size: file.size, type: file.type }
         : null;
         
-      let attachments: any[] = [];
+      let attachment: any[] = [];
       if (file && file.size > 0) {
         const arrayBuffer = await file.arrayBuffer();
-        attachments.push({
-          filename: file.name,
-          contentType: file.type,
+        attachment.push({
+          name: file.name,
           content: arrayBufferToBase64(arrayBuffer)
         });
       }
@@ -143,7 +142,7 @@ export const institucionalActions = {
       const id = await insertSubmission(db, 'staff', data);
       const emailTemplate = buildEmail('Postulacion_Staff', data);
       try {
-        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'staff', attachments });
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'staff', attachment });
       } catch (err) {
         console.error('[staff] Error enviando correo:', err);
       }

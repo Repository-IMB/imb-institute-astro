@@ -73,12 +73,11 @@ export const academicoActions = {
       const validFiles = files.filter(f => f.name && f.size > 0);
       const fileMetadata = validFiles.map(f => ({ name: f.name, size: f.size, type: f.type }));
       
-      const attachments = await Promise.all(
+      const attachment = await Promise.all(
         validFiles.map(async (f) => {
           const arrayBuffer = await f.arrayBuffer();
           return {
-            filename: f.name,
-            contentType: f.type,
+            name: f.name,
             content: arrayBufferToBase64(arrayBuffer)
           };
         })
@@ -105,7 +104,7 @@ export const academicoActions = {
       const id = await insertSubmission(db, 'becarios', data);
       const emailTemplate = buildEmail('Programa_Becarios', data);
       try {
-        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'becarios', attachments });
+        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'becarios', attachment });
       } catch (err) {
         console.error('[becarios] Error enviando correo:', err);
       }
