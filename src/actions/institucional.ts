@@ -5,7 +5,15 @@ import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
 import { insertSubmission } from '../lib/db';
 import { getDB } from './utils';
-import { Buffer } from 'node:buffer';
+
+function arrayBufferToBase64(buffer: ArrayBuffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
 
 export const institucionalActions = {
   soporte: defineAction({
@@ -116,7 +124,7 @@ export const institucionalActions = {
         attachments.push({
           filename: file.name,
           contentType: file.type,
-          content: Buffer.from(arrayBuffer).toString('base64')
+          content: arrayBufferToBase64(arrayBuffer)
         });
       }
 

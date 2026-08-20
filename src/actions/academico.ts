@@ -5,7 +5,15 @@ import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
 import { insertSubmission } from '../lib/db';
 import { getDB } from './utils';
-import { Buffer } from 'node:buffer';
+
+function arrayBufferToBase64(buffer: ArrayBuffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
 
 export const academicoActions = {
   matricula: defineAction({
@@ -53,8 +61,8 @@ export const academicoActions = {
       carrera: z.string().min(2),
       ciclo: z.string().min(1),
       asociacion: z.string().min(2),
-      horario_semana: z.string().or(z.array(z.string().min(1))).optional(),
-      horario_finde: z.string().or(z.array(z.string().min(1))).optional(),
+      horario_semana: z.any().optional(),
+      horario_finde: z.any().optional(),
       motivacion: z.string().min(10),
     }),
     handler: async (input, context) => {
@@ -71,7 +79,7 @@ export const academicoActions = {
           return {
             filename: f.name,
             contentType: f.type,
-            content: Buffer.from(arrayBuffer).toString('base64')
+            content: arrayBufferToBase64(arrayBuffer)
           };
         })
       );
@@ -83,8 +91,14 @@ export const academicoActions = {
         });
       }
 
+      // Astro actions solo toma el último valor de los checkboxes múltiples, así que los extraemos manualmente del FormData
+      const horarioSemanaReal = formData.getAll('horario_semana');
+      const horarioFindeReal = formData.getAll('horario_finde');
+
       const data = {
         ...input,
+        horario_semana: horarioSemanaReal.length ? horarioSemanaReal.join(', ') : 'Ninguno',
+        horario_finde: horarioFindeReal.length ? horarioFindeReal.join(', ') : 'Ninguno',
         documentos: fileMetadata,
       };
 
