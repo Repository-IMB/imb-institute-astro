@@ -2,17 +2,11 @@
  * ARCHIVO DE DISEÑO Y MAQUETACIÓN (template.ts)
  * --------------------------------------------
  * Este archivo se encarga EXCLUSIVAMENTE de transformar los datos de cualquier formulario
- * en un correo HTML bonito con los colores de IMB (rojo/guinda).
+ * en un correo HTML limpio, minimalista y profesional.
  * No envía correos, solo genera el texto HTML.
  */
 
-/**
- * Layout base reutilizable para todos los correos de notificación interna de IMB Institute.
- * Cada template de formulario solo necesita proveer los datos específicos y llamar a buildEmailBase().
- */
-
 const BRAND_COLOR = '#841822';
-const BRAND_COLOR_DARK = '#6a1019';
 
 export interface EmailRow {
   label: string;
@@ -22,17 +16,11 @@ export interface EmailRow {
 }
 
 export interface EmailBaseOptions {
-  /** Título en el header del correo (ej: "Nueva Consulta de Contacto") */
   title: string;
-  /** Texto de descripción que aparece sobre la tabla de datos */
   description: string;
-  /** Filas de datos a mostrar en la tabla */
   rows: EmailRow[];
-  /** Email al que apunta el botón "Responder" */
   replyTo: string;
-  /** Nombre que aparece en el botón (ej: "Carlos") */
   replyName: string;
-  /** Asunto del correo */
   subject: string;
 }
 
@@ -42,32 +30,31 @@ export function buildEmailBase(opts: EmailBaseOptions): {
   textContent: string;
 } {
   const tableRows = opts.rows
-    .map((row, i) => {
-      const bg = i % 2 === 0 ? '#ffffff' : '#fafafa';
+    .map((row) => {
       if (row.isLong) {
         return `
-        <tr style="background-color:${bg};">
-          <td colspan="2" style="padding:14px 20px;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #f3f4f6;">
+        <tr>
+          <td colspan="2" style="padding:16px 0 4px;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">
             ${row.label}
           </td>
         </tr>
-        <tr style="background-color:${bg};">
-          <td colspan="2" style="padding:0 20px 14px;font-size:14px;color:#374151;line-height:1.65;white-space:pre-wrap;border-bottom:1px solid #f3f4f6;">
+        <tr>
+          <td colspan="2" style="padding:0 0 16px;font-size:15px;color:#111827;line-height:1.6;white-space:pre-wrap;border-bottom:1px solid #e5e7eb;">
             ${row.value}
           </td>
         </tr>`;
       }
       return `
-        <tr style="background-color:${bg};">
-          <td style="padding:14px 20px;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #f3f4f6;width:36%;">${row.label}</td>
-          <td style="padding:14px 20px;font-size:14px;color:#111827;font-weight:500;border-bottom:1px solid #f3f4f6;">${row.value}</td>
+        <tr>
+          <td style="padding:16px 0;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;width:35%;">${row.label}</td>
+          <td style="padding:16px 0;font-size:15px;color:#111827;font-weight:500;border-bottom:1px solid #e5e7eb;">${row.value}</td>
         </tr>`;
     })
     .join('');
 
   const textRows = opts.rows
-    .map((row) => `${row.label.padEnd(20)}: ${row.value}`)
-    .join('\n');
+    .map((row) => `${row.label}: ${row.value}`)
+    .join('\n\n');
 
   const htmlContent = `
 <!DOCTYPE html>
@@ -77,41 +64,37 @@ export function buildEmailBase(opts: EmailBaseOptions): {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${opts.subject}</title>
 </head>
-<body style="margin:0;padding:0;background-color:#f4f5f7;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f5f7;padding:40px 16px;">
+<body style="margin:0;padding:0;background-color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#ffffff;padding:40px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;">
 
           <!-- Header -->
           <tr>
-            <td style="background-color:${BRAND_COLOR};padding:28px 40px;">
-              <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);">IMB Institute</p>
-              <h1 style="margin:6px 0 0;font-size:22px;font-weight:700;color:#ffffff;line-height:1.3;">${opts.title}</h1>
+            <td style="padding-bottom:24px;border-bottom:2px solid ${BRAND_COLOR};">
+              <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${BRAND_COLOR};">IMB Institute</p>
+              <h1 style="margin:12px 0 0;font-size:24px;font-weight:700;color:#111827;line-height:1.3;">${opts.title}</h1>
             </td>
           </tr>
 
           <!-- Body -->
           <tr>
-            <td style="padding:36px 40px;">
-              <p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.65;">
+            <td style="padding:32px 0;">
+              <p style="margin:0 0 32px;font-size:15px;color:#4b5563;line-height:1.6;">
                 ${opts.description}
               </p>
 
               <!-- Data table -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-                <tr style="background-color:#f9fafb;">
-                  <td style="padding:12px 20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb;width:36%;">Campo</td>
-                  <td style="padding:12px 20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb;">Valor</td>
-                </tr>
+              <table width="100%" cellpadding="0" cellspacing="0">
                 ${tableRows}
               </table>
 
               <!-- CTA -->
-              <div style="margin-top:28px;text-align:center;">
+              <div style="margin-top:40px;text-align:left;">
                 <a
                   href="mailto:${opts.replyTo}?subject=Re: ${opts.subject}"
-                  style="display:inline-block;background-color:${BRAND_COLOR};color:#ffffff;font-size:14px;font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;letter-spacing:0.3px;"
+                  style="display:inline-block;background-color:${BRAND_COLOR};color:#ffffff;font-size:14px;font-weight:600;padding:12px 28px;border-radius:6px;text-decoration:none;"
                 >
                   Responder a ${opts.replyName}
                 </a>
@@ -121,10 +104,10 @@ export function buildEmailBase(opts: EmailBaseOptions): {
 
           <!-- Footer -->
           <tr>
-            <td style="background-color:#f9fafb;border-top:1px solid #e5e7eb;padding:20px 40px;text-align:center;">
-              <p style="margin:0;font-size:11px;color:#9ca3af;line-height:1.6;">
+            <td style="padding-top:32px;border-top:1px solid #e5e7eb;">
+              <p style="margin:0;font-size:12px;color:#9ca3af;line-height:1.6;">
                 Este correo fue generado automáticamente por el sistema de IMB Institute.<br/>
-                Por favor no respondas directamente a este mensaje.
+                Por favor no respondas directamente a este buzón automatizado.
               </p>
             </td>
           </tr>
@@ -137,19 +120,18 @@ export function buildEmailBase(opts: EmailBaseOptions): {
 </html>`.trim();
 
   const textContent = `
-${opts.title.toUpperCase()} — IMB Institute
-${'='.repeat(opts.title.length + 18)}
+${opts.title}
 
 ${textRows}
 
 ---
-Mensaje generado automáticamente por el sitio web de IMB Institute.
+Responder a: ${opts.replyTo}
+Este correo fue generado automáticamente por el sistema de IMB Institute.
   `.trim();
 
   return { subject: opts.subject, htmlContent, textContent };
 }
 
-// Función 2: Recibe los datos crudos del formulario y los inyecta en el HTML base
 export function buildEmail(formName: string, data: Record<string, any>) {
   const formatLabel = (key: string) => {
     return key
@@ -159,16 +141,32 @@ export function buildEmail(formName: string, data: Record<string, any>) {
   };
 
   const rows = Object.entries(data).map(([key, value]) => {
-    const stringValue = typeof value === 'object' && value !== null 
-      ? JSON.stringify(value, null, 2) 
-      : String(value || 'N/A');
+    let stringValue = '';
+    
+    if (Array.isArray(value) && value.length > 0 && value[0].name && value[0].size !== undefined) {
+      stringValue = value.map(f => `• ${f.name} (${Math.round(f.size / 1024)} KB)`).join('\n');
+    } 
+    else if (typeof value === 'object' && value !== null && value.name && value.size !== undefined) {
+      stringValue = `• ${value.name} (${Math.round(value.size / 1024)} KB)`;
+    }
+    else if (typeof value === 'object' && value !== null) {
+      stringValue = JSON.stringify(value, null, 2);
+    } 
+    else {
+      stringValue = String(value || 'N/A');
+      
+      if (/^\d{4}-\d{2}-\d{2}$/.test(stringValue)) {
+        const [y, m, d] = stringValue.split('-');
+        stringValue = `${d}-${m}-${y}`;
+      }
+    }
       
     const isLong = stringValue.length > 50 || stringValue.includes('\n');
     return { label: formatLabel(key), value: stringValue, isLong };
   });
 
   const subjectName = data.nombres || data.nombre_completo || data.empresa || 'Nuevo Usuario';
-  const replyTo = data.correo || data.correo_electronico;
+  const replyTo = data.correo || data.correo_electronico || 'no-reply@imb.edu.pe';
 
   return buildEmailBase({
     subject: `Nuevo registro en ${formatLabel(formName)} — ${subjectName}`,
