@@ -1,10 +1,9 @@
 import { defineAction, ActionError } from 'astro:actions';
-import { buildGenericEmail } from '../lib/email/templates/generic';
 import { z } from 'astro/zod';
 import { env } from 'cloudflare:workers';
 import { insertSubmission } from '../lib/db';
 import { sendMail } from '../lib/email';
-import { buildContactoEmail } from '../lib/email/templates/contacto';
+import { buildEmail } from '../lib/email/template';
 import { getDB } from './utils';
 
 export const contactoActions = {
@@ -20,7 +19,7 @@ export const contactoActions = {
     handler: async (input) => {
       const db = getDB();
 
-      const emailTemplate = buildContactoEmail(input);
+      const emailTemplate = buildEmail('Contacto', input);
       try {
         await sendMail({
           from: env.MAIL_FROM,
@@ -57,7 +56,7 @@ export const contactoActions = {
       const data = { ...input, cursoNombre };
       const id = await insertSubmission(db, 'asesor', data);
       
-      const emailTemplate = buildGenericEmail('Asesor', data);
+      const emailTemplate = buildEmail('Asesor', data);
       try {
         await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'asesor' });
       } catch (err) {

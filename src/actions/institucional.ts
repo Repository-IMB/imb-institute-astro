@@ -1,6 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { sendMail } from '../lib/email';
-import { buildGenericEmail } from '../lib/email/templates/generic';
+import { buildEmail } from '../lib/email/template';
 import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
 import { insertSubmission } from '../lib/db';
@@ -28,7 +28,7 @@ export const institucionalActions = {
       const db = getDB();
       const { terminos, ...data } = input;
       const id = await insertSubmission(db, 'soporte', data);
-      const emailTemplate = buildGenericEmail('Soporte', data);
+      const emailTemplate = buildEmail('Soporte', data);
       try {
         await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'soporte' });
       } catch (err) {
@@ -60,7 +60,7 @@ export const institucionalActions = {
     handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'reclamaciones', input);
-      const emailTemplate = buildGenericEmail('Libro_de_Reclamaciones', input);
+      const emailTemplate = buildEmail('Libro_de_Reclamaciones', input);
       try {
         await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'reclamaciones' });
       } catch (err) {
@@ -83,7 +83,7 @@ export const institucionalActions = {
     handler: async (input) => {
       const db = getDB();
       const id = await insertSubmission(db, 'alianzas', input);
-      const emailTemplate = buildGenericEmail('Alianzas_Estrategicas', input);
+      const emailTemplate = buildEmail('Alianzas_Estrategicas', input);
       try {
         await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'alianzas' });
       } catch (err) {
@@ -122,7 +122,7 @@ export const institucionalActions = {
       };
 
       const id = await insertSubmission(db, 'staff', data);
-      const emailTemplate = buildGenericEmail('Postulacion_Staff', data);
+      const emailTemplate = buildEmail('Postulacion_Staff', data);
       try {
         await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'staff' });
       } catch (err) {

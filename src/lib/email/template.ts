@@ -1,4 +1,12 @@
 /**
+ * ARCHIVO DE DISEÑO Y MAQUETACIÓN (template.ts)
+ * --------------------------------------------
+ * Este archivo se encarga EXCLUSIVAMENTE de transformar los datos de cualquier formulario
+ * en un correo HTML bonito con los colores de IMB (rojo/guinda).
+ * No envía correos, solo genera el texto HTML.
+ */
+
+/**
  * Layout base reutilizable para todos los correos de notificación interna de IMB Institute.
  * Cada template de formulario solo necesita proveer los datos específicos y llamar a buildEmailBase().
  */
@@ -139,4 +147,35 @@ Mensaje generado automáticamente por el sitio web de IMB Institute.
   `.trim();
 
   return { subject: opts.subject, htmlContent, textContent };
+}
+
+// Función 2: Recibe los datos crudos del formulario y los inyecta en el HTML base
+export function buildEmail(formName: string, data: Record<string, any>) {
+  const formatLabel = (key: string) => {
+    return key
+      .replace(/_/g, ' ')
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, (str) => str.toUpperCase());
+  };
+
+  const rows = Object.entries(data).map(([key, value]) => {
+    const stringValue = typeof value === 'object' && value !== null 
+      ? JSON.stringify(value, null, 2) 
+      : String(value || 'N/A');
+      
+    const isLong = stringValue.length > 50 || stringValue.includes('\n');
+    return { label: formatLabel(key), value: stringValue, isLong };
+  });
+
+  const subjectName = data.nombres || data.nombre_completo || data.empresa || 'Nuevo Usuario';
+  const replyTo = data.correo || data.correo_electronico;
+
+  return buildEmailBase({
+    subject: `Nuevo registro en ${formatLabel(formName)} — ${subjectName}`,
+    title: `Nuevo Registro: ${formatLabel(formName)}`,
+    description: `Se ha recibido un nuevo envío a través del formulario de ${formatLabel(formName)}.`,
+    rows,
+    replyTo: replyTo,
+    replyName: subjectName,
+  });
 }

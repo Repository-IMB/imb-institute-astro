@@ -1,3 +1,9 @@
+/**
+ * ARCHIVO DE ENVÍO DE CORREOS (index.ts)
+ * --------------------------------------
+ * Este archivo es el "Cartero". Su única función es tomar el correo HTML generado 
+ * por template.ts y enviarlo a través de la API (Gateway) de la empresa.
+ */
 import { env } from 'cloudflare:workers';
 
 export interface SendMailOptions {
