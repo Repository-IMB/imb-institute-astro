@@ -3,6 +3,12 @@ import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
 import Button from '../ui/Button.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
+import { cursos } from '../../data/cursos';
+
+const cursoOptions = [
+  { value: '', label: 'Selecciona un programa de la lista...' },
+  ...cursos.map(c => c.nombre),
+];
 ---
 
 <div id="form-matricula-wrapper">
@@ -20,42 +26,42 @@ import PhoneInput from '../ui/PhoneInput.astro';
 
     <div id="step-1" class="step-content space-y-8">
       <h3 class="font-display text-2xl font-bold text-text-primary">Selección de Programa</h3>
-      <SelectField label="Curso / Diplomado a matricularse" name="curso" options={[ { value: '', label: 'Selecciona un programa de la lista...' }, 'Diplomado en Gestión de Mantenimiento Industrial', 'Especialización en Logística y Supply Chain', 'Gestión Estratégica de Recursos Humanos', 'Análisis de Datos para la Toma de Decisiones' ]} />
+      <SelectField label="Curso / Diplomado a matricularse" name="curso" required options={cursoOptions} />
     </div>
 
     <div id="step-2" class="step-content space-y-8 hidden">
       <h3 class="font-display text-2xl font-bold text-text-primary">Datos Personales</h3>
-      <InputField label="Nombres y Apellidos Completos" name="nombres" placeholder="Ej. Carlos Mendoza" />
+      <InputField label="Nombres y Apellidos Completos" name="nombres" required placeholder="Ej. Carlos Mendoza" />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Tipo y Número de Documento" name="documento" placeholder="Ej. DNI / Pasaporte" />
-        <InputField label="País de Residencia" name="pais" placeholder="Ej. Perú" />
+        <InputField label="Tipo y Número de Documento" name="documento" required placeholder="Ej. DNI / Pasaporte" />
+        <InputField label="País de Residencia" name="pais" required placeholder="Ej. Perú" />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
-        <PhoneInput label="Número de WhatsApp" name="whatsapp" id="matricula-whatsapp" />
+        <InputField label="Correo Electrónico" name="correo" type="email" required placeholder="correo@ejemplo.com" />
+        <PhoneInput label="Número de WhatsApp" name="whatsapp" id="matricula-whatsapp" required />
       </div>
     </div>
 
     <div id="step-3" class="step-content space-y-8 hidden">
       <h3 class="font-display text-2xl font-bold text-text-primary">Perfil Profesional</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Área de Formación o Profesión" name="formacion" placeholder="Ej. Ingeniería Industrial" />
+        <InputField label="Área de Formación o Profesión" name="formacion" required placeholder="Ej. Ingeniería Industrial" />
         <InputField label="Empresa Actual (Opcional)" name="empresa" required={false} placeholder="Nombre de la empresa" />
       </div>
-      <InputField label="Cargo u Ocupación" name="cargo" placeholder="Ej. Jefe de Planta" />
-      <SelectField label="Familiaridad Tecnológica" name="familiaridad_tecnologica" options={[ { value: '', label: 'Seleccione su nivel de conocimiento tecnológico...' }, 'Básico (Uso redes sociales, correo)', 'Intermedio (Uso Office, Zoom, plataformas web)', 'Avanzado (Dominio de software especializado)' ]} />
+      <InputField label="Cargo u Ocupación" name="cargo" required placeholder="Ej. Jefe de Planta" />
+      <SelectField label="Familiaridad Tecnológica" name="familiaridad_tecnologica" required options={[ { value: '', label: 'Seleccione su nivel de conocimiento tecnológico...' }, 'Básico (Uso redes sociales, correo)', 'Intermedio (Uso Office, Zoom, plataformas web)', 'Avanzado (Dominio de software especializado)' ]} />
     </div>
 
     <div id="step-4" class="step-content space-y-8 hidden">
       <h3 class="font-display text-2xl font-bold text-text-primary">Facturación y Complementos</h3>
-      <SelectField label="Tipo de Comprobante" name="tipo_comprobante" options={[ { value: '', label: 'Seleccione el tipo de comprobante que requiere...' }, 'Boleta Electrónica (Personal)', 'Factura Electrónica (Empresa)' ]} />
+      <SelectField label="Tipo de Comprobante" name="tipo_comprobante" required options={[ { value: '', label: 'Seleccione el tipo de comprobante que requiere...' }, 'Boleta Electrónica (Personal)', 'Factura Electrónica (Empresa)' ]} />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Razón Social / Nombre a Facturar" name="razon_social" placeholder="Nombre para la facturación" />
-        <InputField label="Número Tributario (RUC/RUT/NIT)" name="numero_tributario" placeholder="Identificación tributaria" />
+        <InputField label="Razón Social / Nombre a Facturar" name="razon_social" required placeholder="Nombre para la facturación" />
+        <InputField label="Número Tributario (RUC/RUT/NIT)" name="numero_tributario" required={false} placeholder="Identificación tributaria" />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Nivel actual de Inglés" name="nivel_ingles" placeholder="Ej. Intermedio" />
-        <InputField label="Nivel actual de Excel" name="nivel_excel" placeholder="Ej. Avanzado" />
+        <InputField label="Nivel actual de Inglés" name="nivel_ingles" required={false} placeholder="Ej. Intermedio" />
+        <InputField label="Nivel actual de Excel" name="nivel_excel" required={false} placeholder="Ej. Avanzado" />
       </div>
     </div>
 
@@ -64,14 +70,20 @@ import PhoneInput from '../ui/PhoneInput.astro';
       <span id="form-matricula-error-msg"></span>
     </div>
 
-    <div class="mt-12 flex justify-between items-center pt-8 border-t border-gray-100">
-      <Button type="button" id="btn-back" variant="outline" class="hidden!">Regresar</Button>
+    <div class="mt-12 flex justify-between items-center pt-8">
+      <div id="btn-back-wrapper" class="hidden">
+        <Button type="button" id="btn-back" variant="outline">Regresar</Button>
+      </div>
       <div class="grow"></div>
-      <Button type="button" id="btn-next" class="px-10 py-4">Siguiente Paso</Button>
-      <button id="form-matricula-btn" type="submit" class="hidden px-10 py-4 inline-flex items-center justify-center gap-2 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
-        <span class="btn-text">Finalizar Matrícula</span>
-        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-      </button>
+      <div id="btn-next-wrapper">
+        <Button type="button" id="btn-next" class="px-10 py-4">Siguiente Paso</Button>
+      </div>
+      <div id="btn-submit-wrapper" class="hidden">
+        <button id="form-matricula-btn" type="submit" class="px-10 py-4 inline-flex items-center justify-center gap-2 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
+          <span class="btn-text">Finalizar Matrícula</span>
+          <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+        </button>
+      </div>
     </div>
   </form>
 
@@ -87,7 +99,7 @@ import PhoneInput from '../ui/PhoneInput.astro';
 </div>
 
 <script>
-  import { actions } from 'astro:actions';
+  import { actions, isInputError } from 'astro:actions';
 
   function initMatricula() {
     const form = document.getElementById('matricula-form') as HTMLFormElement;
@@ -102,6 +114,9 @@ import PhoneInput from '../ui/PhoneInput.astro';
     const progressBar = document.getElementById('progress-bar');
     const btnBack = document.getElementById('btn-back');
     const btnNext = document.getElementById('btn-next');
+    const btnBackWrapper = document.getElementById('btn-back-wrapper');
+    const btnNextWrapper = document.getElementById('btn-next-wrapper');
+    const btnSubmitWrapper = document.getElementById('btn-submit-wrapper');
     
     const errorEl = document.getElementById('form-matricula-error');
     const errorMsg = document.getElementById('form-matricula-error-msg');
@@ -131,17 +146,51 @@ import PhoneInput from '../ui/PhoneInput.astro';
           numEl?.classList.remove('hidden'); checkEl?.classList.add('hidden');
         }
       });
-      if (currentStep === 1) btnBack?.classList.add('!hidden'); else btnBack?.classList.remove('!hidden');
-      if (currentStep === totalSteps) { btnNext?.classList.add('!hidden'); btnSubmit?.classList.remove('hidden'); }
-      else { btnNext?.classList.remove('!hidden'); btnSubmit?.classList.add('hidden'); }
+
+      // Back button visibility
+      if (currentStep === 1) {
+        btnBackWrapper?.classList.add('hidden');
+      } else {
+        btnBackWrapper?.classList.remove('hidden');
+      }
+
+      // Next / Submit button visibility
+      if (currentStep === totalSteps) {
+        btnNextWrapper?.classList.add('hidden');
+        btnSubmitWrapper?.classList.remove('hidden');
+      } else {
+        btnNextWrapper?.classList.remove('hidden');
+        btnSubmitWrapper?.classList.add('hidden');
+      }
+
+      // Hide general error when navigating steps
+      errorEl?.classList.add('hidden');
+      errorEl?.classList.remove('flex');
+    }
+
+    function validateCurrentStep(): boolean {
+      const currentStepEl = document.getElementById(`step-${currentStep}`);
+      if (!currentStepEl) return true;
+
+      const inputs = currentStepEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea');
+      let firstInvalid: HTMLElement | null = null;
+
+      inputs.forEach((input) => {
+        if (!input.checkValidity()) {
+          if (!firstInvalid) firstInvalid = input;
+          // Show native validation message on the first invalid field
+        }
+      });
+
+      if (firstInvalid) {
+        (firstInvalid as HTMLInputElement).reportValidity();
+        return false;
+      }
+      return true;
     }
 
     btnNext?.addEventListener('click', () => {
-      const currentStepEl = document.getElementById(`step-${currentStep}`);
-      const inputs = currentStepEl?.querySelectorAll('input, select, textarea');
-      let valid = true;
-      inputs?.forEach((input) => { if (!(input as HTMLInputElement).reportValidity()) valid = false; });
-      if (!valid) return;
+      if (!validateCurrentStep()) return;
       if (currentStep < totalSteps) { currentStep++; updateWizard(); }
     });
 
@@ -151,10 +200,15 @@ import PhoneInput from '../ui/PhoneInput.astro';
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!form.reportValidity()) return;
 
+      // Clear previous errors
       errorEl?.classList.add('hidden');
       errorEl?.classList.remove('flex');
+      form.querySelectorAll('[data-error-for]').forEach(el => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+
       btnSubmit.disabled = true;
       if (btnText) btnText.textContent = 'Enviando...';
       btnSpinner?.classList.remove('hidden');
@@ -162,7 +216,46 @@ import PhoneInput from '../ui/PhoneInput.astro';
       try {
         const formData = new FormData(form);
         const { error } = await actions.matricula(formData);
-        if (error) throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
+
+        if (error) {
+          if (isInputError(error)) {
+            // Map of field names to their step numbers
+            const fieldStepMap: Record<string, number> = {
+              curso: 1,
+              nombres: 2, documento: 2, pais: 2, correo: 2, whatsapp: 2,
+              formacion: 3, empresa: 3, cargo: 3, familiaridad_tecnologica: 3,
+              tipo_comprobante: 4, razon_social: 4, numero_tributario: 4, nivel_ingles: 4, nivel_excel: 4,
+            };
+
+            let firstErrorStep = totalSteps;
+
+            for (const [field, messages] of Object.entries(error.fields)) {
+              const spanError = form.querySelector(`[data-error-for="${field}"]`);
+              if (spanError && messages) {
+                spanError.textContent = messages[0];
+                spanError.classList.remove('hidden');
+              }
+              const step = fieldStepMap[field];
+              if (step && step < firstErrorStep) firstErrorStep = step;
+            }
+
+            // Navigate to the step containing the first error
+            if (firstErrorStep !== currentStep) {
+              currentStep = firstErrorStep;
+              updateWizard();
+            }
+
+            // Scroll to the first visible error
+            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
+            if (firstErrorSpan) {
+              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
+              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+          }
+          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
+        }
+
         form.classList.add('hidden');
         successEl?.classList.remove('hidden');
         successEl?.classList.add('flex');
@@ -174,6 +267,17 @@ import PhoneInput from '../ui/PhoneInput.astro';
         btnSubmit.disabled = false;
         if (btnText) btnText.textContent = 'Finalizar Matrícula';
         btnSpinner?.classList.add('hidden');
+      }
+    });
+
+    // Clear field errors on input (consistent with other forms)
+    form.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+      if (target.name) {
+        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
+        if (errorSpan && !errorSpan.classList.contains('hidden')) {
+          errorSpan.classList.add('hidden');
+        }
       }
     });
 
