@@ -1,0 +1,224 @@
+Términos y Condiciones de Uso
+Los Términos y Condiciones de Uso de IMB Institute regulan el acceso y utilización de nuestro sitio web, estableciendo las normas de conducta, derechos de propiedad intelectual, limitaciones de responsabilidad y obligaciones de los usuarios. Su aceptación es requisito indispensable para la navegación y el uso de nuestros servicios en línea.
+
+Términos y Condiciones de Uso
+Última actualización: 01 de julio de 2025
+
+Bienvenido(a) al sitio web de IMB Institute (en adelante, «nosotros», «nuestro» o «el Instituto»), accesible a través de https://imbinstitute.com (en adelante, «el Sitio»). Este documento establece los Términos y Condiciones de Uso que rigen el acceso, navegación y uso del Sitio, así como la participación en los programas académicos, servicios o actividades ofrecidos por el Instituto. Al acceder o utilizar el Sitio, aceptas cumplir con estos términos en su totalidad. Si no estás de acuerdo con alguna parte de este documento, te pedimos que no utilices el Sitio.
+
+Estos términos complementan nuestra Política de Privacidad y Política de Cookies, que también debes revisar. Nos reservamos el derecho de modificar estos términos en cualquier momento, y cualquier cambio será comunicado conforme a lo indicado en la sección de modificaciones.
+
+1. Identificación del Titular del Sitio Web
+El Sitio es propiedad y está operado por:
+
+IMB Institute
+Dirección: Mza. G Lote. 16a Alto de la Luna (2do Piso),  Jose Luis Bustamante y Rivero, Arequipa, Perú
+Correo electrónico: info@imbinstitute.com
+Teléfono: +51 941 328 673
+Número de identificación fiscal: 20614051320
+
+Para cualquier consulta, duda o reclamación relacionada con el uso del Sitio, puedes contactarnos a través de los canales indicados en la sección de contacto.
+
+2. Objeto del Sitio Web
+El Sitio tiene como propósito principal ofrecer información, gestionar inscripciones y facilitar el acceso a los programas académicos, cursos, talleres y servicios educativos proporcionados por IMB Institute. A través del Sitio, los usuarios pueden:
+
+Consultar información sobre nuestros programas educativos, incluyendo contenidos, horarios, metodologías y costos.
+Registrarse como usuarios y matricularse en programas académicos.
+Acceder a recursos educativos, materiales de apoyo o plataformas de aprendizaje (si aplica).
+Contactar con nuestro equipo de Bienestar Estudiantil para soporte o consultas.
+Recibir comunicaciones institucionales, informativas o promocionales, previa autorización.
+El Sitio está diseñado para servir a estudiantes, profesionales y cualquier persona interesada en los servicios educativos del Instituto, siempre respetando las normativas aplicables.
+
+3. Condiciones de Acceso y Uso
+El acceso al Sitio es gratuito, salvo para aquellos servicios o áreas que requieran registro, pago o suscripción (como la inscripción en programas académicos). Para utilizar el Sitio, debes cumplir con las siguientes condiciones:
+
+Edad mínima: Debes ser mayor de edad (18 años en Perú) o contar con el consentimiento de un tutor legal para utilizar el Sitio o inscribirte en nuestros servicios.
+Uso adecuado: Te comprometes a utilizar el Sitio de manera lícita, respetando las leyes aplicables, la moral, las buenas costumbres y el orden público.
+Prohibiciones: Está prohibido utilizar el Sitio para actividades ilegales, fraudulentas o que perjudiquen a terceros, incluyendo el envío de contenido ofensivo, la distribución de malware o cualquier intento de acceso no autorizado.
+Disponibilidad técnica: Nos esforzamos por mantener el Sitio accesible, pero no garantizamos su disponibilidad ininterrumpida debido a posibles fallos técnicos, mantenimientos o circunstancias fuera de nuestro control.
+Nos reservamos el derecho de suspender o restringir el acceso al Sitio a usuarios que incumplan estos términos o utilicen el Sitio de manera inapropiada.
+
+4. Registro de Usuarios
+Algunas funcionalidades del Sitio, como la inscripción en programas académicos o el acceso a plataformas educativas, requieren que te registres como usuario. Durante el proceso de registro, se te solicitará proporcionar datos personales, como:
+
+Nombre completo.
+Dirección de correo electrónico.
+Número de teléfono.
+Documento de identidad (si es necesario para verificar tu identidad o cumplir con requisitos legales).
+Al registrarte, te comprometes a:
+
+Proporcionar información veraz, exacta y actualizada.
+Mantener la confidencialidad de tus credenciales de acceso (usuario y contraseña).
+Notificarnos inmediatamente en caso de uso no autorizado de tu cuenta a través de soporte@imbinstitute.com.
+Nos reservamos el derecho de cancelar o suspender cuentas que contengan información falsa, fraudulenta o que incumplan estos términos.
+
+5. Formas de Pago y Procesamiento de Transacciones
+El Sitio permite realizar pagos para inscribirte en programas académicos, adquirir servicios educativos o acceder a recursos adicionales. Las formas de pago aceptadas incluyen:
+
+Tarjetas de crédito o débito (Visa, MasterCard, etc.).
+Transferencias bancarias.
+Plataformas de pago electrónico (por ejemplo, PayPal, si aplica).
+Los pagos se procesan a través de pasarelas de pago seguras operadas por terceros (como Stripe o PayPal), que cumplen con estándares de seguridad como PCI-DSS. No almacenamos información de tarjetas de crédito en nuestros servidores; esta es gestionada exclusivamente por los proveedores de pago.
+
+Condiciones de pago:
+
+Los precios de los programas o servicios se indican en la moneda especificada en el Sitio (por ejemplo, soles peruanos o dólares estadounidenses).
+Los pagos deben realizarse en las fechas indicadas para confirmar la inscripción o reserva.
+Cualquier costo adicional, como comisiones bancarias o impuestos aplicables, será responsabilidad del usuario, salvo que se indique lo contrario.
+Para más información sobre el procesamiento de datos personales relacionados con pagos, consulta nuestra Política de Privacidad.
+
+6. Política de Cancelaciones, Devoluciones y Reembolsos
+IMB Institute contempla el derecho de los usuarios a solicitar cancelaciones, devoluciones o reembolsos bajo ciertas condiciones, conforme a nuestra política institucional:
+
+6.1. Condiciones Generales
+6.1.1. Antes del inicio del programa
+El participante podrá solicitar la cancelación de su inscripción. Alternativamente el estudiante podrá optar por una de las siguientes opciones:
+
+Reprogramación.
+Cambio de programa.
+Modalidad asíncrona.
+Caso contrario se efectuará el reembolso bajo las siguientes condiciones:
+
+Se devolverá el monto pagado menos comisiones financieras (10% al 15%).
+6.1.2. Con el programa iniciado
+Las devoluciones están sujetas al avance académico realizado:
+
+Si el avance académico es de hasta el 25%, la devolución es del 70%.
+Si el avance académico es entre el 25% al 50%, la devolución es del 50%.
+Si el avance académico es más del 50%, no aplica devolución.
+En todos los casos se aplicarán las siguientes condiciones:
+
+No incluye comisiones financieras.
+Casos excepcionales serán evaluados.
+A todas las solicitudes se realizará una retención por gastos administrativos, entre 10% al 20%, previa evaluación administrativa.
+
+6.2. Casos Especiales
+6.2.1. Pagos Duplicados
+En caso de pagos duplicados.
+
+Se realizará la devolución correspondiente.
+Se descontarán comisiones financieras (10% al 15%).
+Requiere validación administrativa.
+En caso de exceso de abono.
+
+Se realizará la devolución correspondiente.
+Se prorrateará y descontarán las comisiones financieras.
+Requiere validación administrativa.
+6.2.2. Modificaciones por parte de IMB Institute
+Si IMB Institute realiza modificaciones sobre el cronograma, el estudiante podrá optar:
+
+Continuar con el programa.
+Reprogramación.
+Cambio de programa.
+Modalidad asíncrona.
+Si solicita la devolución se realizará sin retención por gastos administrativos, pero sí se descontarán las comisiones financieras (10% al 15%).
+
+Si IMB Institute realiza alguna modificación docente, dependerá de la situación de inicio del curso.
+
+Si el curso inició:
+Se evaluará la devolución según el avance del curso, como se indica en el apartado 4.2.
+Si el curso aún no ha iniciado:
+La devolución se realizará sin retención por gastos administrativos, pero sí se descontarán las comisiones financieras (10% al 15%).
+6.3. Condiciones académico-administrativas
+6.3.1. Pagos en cuotas
+El incumplimiento en el pago de cualquier cuota implica lo siguiente:
+
+Suspensión automática del acceso.
+Pérdida del derecho a reembolso.
+6.3.2. Cambios y reprogramaciones
+Reprogramación.
+Continuar con el desarrollo del curso en un lanzamiento posterior.
+Permitido sin penalidad.
+Cambio de programa.
+Cambio a un programa de mayor costo – pago de diferencia previa negociación.
+Cambio a un programa de menor costo – saldo a favor para acceder a otra capacitación o posibilidad de llevar módulo adicional de su elección previa asesoría.
+Cambio a modalidad asíncrona.
+Se brindará la facilidad de que el estudiante pueda continuar con el desarrollo del curso en modalidad asíncrona sin ningún tipo de penalización.
+Tanto IMB Institute como el docente brindarán las facilidades necesarias.
+6.4. Procedimiento de solicitud
+El estudiante podrá comunicarse a través de los siguientes canales oficiales de IMB Institute:
+
+customermanagement@imbinstitute.com
+academicdir@imbinstitute.com
++51 984 142 963
+Todas las solicitudes deberán contener la siguiente información:
+
+Nombre completo.
+Programa inscrito.
+Número de WhatsApp (para realizar la gestión vía WhatsApp).
+Motivo de la devolución.
+Sustento (si aplica).
+Correo Electrónico (a través del cual desea que se realice la gestión).
+6.5. Tiempo de atención
+Evaluación de 2 a 5 días hábiles.
+Reembolso de 7 a 15 días hábiles.
+6.6. Medios de reembolso
+Estudiantes con nacionalidad peruana:
+Transferencia bancaria.
+Estudiantes internacionales.
+Western Union, IMB Institute asume las comisiones de transferencia.
+Otros medios como: PayPal, Transferencia bancaria, deberán coordinarse previamente y el estudiante asume las comisiones de transferencia.
+Cualquier otro medio deberá ser evaluado.
+6.7. Disposiciones finales
+IMB Institute se reserva el derecho de evaluar casos excepcionales (casos que no se enmarquen en los lineamientos establecidos).
+La aceptación de esta política es obligatoria al momento de la matrícula.
+Esta política puede ser actualizada sin previo aviso.
+7. Responsabilidades del Usuario
+Como usuario del Sitio, te comprometes a:
+
+Proporcionar información veraz: Asegurarte de que todos los datos proporcionados (por ejemplo, durante el registro o inscripción) sean exactos y actualizados.
+Mantener una conducta ética: Respetar al personal académico y administrativo del Instituto, así como a otros usuarios, evitando comportamientos ofensivos, difamatorios o contrarios a la ley.
+Cumplir con las normativas: Seguir los lineamientos académicos, administrativos y de conducta establecidos en los brochures, programas, calendarios y documentación oficial del Instituto.
+Proteger tus credenciales: Mantener la confidencialidad de tu usuario y contraseña, siendo responsable de cualquier actividad realizada desde tu cuenta.
+Informarte: Mantenerte al tanto de las comunicaciones institucionales enviadas por correo electrónico o publicadas en los canales oficiales del Instituto.
+No está permitido:
+
+Publicar o compartir contenido ilegal, ofensivo o que infrinja derechos de terceros.
+Intentar acceder a áreas restringidas del Sitio o realizar acciones que comprometan su seguridad.
+Utilizar el Sitio para fines distintos a los establecidos, como actividades comerciales no autorizadas.
+El incumplimiento de estas responsabilidades puede resultar en la suspensión o cancelación de tu cuenta y el acceso al Sitio, sin perjuicio de otras acciones legales que correspondan.
+
+8. Limitación de Responsabilidad del Titular del Sitio
+IMB Institute se esfuerza por garantizar la precisión, seguridad y disponibilidad del Sitio, pero no asumimos responsabilidad por:
+
+Interrupciones en el acceso al Sitio debido a fallos técnicos, mantenimientos o causas fuera de nuestro control (por ejemplo, problemas de conexión a Internet).
+Errores o inexactitudes en el contenido del Sitio, aunque trabajamos para mantenerlo actualizado.
+Daños derivados del uso indebido del Sitio por parte de los usuarios o terceros.
+Pérdidas o daños causados por virus, ataques cibernéticos o fallos de seguridad no atribuibles al Instituto, siempre que hayamos implementado medidas razonables de protección.
+Decisiones tomadas por los usuarios basadas en la información proporcionada en el Sitio.
+No garantizamos que el Sitio esté libre de errores o interrupciones, pero tomaremos medidas razonables para corregir cualquier problema identificado.
+
+9. Propiedad Intelectual e Industrial
+Todo el contenido del Sitio, incluyendo textos, imágenes, logotipos, diseños, materiales educativos, videos, marcas, software y otros elementos, está protegido por derechos de propiedad intelectual e industrial pertenecientes a IMB Institute o a terceros que han autorizado su uso.
+
+Como usuario, te comprometes a:
+
+No reproducir, distribuir, modificar, copiar ni utilizar el contenido del Sitio sin autorización expresa, salvo para uso personal y no comercial relacionado con los servicios educativos.
+Respetar las marcas, logotipos y otros signos distintivos del Instituto.
+Cualquier uso no autorizado del contenido puede constituir una infracción de las leyes de propiedad intelectual y dar lugar a acciones legales.
+
+10. Enlaces a Terceros
+El Sitio puede contener enlaces a sitios web de terceros, como plataformas de redes sociales, socios educativos o proveedores de servicios (por ejemplo, pasarelas de pago). No tenemos control sobre el contenido, políticas de privacidad o prácticas de estos sitios, por lo que no asumimos responsabilidad por ellos. Te recomendamos revisar las políticas de privacidad y términos de uso de cualquier sitio externo al que accedas desde nuestro Sitio.
+
+11. Modificaciones de los Términos
+Nos reservamos el derecho de modificar estos Términos y Condiciones de Uso en cualquier momento para reflejar cambios en nuestras prácticas, servicios o normativas aplicables. Los cambios serán publicados en esta sección del Sitio, indicando la fecha de la última actualización. Te notificaremos de cambios significativos mediante:
+
+Un aviso destacado en el Sitio.
+Un correo electrónico a info@imbinstitute.com, si estás suscrito a nuestras comunicaciones.
+El uso continuado del Sitio tras la publicación de cambios implica tu aceptación de los mismos. Te recomendamos revisar periódicamente estos términos para estar al corriente de las actualizaciones.
+
+12. Ley Aplicable y Jurisdicción
+Estos Términos y Condiciones de Uso se rigen por las leyes de la República del Perú. Cualquier disputa derivada del uso del Sitio o de estos términos será sometida a la jurisdicción de los tribunales competentes de [insertar ciudad, por ejemplo, Lima, Perú], renunciando las partes a cualquier otro fuero que pudiera corresponderles.
+
+13. Contacto para Dudas o Reclamos Legales
+Para cualquier consulta, duda, reclamación o solicitud relacionada con estos Términos y Condiciones de Uso, puedes contactar a nuestro equipo de Bienestar Estudiantil en:
+
+IMB Institute
+Correo electrónico: studentsuccess@imbinstitute.com
+Teléfono: +51 941 328 673
+Dirección: Mza. G Lote. 16a Alto de la Luna (2do Piso),  Jose Luis Bustamante y Rivero, Arequipa, Perú
+Formulario de contacto: https://imbinstitute.com/contacto/
+
+Nos comprometemos a responder tus consultas en un plazo razonable. Si no estás satisfecho con nuestra respuesta, puedes presentar una reclamación ante la Autoridad Nacional de Protección de Datos Personales en Perú (www.gob.pe/anpd) o la autoridad competente en tu jurisdicción.
+
+Gracias por elegir IMB Institute. Nos esforzamos por ofrecerte una experiencia educativa de calidad, segura y transparente. Tu aceptación de estos términos garantiza una relación clara y respetuosa entre el Instituto y sus usuarios.

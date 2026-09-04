@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/legal/LegalPage.astro';
+import content from '../data/legal/aviso-legal.txt?raw';
+
+export const prerender = true;
+
+const title = 'Aviso Legal';
+const description = 'Consulta las condiciones de uso, responsabilidades y datos legales que regulan el sitio web y los servicios digitales de IMB Institute.';
+---
+
+<LegalPage {title} {description} {content} />

@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/legal/LegalPage.astro';
+import content from '../data/legal/politica-de-privacidad.txt?raw';
+
+export const prerender = true;
+
+const title = 'Política de Privacidad';
+const description = 'Conoce cómo IMB Institute recopila, utiliza, almacena y protege los datos personales de estudiantes, colaboradores y visitantes.';
+---
+
+<LegalPage {title} {description} {content} />

@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/legal/LegalPage.astro';
+import content from '../data/legal/politica-reembolsos-devoluciones.txt?raw';
+
+export const prerender = true;
+
+const title = 'Política de Cancelaciones, Devoluciones y Reembolsos';
+const description = 'Revisa las condiciones y el procedimiento para solicitar cambios, cancelaciones, reprogramaciones o reembolsos en IMB Institute.';
+---
+
+<LegalPage {title} {description} {content} />

@@ -1,0 +1,164 @@
+Políticas de Seguridad
+Las Políticas de Seguridad de IMB Institute explican las medidas implementadas para garantizar la protección de la información y los datos personales de nuestros estudiantes, colaboradores y visitantes. A través de protocolos técnicos y organizativos, buscamos ofrecer un entorno confiable y seguro para la interacción digital y el acceso a nuestros servicios.
+
+Política de Seguridad
+Última actualización: 01 de julio de 2025
+
+En IMB Institute (en adelante, «nosotros», «nuestro» o «el Instituto»), la seguridad de la información de nuestros usuarios, estudiantes y clientes es una prioridad fundamental. Esta Política de Seguridad detalla las medidas técnicas, organizativas y administrativas que implementamos para proteger los datos personales, financieros y cualquier otra información recopilada a través de nuestro sitio web https://imbinstitute.com (en adelante, «el Sitio») y los servicios educativos asociados.
+
+Nuestro compromiso es garantizar la confidencialidad, integridad y disponibilidad de la información, cumpliendo con las normativas aplicables, incluyendo la Ley N° 29733, Ley de Protección de Datos Personales de Perú, el Reglamento General de Protección de Datos (RGPD) de la Unión Europea, la Ley Orgánica de Protección de Datos Personales y Garantía de los Derechos Digitales (LOPDGDD) de España, y los estándares internacionales de seguridad, como PCI DSS para el procesamiento de pagos. Esta política se complementa con nuestro Aviso Legal, Política de Privacidad, Política de Cookies, Términos y Condiciones de Uso y Política de Reembolsos y Devoluciones.
+
+El acceso, uso del Sitio o participación en nuestros programas y servicios implica la aceptación de esta Política de Seguridad. Te recomendamos leer este documento con atención para comprender cómo protegemos tu información y qué medidas tomamos para garantizar tu confianza. Si tienes alguna pregunta o necesitas aclaraciones, nuestro equipo de Bienestar Estudiantil está disponible a través de los canales indicados en la sección de contacto.
+
+1. Medidas Técnicas y Organizativas Aplicadas
+Para proteger la información de nuestros usuarios, implementamos un conjunto integral de medidas técnicas y organizativas diseñadas para prevenir accesos no autorizados, pérdidas, alteraciones o divulgaciones indebidas de datos. Estas medidas abarcan tanto la infraestructura tecnológica del Sitio como los procesos internos del Instituto.
+
+1.1. Cifrado SSL en la Web
+Cifrado de datos en tránsito: Utilizamos el protocolo Secure Sockets Layer (SSL)/ Transport Layer Security (TLS) para cifrar todas las comunicaciones entre tu dispositivo y nuestros servidores. Esto asegura que los datos personales y financieros que ingresas en el Sitio (por ejemplo, durante el registro o el procesamiento de pagos) estén protegidos contra interceptaciones no autorizadas.
+Certificados SSL actualizados: Trabajamos con proveedores de certificados SSL reconocidos para garantizar que nuestro Sitio utilice cifrado de última generación, verificado mediante un candado visible en la barra de direcciones de tu navegador.
+1.2. Autenticación Segura en Áreas Restringidas
+Acceso controlado: Las áreas restringidas del Sitio, como plataformas educativas o cuentas de usuario, están protegidas por sistemas de autenticación segura. Los usuarios deben proporcionar credenciales válidas (usuario y contraseña) para acceder a estas secciones.
+Verificación en dos pasos (si aplica): En ciertas áreas sensibles, como la gestión de cuentas de usuario o el acceso a plataformas educativas, ofrecemos la opción de habilitar la autenticación de dos factores (2FA), que requiere un código adicional enviado a tu correo electrónico o dispositivo móvil. Esto añade una capa adicional de seguridad para proteger tu cuenta.
+1.3. Respaldo de Datos
+Copias de seguridad periódicas: Realizamos respaldos regulares de los datos almacenados en nuestros servidores para garantizar su disponibilidad en caso de fallos técnicos, ataques cibernéticos o desastres naturales. Estas copias se almacenan en entornos seguros y cifrados, accesibles únicamente por personal autorizado.
+Recuperación de datos: Contamos con procedimientos de recuperación de datos para restaurar la información en caso de incidentes, minimizando cualquier interrupción en el acceso a nuestros servicios educativos.
+1.4. Sistemas de Detección de Intrusos
+Monitoreo continuo: Implementamos sistemas de detección y prevención de intrusos (IDS/IPS) para identificar y bloquear actividades sospechosas, como intentos de acceso no autorizado, ataques de denegación de servicio (DDoS) o inyecciones de código malicioso.
+Análisis en tiempo real: Nuestros servidores están configurados para monitorizar el tráfico del Sitio en tiempo real, detectando patrones anómalos que puedan indicar una amenaza de seguridad.
+1.5. Firewalls y Protección de Red
+Firewalls avanzados: Utilizamos firewalls de red y aplicaciones para filtrar el tráfico entrante y saliente, bloqueando accesos no autorizados y protegiendo nuestros servidores contra ataques externos.
+Segmentación de red: Nuestra infraestructura está diseñada con redes segmentadas para limitar el acceso a datos sensibles y reducir el impacto de posibles brechas de seguridad.
+2. Protección de Datos de Pago
+La seguridad de los datos financieros de nuestros usuarios es una prioridad absoluta, especialmente durante el procesamiento de pagos relacionados con inscripciones, matrículas o servicios educativos.
+
+2.1. Almacenamiento Seguro y Pasarelas de Terceros
+Pasarelas de pago certificadas: Los pagos realizados a través del Sitio se procesan exclusivamente mediante pasarelas de pago de terceros confiables, como Stripe, PayPal u otras plataformas que cumplen con el estándar PCI DSS (Payment Card Industry Data Security Standard). Estas pasarelas garantizan el manejo seguro de la información de tarjetas de crédito, débito u otros métodos de pago.
+No almacenamiento de datos de tarjetas: IMB Institute no almacena información de tarjetas de crédito o débito en sus servidores. Todos los datos financieros son procesados y gestionados directamente por las pasarelas de pago, que aplican cifrado de alto nivel y protocolos de seguridad robustos.
+Tokenización: Las pasarelas de pago utilizan sistemas de tokenización para reemplazar los datos sensibles (como números de tarjeta) con identificadores únicos, reduciendo el riesgo de exposición de información financiera.
+2.2. Transacciones Seguras
+Cifrado de extremo a extremo: Todas las transacciones realizadas a través del Sitio están protegidas mediante cifrado SSL/TLS, garantizando que los datos financieros se transmitan de forma segura desde tu dispositivo hasta la pasarela de pago.
+Verificación de transacciones: Las pasarelas de pago implementan mecanismos de verificación, como códigos de seguridad (CVV) y autenticación 3D Secure, para garantizar que las transacciones sean autorizadas por el titular del método de pago.
+2.3. Auditorías de Seguridad de Pagos
+Cumplimiento con PCI DSS: Trabajamos exclusivamente con proveedores que cumplen con los estándares PCI DSS, que establecen requisitos estrictos para el manejo de datos de tarjetas de pago.
+Auditorías periódicas: Realizamos revisiones regulares de nuestros procesos de pago para garantizar el cumplimiento de las normativas y la seguridad de las transacciones.
+3. Acceso Restringido a la Información
+Para proteger los datos personales y sensibles de nuestros usuarios, restringimos el acceso a la información únicamente al personal autorizado y bajo estrictos controles.
+
+3.1. Acceso Limitado
+Personal autorizado: Solo los empleados o colaboradores del Instituto que necesitan acceder a los datos para cumplir con sus funciones (por ejemplo, soporte al estudiante, gestión administrativa o procesamiento de pagos) tienen permiso para hacerlo.
+Controles de acceso basados en roles: Utilizamos sistemas de gestión de accesos basados en roles (RBAC) para garantizar que cada empleado solo acceda a la información estrictamente necesaria para su trabajo.
+Autenticación robusta: Todo el personal con acceso a datos sensibles debe autenticarse mediante credenciales seguras y, en algunos casos, autenticación multifactor.
+3.2. Registro de Accesos
+Auditoría de accesos: Mantenemos registros detallados de quién accede a los datos, cuándo y con qué propósito, para garantizar la trazabilidad y detectar cualquier uso indebido.
+Revisión periódica: Realizamos auditorías regulares de los registros de acceso para identificar y corregir posibles vulnerabilidades o irregularidades.
+3.3. Acuerdos de Confidencialidad
+Todo el personal y los proveedores externos que manejan datos personales o sensibles firman acuerdos de confidencialidad (NDA) que les obligan a proteger la información y a utilizarla únicamente para los fines autorizados.
+4. Política de Contraseñas y Autenticación
+Para garantizar la seguridad de las cuentas de usuario y las áreas restringidas del Sitio, implementamos políticas estrictas de contraseñas y autenticación.
+
+4.1. Requisitos de Contraseñas Seguras
+Criterios de contraseñas: Las contraseñas de las cuentas de usuario deben cumplir con los siguientes requisitos:
+Mínimo de 8 caracteres.
+Combinación de letras mayúsculas, minúsculas, números y caracteres especiales (por ejemplo, @, #, $).
+No deben incluir información personal fácilmente identificable, como nombres o fechas de nacimiento.
+Actualización periódica: Recomendamos a los usuarios actualizar sus contraseñas al menos cada 6 meses y evitar reutilizar contraseñas en otros sitios web.
+4.2. Verificación en Dos Pasos (2FA)
+Autenticación multifactor: En las áreas sensibles del Sitio, como la gestión de cuentas de usuario o el acceso a plataformas educativas, ofrecemos la opción de habilitar la autenticación de dos factores (2FA). Esto requiere un segundo método de verificación, como un código enviado a tu correo electrónico o número de teléfono registrado.
+Implementación progresiva: Estamos trabajando para implementar 2FA de manera obligatoria en todas las cuentas de usuario en el futuro, notificando a los usuarios con antelación para facilitar la transición.
+4.3. Protección contra Ataques de Fuerza Bruta
+Límite de intentos de inicio de sesión: Restringimos el número de intentos fallidos de inicio de sesión para prevenir ataques de fuerza bruta. Si se superan los intentos permitidos, la cuenta se bloqueará temporalmente, y el usuario será notificado para verificar su identidad.
+Notificaciones de actividad sospechosa: Si detectamos intentos de acceso no autorizados a tu cuenta, te notificaremos inmediatamente a través del correo electrónico registrado.
+5. Gestión de Incidentes de Seguridad
+A pesar de nuestras medidas preventivas, reconocemos que ningún sistema es completamente inmune a incidentes de seguridad. Por ello, hemos establecido procedimientos robustos para gestionar cualquier brecha de seguridad de manera rápida y efectiva.
+
+5.1. Procedimientos de Notificación de Brechas
+Detección de incidentes: Utilizamos herramientas de monitoreo avanzadas para identificar brechas de seguridad, como accesos no autorizados, filtraciones de datos o actividades sospechosas.
+Notificación a los usuarios: En caso de una brecha de seguridad que pueda afectar tus datos personales o financieros, te notificaremos dentro de las 72 horas siguientes a la detección, conforme a los requisitos del RGPD y la Ley N° 29733. La notificación incluirá:
+Una descripción del incidente.
+Los datos potencialmente afectados.
+Las medidas tomadas para mitigar el impacto.
+Recomendaciones para proteger tu información (por ejemplo, cambiar contraseñas).
+Notificación a las autoridades: Informaremos a las autoridades competentes, como la Autoridad Nacional de Protección de Datos Personales en Perú (www.gob.pe/anpd) o la Agencia Española de Protección de Datos (www.aepd.es), según corresponda, en cumplimiento de las normativas aplicables.
+5.2. Medidas Correctivas
+Contención inmediata: En caso de un incidente, tomaremos medidas inmediatas para contener la brecha, como bloquear accesos no autorizados, suspender sistemas comprometidos o restaurar datos desde copias de seguridad.
+Investigación: Realizaremos una investigación exhaustiva para determinar la causa, el alcance y el impacto del incidente, con la colaboración de expertos en ciberseguridad si es necesario.
+Mejoras posteriores: Implementaremos medidas correctivas para prevenir incidentes similares, como actualizaciones de software, refuerzo de controles de seguridad o revisión de políticas internas.
+5.3. Comunicación Transparente
+Mantendremos a los usuarios informados sobre el progreso de la gestión del incidente y las medidas adoptadas para proteger sus datos. Si es necesario, proporcionaremos recursos adicionales, como soporte para restablecer contraseñas o verificar la seguridad de tu cuenta.
+
+6. Cumplimiento Normativo
+Nuestra Política de Seguridad está diseñada para cumplir con las normativas y estándares internacionales más exigentes en materia de protección de datos y ciberseguridad. Entre las normativas y estándares que seguimos se incluyen:
+
+Ley N° 29733, Ley de Protección de Datos Personales (Perú): Garantizamos los derechos ARCO (acceso, rectificación, cancelación y oposición) y aplicamos medidas de seguridad adecuadas para proteger los datos personales de nuestros usuarios.
+Reglamento General de Protección de Datos (RGPD, Unión Europea): Cumplimos con los requisitos de protección de datos para usuarios en la UE, incluyendo el consentimiento explícito, la portabilidad de datos y la notificación de brechas de seguridad.
+Ley Orgánica de Protección de Datos Personales y Garantía de los Derechos Digitales (LOPDGDD, España): Aplicamos medidas adicionales para usuarios en España, en línea con las disposiciones del RGPD y la legislación local.
+PCI DSS (Payment Card Industry Data Security Standard): Nos aseguramos de que todas las transacciones financieras cumplan con los estándares de seguridad para el manejo de datos de tarjetas de pago.
+ISO/IEC 27001 (si aplica): Seguimos las mejores prácticas internacionales en gestión de seguridad de la información, alineándonos con estándares reconocidos globalmente.
+Además, realizamos auditorías internas y externas periódicas para verificar el cumplimiento de estas normativas y garantizar que nuestras prácticas de seguridad estén actualizadas.
+
+7. Educación y Sensibilización Interna
+La seguridad de los datos no solo depende de la tecnología, sino también de las personas que gestionan la información. Por ello, implementamos programas de educación y sensibilización para nuestro equipo.
+
+7.1. Formación Continua del Personal
+Capacitación en ciberseguridad: Todo el personal del Instituto, incluidos empleados y colaboradores externos, recibe formación regular en temas de ciberseguridad, protección de datos y buenas prácticas para el manejo de información sensible.
+Temas cubiertos: Los programas de capacitación incluyen:
+Reconocimiento de amenazas comunes, como phishing, malware o ingeniería social.
+Uso seguro de contraseñas y autenticación multifactor.
+Cumplimiento de normativas de protección de datos (por ejemplo, RGPD, Ley N° 29733).
+Procedimientos para reportar incidentes de seguridad.
+Frecuencia: La capacitación se realiza al menos anualmente, con sesiones adicionales en caso de actualizaciones normativas o incorporación de nuevas tecnologías.
+7.2. Cultura de Seguridad
+Políticas internas: Mantenemos políticas internas estrictas que obligan al personal a seguir procedimientos de seguridad, como el uso de dispositivos seguros, la gestión adecuada de datos y la notificación inmediata de cualquier incidente.
+Sensibilización continua: Promovemos una cultura de seguridad mediante comunicaciones regulares, boletines internos y simulacros de incidentes para preparar al equipo ante posibles amenazas.
+7.3. Colaboración con Proveedores
+Exigimos a nuestros proveedores externos (por ejemplo, pasarelas de pago, servicios de hosting o plataformas de análisis) que cumplan con los mismos estándares de seguridad y que implementen programas de capacitación para su personal.
+8. Recomendaciones para los Usuarios
+Para complementar nuestras medidas de seguridad, te recomendamos adoptar las siguientes prácticas para proteger tu información:
+
+Usa contraseñas seguras: Crea contraseñas únicas y complejas, y evita reutilizarlas en otros sitios web.
+Habilita la autenticación de dos factores: Si está disponible, activa 2FA en tu cuenta para añadir una capa adicional de protección.
+Mantén tus dispositivos actualizados: Asegúrate de que tu sistema operativo, navegador y software antivirus estén actualizados para protegerte contra vulnerabilidades conocidas.
+Evita redes públicas: No accedas al Sitio ni realices transacciones desde redes Wi-Fi públicas no seguras.
+Revisa tus cuentas regularmente: Verifica tu cuenta en el Sitio y tus estados financieros para detectar cualquier actividad sospechosa.
+Si sospechas que tu cuenta ha sido comprometida, contáctanos inmediatamente en soporte@imbinstitute.com para tomar medidas correctivas.
+
+9. Cambios o Modificaciones a esta Política
+Nos reservamos el derecho de modificar esta Política de Seguridad en cualquier momento para reflejar cambios en nuestras prácticas, tecnologías, servicios o normativas legales aplicables. Las modificaciones serán publicadas en esta sección del Sitio, indicando la fecha de la última actualización.
+
+9.1. Notificación de Cambios
+Te notificaremos de cambios significativos mediante:
+
+Un aviso destacado en el Sitio, visible al iniciar sesión o navegar.
+Un correo electrónico a soporte@imbinstitute.com, si estás suscrito a nuestras comunicaciones.
+Los cambios entrarán en vigor en la fecha de publicación, salvo que se indique un período de transición específico. El uso continuado del Sitio tras la publicación de cambios implica tu aceptación de los mismos. Te recomendamos revisar esta política periódicamente para mantenerte informado.
+
+9.2. Aplicabilidad de Cambios
+Las modificaciones no afectarán los derechos adquiridos por los usuarios en relación con la protección de sus datos antes de la entrada en vigor de los cambios, salvo que la normativa legal aplicable disponga lo contrario.
+
+10. Contacto
+Para cualquier consulta, duda, reclamación o solicitud relacionada con esta Política de Seguridad, nuestro equipo de Bienestar Estudiantil está disponible a través de los siguientes canales oficiales:
+
+IMB Institute
+Correo electrónico: soporte@imbinstitute.com
+Teléfono: +51 941 328 673
+Dirección: Mza. G Lote. 16a Alto de la Luna (2do Piso), Jose Luis Bustamante y Rivero, Arequipa, Perú
+Formulario de contacto: https://imbinstitute.com/contacto/
+
+Nos comprometemos a responder tus solicitudes en un plazo razonable, generalmente dentro de los 15 días hábiles siguientes a la recepción de tu mensaje. Si sospechas de una brecha de seguridad o necesitas asistencia urgente, contáctanos de inmediato para tomar medidas rápidas.
+
+Si no estás satisfecho con nuestra respuesta o consideras que tus derechos han sido vulnerados, puedes presentar una reclamación ante la Autoridad Nacional de Protección de Datos Personales en Perú (www.gob.pe/anpd) o la autoridad de protección de datos de tu país, como la Agencia Española de Protección de Datos (www.aepd.es) en España.
+
+11. Disposiciones Adicionales
+11.1. Fuerza Mayor
+El Instituto no será responsable por el incumplimiento de las medidas de seguridad descritas en esta política debido a causas de fuerza mayor, entendidas como eventos imprevisibles, inevitables y fuera de nuestro control, como desastres naturales, emergencias sanitarias, ciberataques masivos no atribuibles al Instituto o cambios normativos impuestos por autoridades competentes. En estos casos, tomaremos medidas razonables para mitigar el impacto y notificar a los usuarios afectados.
+
+11.2. Legislación Aplicable y Jurisdicción
+Esta Política de Seguridad se rige por las leyes de la República del Perú, incluyendo la Ley N° 29733, Ley de Protección de Datos Personales, el Código Civil y otras normativas relevantes. Cualquier disputa derivada de esta política será sometida a la jurisdicción exclusiva de los tribunales competentes de [insertar ciudad, por ejemplo, Lima, Perú], salvo que la normativa aplicable permita al usuario presentar reclamaciones en su país de residencia (por ejemplo, bajo el RGPD en la Unión Europea).
+
+11.3. Aceptación de la Política
+El acceso, uso del Sitio o participación en nuestros programas y servicios implica el conocimiento y aceptación plena de esta Política de Seguridad, así como de las demás políticas aplicables del Sitio.
+
+11.4. Validez Parcial
+Si alguna disposición de esta política fuera declarada nula, inválida o inaplicable por un tribunal competente, dicha disposición se interpretará de manera que refleje lo más fielmente posible la intención original, y las demás disposiciones permanecerán en pleno vigor y efecto.
+
+Gracias por confiar en IMB Institute. Nos esforzamos por proteger tu información con las mejores prácticas de seguridad, garantizando una experiencia digital segura, confiable y transparente. Tu tranquilidad es nuestra prioridad, y estamos aquí para ayudarte en todo momento.

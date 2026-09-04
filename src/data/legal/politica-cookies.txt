@@ -1,0 +1,100 @@
+Política de Cookies
+Última actualización: 01 de julio de 2025
+
+En IMB Institute (en adelante, «nosotros», «nuestro» o «el Instituto»), utilizamos cookies y tecnologías similares en nuestro sitio web https://imbinstitute.com (en adelante, «el Sitio») para mejorar tu experiencia de navegación, optimizar nuestros servicios educativos y analizar el uso del Sitio. Esta Política de Cookies tiene como objetivo informarte de manera clara y detallada sobre qué son las cookies, qué tipos utilizamos, sus finalidades, cuánto tiempo se almacenan y cómo puedes gestionarlas.
+
+Nuestra prioridad es garantizar la transparencia y cumplir con las normativas aplicables, como el Reglamento General de Protección de Datos (RGPD) de la Unión Europea, la Ley N° 29733, Ley de Protección de Datos Personales en Perú, y otras leyes locales relevantes. Al utilizar el Sitio, aceptas el uso de cookies conforme a esta política, salvo que configures tus preferencias para rechazarlas. Para más información sobre cómo tratamos tus datos personales, consulta nuestra Política de Privacidad.
+
+1. ¿Qué son las Cookies?
+Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo (computadora, tablet, smartphone, etc.) cuando visitas un sitio web a través de tu navegador. Estos archivos permiten que el Sitio recuerde información sobre tu visita, como tus preferencias, configuración o patrones de navegación, para ofrecerte una experiencia más personalizada y eficiente.
+
+Además de cookies, podemos utilizar tecnologías similares, como píxeles de seguimiento o balizas web, que cumplen funciones análogas para recopilar información sobre tu interacción con el Sitio o con nuestras comunicaciones (por ejemplo, al abrir un correo electrónico). Estas tecnologías nos ayudan a mejorar nuestros servicios y a entender mejor cómo utilizas el Sitio.
+
+Las cookies pueden ser gestionadas por nosotros («cookies propias») o por terceros («cookies de terceros»), como proveedores de servicios de análisis o publicidad. A continuación, detallamos los tipos de cookies que utilizamos y sus finalidades.
+
+2. Tipos de Cookies Utilizadas
+Utilizamos diferentes tipos de cookies en el Sitio, cada una con una finalidad específica. A continuación, te explicamos las categorías principales:
+
+Cookies técnicas (necesarias):
+Estas cookies son esenciales para el funcionamiento del Sitio y no pueden desactivarse en nuestros sistemas. Permiten funciones básicas, como navegar por las páginas, acceder a áreas seguras (por ejemplo, tu cuenta de usuario), gestionar sesiones o procesar inscripciones en programas académicos. Sin estas cookies, el Sitio no funcionaría correctamente.
+Ejemplo: Cookies que mantienen tu sesión activa cuando inicias sesión en nuestra plataforma educativa.
+Cookies de personalización:
+Estas cookies permiten personalizar tu experiencia en el Sitio al recordar tus preferencias, como el idioma seleccionado, la región desde la que accedes o la configuración de visualización. No son esenciales, pero mejoran la usabilidad del Sitio.
+Ejemplo: Cookies que recuerdan tu idioma preferido para mostrarte el contenido en español o en otro idioma seleccionado.
+Cookies de análisis:
+Estas cookies recopilan información sobre cómo interactúas con el Sitio, como las páginas que visitas, el tiempo que pasas en ellas o los enlaces en los que haces clic. Los datos se recopilan de forma agregada y anónima para analizar el rendimiento del Sitio y mejorar su funcionalidad.
+Ejemplo: Cookies de Google Analytics que nos ayudan a entender qué secciones del Sitio son más visitadas.
+Cookies publicitarias y de terceros:
+Estas cookies se utilizan para mostrarte anuncios relevantes, tanto en el Sitio como en plataformas externas, basados en tus intereses y patrones de navegación. También permiten medir la efectividad de nuestras campañas publicitarias. Estas cookies suelen ser gestionadas por terceros, como redes publicitarias o plataformas de marketing.
+Ejemplo: Cookies de plataformas como Google Ads para mostrarte anuncios de nuestros programas académicos en otros sitios web.
+3. Cookies Concretas Utilizadas en el Sitio
+A continuación, detallamos las cookies específicas que utilizamos en el Sitio, incluyendo su nombre, proveedor, finalidad y duración:
+
+Nombre de la Cookie	Proveedor	Finalidad	Duración
+session_id	IMB Institute	Cookie técnica para mantener tu sesión activa mientras navegas por el Sitio o accedes a tu cuenta de usuario.	Sesión (se elimina al cerrar el navegador)
+language_preference	IMB Institute	Cookie de personalización que recuerda tu idioma preferido para mostrarte el contenido del Sitio en el idioma seleccionado.	1 año
+_ga	Google Analytics	Cookie de análisis que genera un identificador único para rastrear visitas y analizar el uso del Sitio de forma anónima.	26 meses
+_gid	Google Analytics	Cookie de análisis que registra un identificador único para generar datos estadísticos sobre cómo usas el Sitio.	24 horas
+_gat	Google Analytics	Cookie de análisis que limita la tasa de solicitudes para mejorar el rendimiento en sitios de alto tráfico.	1 minuto
+ad_user_id	Google Ads	Cookie publicitaria que rastrea tu interacción con anuncios para mostrarte contenido personalizado y medir la efectividad de campañas.	90 días
+mailchimp_landing_site	Mailchimp	Cookie de marketing que registra la página de entrada al Sitio para personalizar campañas de correo electrónico.	1 mes
+Nota: Esta lista puede actualizarse periódicamente según los servicios que integremos en el Sitio. Te recomendamos revisar esta política con regularidad para mantenerte informado.
+
+4. Cómo Aceptar, Rechazar o Configurar Cookies
+Al visitar el Sitio por primera vez, te mostraremos un banner de cookies que te permitirá aceptar, rechazar o configurar el uso de cookies no esenciales. Puedes gestionar tus preferencias en cualquier momento a través de las siguientes opciones:
+
+Aceptar todas las cookies: Permite el uso de todas las cookies descritas en esta política, incluyendo las técnicas, de personalización, de análisis y publicitarias.
+Rechazar cookies no esenciales: Solo se utilizarán las cookies técnicas necesarias para el funcionamiento del Sitio.
+Configurar cookies: Puedes seleccionar qué tipos de cookies deseas permitir (por ejemplo, aceptar cookies de análisis pero rechazar las publicitarias).
+Para configurar tus preferencias, haz clic en el enlace o botón de «Gestionar Cookies» disponible en el banner de cookies o en la sección de configuración del Sitio. Ten en cuenta que rechazar ciertas cookies puede limitar algunas funcionalidades, como la personalización del contenido o el acceso a ciertas áreas.
+
+5. Cómo Desactivar Cookies desde el Navegador
+Además de gestionar las cookies a través del Sitio, puedes desactivarlas o eliminarlas directamente desde la configuración de tu navegador. A continuación, te proporcionamos instrucciones para los navegadores más comunes:
+
+Google Chrome:
+Haz clic en los tres puntos en la esquina superior derecha y selecciona «Configuración».
+Ve a «Privacidad y seguridad» > «Cookies y otros datos de sitios».
+Selecciona «Bloquear todas las cookies» o «Bloquear cookies de terceros».
+También puedes eliminar cookies existentes en «Ver todas las cookies y datos de sitios».
+Mozilla Firefox:
+Haz clic en las tres líneas en la esquina superior derecha y selecciona «Opciones».
+Ve a «Privacidad y seguridad» > «Cookies y datos de sitios».
+Elige «Bloquear cookies y datos de sitios» y selecciona el tipo de bloqueo deseado.
+Usa la opción «Administrar datos» para eliminar cookies específicas.
+Safari:
+En un Mac, ve a «Preferencias» > «Privacidad».
+Marca «Bloquear todas las cookies» o desmarca «Permitir cookies de sitios web visitados».
+Para eliminar cookies, ve a «Administrar datos de sitios web» y selecciona «Eliminar todo».
+Microsoft Edge:
+Haz clic en los tres puntos en la esquina superior derecha y selecciona «Configuración».
+Ve a «Privacidad, búsqueda y servicios» > «Cookies y datos de sitios».
+Selecciona «Bloquear todas las cookies» o «Bloquear cookies de terceros».
+Usa «Ver todas las cookies y datos de sitios» para eliminarlas.
+Ten en cuenta que desactivar cookies en tu navegador puede afectar la funcionalidad de otros sitios web que visites. Para más información, consulta la documentación oficial de tu navegador.
+
+6. Actualización de la Política de Cookies
+Nos reservamos el derecho de modificar esta Política de Cookies en cualquier momento para reflejar cambios en nuestras prácticas, en los servicios que utilizamos o en las normativas aplicables. Cualquier cambio será publicado en esta sección del Sitio, indicando la fecha de la última actualización. Revisaremos esta política al menos una vez al año o con mayor frecuencia si se introducen nuevos servicios o tecnologías que afecten el uso de cookies.
+
+Si realizamos cambios significativos, te notificaremos mediante:
+
+Un aviso destacado en el Sitio.
+Un correo electrónico a soporte@imbinstitute.com, si estás suscrito a nuestras comunicaciones.
+Te recomendamos revisar esta política periódicamente para mantenerte informado sobre cómo utilizamos las cookies.
+
+7. Aceptación de la Política de Cookies
+El acceso y uso del Sitio implica el conocimiento y aceptación de esta Política de Cookies. Si decides aceptar las cookies no esenciales, das tu consentimiento expreso para que tratemos los datos recopilados conforme a las finalidades descritas. Puedes retirar tu consentimiento en cualquier momento configurando tus preferencias de cookies o desactivándolas en tu navegador.
+
+8. Enlaces a Sitios Externos
+El Sitio puede contener enlaces a sitios web de terceros, como plataformas de redes sociales, socios educativos o proveedores de servicios. No tenemos control sobre las cookies o prácticas de privacidad de estos sitios, por lo que no nos responsabilizamos de ellas. Te recomendamos revisar las políticas de cookies y privacidad de cualquier sitio externo que visites.
+
+9. Contacto
+Si tienes preguntas, dudas o necesitas más información sobre el uso de cookies en el Sitio, puedes contactar a nuestro equipo de Bienestar Estudiantil a través de:
+
+IMB Institute
+Correo electrónico: soporte@imbinstitute.com
+Teléfono: +51 941 328 673
+Dirección: Mza. G Lote. 16a Alto de la Luna (2do Piso), Jose Luis Bustamante y Rivero, Arequipa, Perú
+
+Estamos comprometidos con responder tus consultas de manera transparente y en un plazo razonable. Si no estás satisfecho con nuestra respuesta, puedes presentar una reclamación ante la Autoridad Nacional de Protección de Datos Personales en Perú (www.gob.pe/anpd) o la autoridad de protección de datos de tu país.
+
+Gracias por confiar en IMB Institute. Nos esforzamos por ofrecerte una experiencia digital segura, personalizada y transparente mientras protegemos tu privacidad.

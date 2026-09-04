@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/legal/LegalPage.astro';
+import content from '../data/legal/politica-cookies.txt?raw';
+
+export const prerender = true;
+
+const title = 'Política de Cookies';
+const description = 'Consulta qué cookies utiliza el sitio de IMB Institute, para qué sirven y cómo puedes administrarlas desde la configuración de tu navegador.';
+---
+
+<LegalPage {title} {description} {content} />

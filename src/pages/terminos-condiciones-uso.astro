@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/legal/LegalPage.astro';
+import content from '../data/legal/terminos-condiciones-uso.txt?raw';
+
+export const prerender = true;
+
+const title = 'Términos y Condiciones de Uso';
+const description = 'Consulta las reglas para acceder y utilizar el sitio web, los contenidos y los servicios digitales de IMB Institute.';
+---
+
+<LegalPage {title} {description} {content} />
