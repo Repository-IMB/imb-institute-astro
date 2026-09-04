@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Wrapper from '../ui/Wrapper.astro';
+import Card from '../ui/Card.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  language?: 'es' | 'pt';
+}
+
+const { title, description, eyebrow, language = 'es' } = Astro.props;
+---
+
+<BaseLayout
+  title={`${title} | IMB Institute`}
+  description={description}
+  lang={language}
+  robots="noindex, nofollow"
+>
+  <Wrapper class="border-b border-border-subtle bg-surface-0 py-14 text-center lg:py-20" padded={false}>
+    <div class="mx-auto max-w-3xl">
+      <p class="mb-4 text-label uppercase tracking-widest text-imb">{eyebrow}</p>
+      <h1 class="text-page-title">{title}</h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lead text-text-secondary">{description}</p>
+    </div>
+  </Wrapper>
+
+  <Wrapper class="bg-surface-50 py-14 lg:py-20" padded={false}>
+    <div class="mx-auto max-w-4xl">
+      <Card class="rounded-xl! p-6 shadow-none! hover:shadow-none! md:p-10 lg:p-14">
+        <slot />
+      </Card>
+    </div>
+  </Wrapper>
+</BaseLayout>

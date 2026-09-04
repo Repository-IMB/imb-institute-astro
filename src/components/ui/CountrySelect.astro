@@ -1,0 +1,33 @@
+---
+import SelectField from './SelectField.astro';
+import { COUNTRIES_ES } from '../../data/countries';
+
+interface Props {
+  label?: string;
+  name?: string;
+  required?: boolean;
+  class?: string;
+  placeholder?: string;
+}
+
+const {
+  label = "País",
+  name = "pais",
+  required = false,
+  class: className,
+  placeholder = "--- Selecciona un país ---",
+} = Astro.props;
+
+const options = [
+  { value: '', label: placeholder },
+  ...COUNTRIES_ES,
+];
+---
+
+<SelectField
+  label={label}
+  name={name}
+  required={required}
+  options={options}
+  class={className}
+/>

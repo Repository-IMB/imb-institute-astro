@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import FormRegistroDocentes from '../components/forms/FormRegistroDocentes.astro';
+import { Phone } from 'lucide-astro';
+import { CONTACT_INFO } from '../config/contact';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Ficha de registro docente | IMB Institute"
+  description="Actualiza tus datos de contacto, formación y experiencia para el registro docente de IMB Institute."
+  robots="noindex, nofollow"
+>
+  <Wrapper class="border-b border-border-subtle bg-surface-0 py-14 text-center lg:py-20" padded={false}>
+    <div class="mx-auto max-w-3xl">
+      <p class="mb-4 text-label uppercase tracking-widest text-imb">Equipo académico</p>
+      <h1 class="text-page-title">Ficha de registro docente</h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lead text-text-secondary">
+        Actualiza tus datos de contacto, formación y experiencia para el registro docente de IMB Institute.
+      </p>
+    </div>
+  </Wrapper>
+
+  <Wrapper class="bg-surface-50 py-14 lg:py-20" padded={false}>
+    <div class="grid min-w-0 grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(20rem,1fr)] xl:gap-10">
+      <Card class="min-w-0 rounded-xl! p-6 shadow-none! hover:shadow-none! md:p-10 lg:p-14">
+        <FormRegistroDocentes />
+      </Card>
+
+      <aside class="min-w-0 space-y-4 lg:sticky lg:top-24" aria-labelledby="support-title">
+        <Card class="min-w-0 rounded-xl! border-l-4 border-l-imb p-6 shadow-none! hover:shadow-none!">
+          <h2 id="support-title" class="text-card-title">CONSULTAS</h2>
+          <p class="mt-3 text-body text-text-secondary">
+            De requerir apoyo o tener alguna duda sobre alguna pregunta puedes escribir a nuestros canales de Whatsapp:
+          </p>
+        </Card>
+
+        <Card class="min-w-0 rounded-xl! p-6 shadow-none! hover:shadow-none!">
+          <address class="space-y-1 not-italic">
+            <a
+              href={CONTACT_INFO.socials.whatsapp}
+              class="-mx-3 flex min-h-11 items-center gap-3 rounded-lg px-3 text-meta font-medium text-text-primary transition-colors hover:bg-surface-50 hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"
+            >
+              <Phone size={18} class="shrink-0 text-imb" aria-hidden="true" />
+              <span>{CONTACT_INFO.phones.support}</span>
+            </a>
+          </address>
+        </Card>
+      </aside>
+    </div>
+  </Wrapper>
+</BaseLayout>

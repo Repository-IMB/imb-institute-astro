@@ -1,48 +1,63 @@
 ---
 interface Props {
+  id?: string;
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
+  help?: string;
   required?: boolean;
+  maxLength?: number;
   rows?: number;
   class?: string;
 }
 
 const {
+  id,
   label,
   name,
   type = 'text',
   placeholder,
+  help,
   required = false,
+  maxLength,
   rows,
   class: className,
 } = Astro.props;
 
-const inputClasses = "w-full px-0 py-2 bg-transparent border-0 border-b-2 border-border-subtle focus:ring-0 focus:border-imb focus:outline-none transition-all font-display text-base text-text-primary placeholder:text-icon-muted";
+const inputClasses = "min-h-11 w-full border-0 border-b-2 border-border-subtle bg-transparent px-0 py-2 font-sans text-base text-text-primary transition-colors duration-200 placeholder:text-icon-muted focus:border-imb focus:outline-none focus:ring-0";
+const fieldId = id ?? name;
+const helpId = `${fieldId}-help`;
 ---
 
 <div class:list={["relative group", className]}>
-  <label class="block font-sans text-sm font-medium text-text-secondary mb-1 transition-colors group-focus-within:text-imb">
+  <label for={fieldId} class="block font-sans text-sm font-medium text-text-secondary mb-1 transition-colors group-focus-within:text-imb">
     {label} {required && <span class="text-imb">*</span>}
   </label>
   {type === 'textarea' ? (
     <textarea
+      id={fieldId}
       name={name}
       required={required}
+      maxlength={maxLength}
       rows={rows || 4}
       class={`${inputClasses} resize-y min-h-30`}
       placeholder={placeholder}
+      aria-describedby={help ? helpId : undefined}
     ></textarea>
   ) : (
     <input
+      id={fieldId}
       type={type as astroHTML.JSX.HTMLInputTypeAttribute}
       name={name}
       required={required}
+      maxlength={maxLength}
       class={inputClasses}
       placeholder={placeholder}
+      aria-describedby={help ? helpId : undefined}
     />
   )}
 
-  <span class="text-rose-600 text-xs hidden mt-1 font-medium" data-error-for={name}></span>
+  {help && <p id={helpId} class="mt-1 text-caption text-text-secondary">{help}</p>}
+  <span class="mt-1 hidden text-xs font-medium text-feedback-error" data-error-for={name}></span>
 </div>

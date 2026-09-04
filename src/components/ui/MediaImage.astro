@@ -9,31 +9,46 @@ export interface Props {
   width?: number;
   height?: number;
   loading?: 'lazy' | 'eager';
+  optimizeRemote?: boolean;
   [key: string]: any;
 }
 
-const { src, alt, ...rest } = Astro.props;
-const altText = alt || "Imagen de IMB Institute";
+const { src, alt, optimizeRemote = false, ...rest } = Astro.props;
+const altText = alt ?? "Imagen de IMB Institute";
 
 // Type checks for source
 const isEsmImport = src && typeof src === 'object' && 'src' in src;
 const isRemoteUrl = typeof src === 'string' && src.startsWith('http');
 const isPublicPath = typeof src === 'string' && src.startsWith('/');
+const importedFormat = isEsmImport && src.format === 'avif' ? 'avif' : undefined;
+const canOptimizeRemote = isRemoteUrl && optimizeRemote && rest.width && rest.height;
+const remoteWidth = Number(rest.width);
+const remoteHeight = Number(rest.height);
+const { widths: _widths, sizes: _sizes, ...htmlImageProps } = rest;
 
 // Fallback logic
-const fallbackSrc = defaultPlaceholder.src;
 ---
 
 {isEsmImport && (
-  <Image src={src} alt={altText} {...rest} />
+  <Image src={src} alt={altText} format={importedFormat} {...rest} />
 )}
 
-{isRemoteUrl && (
-  <img src={src} alt={altText} {...rest} />
+{canOptimizeRemote && (
+  <Image
+    src={src}
+    alt={altText}
+    {...rest}
+    width={remoteWidth}
+    height={remoteHeight}
+  />
+)}
+
+{isRemoteUrl && !canOptimizeRemote && (
+  <img src={src} alt={altText} {...htmlImageProps} />
 )}
 
 {isPublicPath && (
-  <img src={src} alt={altText} {...rest} />
+  <img src={src} alt={altText} {...htmlImageProps} />
 )}
 
 {!src && (

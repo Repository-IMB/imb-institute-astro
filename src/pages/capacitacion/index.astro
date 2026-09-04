@@ -1,223 +1,582 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Card from '../../components/ui/Card.astro';
-import Button from '../../components/ui/Button.astro';
-import Wrapper from '../../components/ui/Wrapper.astro';
-import MediaImage from '../../components/ui/MediaImage.astro';
-import { cursos, categorias } from '../../data/cursos';
-import { BarChart2, Clock, Calendar, Search } from 'lucide-astro';
-import { ROUTES, COURSE_ROUTES, slugify } from '../../config/routes';
-import Badge from '../../components/ui/Badge.astro';
+import {
+  BarChart2,
+  BriefcaseBusiness,
+  Calendar,
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  GraduationCap,
+  HandHeart,
+  Library,
+  RefreshCw,
+  RotateCcw,
+  Search,
+  X,
+} from "lucide-astro";
+import Accordion from "../../components/ui/Accordion.astro";
+import Badge from "../../components/ui/Badge.astro";
+import Card from "../../components/ui/Card.astro";
+import HeroSection from "../../components/ui/HeroSection.astro";
+import MediaImage from "../../components/ui/MediaImage.astro";
+import Wrapper from "../../components/ui/Wrapper.astro";
+import { COURSE_ROUTES, slugify } from "../../config/routes";
+import { categorias, cursos } from "../../data/cursos";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import capacitacionHero from "../../assets/images/equipo-trabajo-colaboracion-oficina.webp";
 
 export const prerender = true;
+
+const categoryOptions = categorias.map((label) => {
+  const slug = slugify(label);
+  return { label, slug };
+});
+
+const faqItems = [
+  {
+    title: "Requisitos de admisión",
+    content:
+      "Los requisitos varían según el programa. Algunos cursos pueden solicitar conocimientos previos, acceso a software o herramientas específicas y documentación adicional. Revisa la ficha del curso o consulta con admisiones antes de matricularte.",
+  },
+  {
+    title: "Costo de la matrícula",
+    content:
+      "El costo de la matrícula depende del programa y de la convocatoria. Consulta con admisiones las tarifas vigentes, el calendario de pagos y las opciones disponibles.",
+  },
+  {
+    title: "Becas y opciones de financiamiento",
+    content:
+      "IMB ofrece becas y opciones de financiamiento sujetas a evaluación y disponibilidad. El equipo de admisiones puede indicarte los requisitos y las alternativas vigentes para el programa que te interesa.",
+  },
+  {
+    title: "Programas educativos",
+    content:
+      "La oferta reúne cursos de capacitación y programas de formación profesional con un enfoque práctico. Usa el buscador para comparar las opciones publicadas y abre cada ficha para revisar el contenido, la duración y las fechas.",
+  },
+  {
+    title: "Asesoramiento y apoyo académico",
+    content:
+      "Según el programa, puedes acceder a asesoramiento académico personalizado, tutorías, orientación profesional y espacios de apoyo emocional. Consulta qué servicios incluye la convocatoria antes de matricularte.",
+  },
+];
+
+const benefits = [
+  {
+    icon: GraduationCap,
+    title: "Asesoramiento académico personalizado",
+    description:
+      "Recibe orientación de un tutor para resolver dudas, organizar tu estudio y dar seguimiento a tu avance.",
+  },
+  {
+    icon: HandHeart,
+    title: "Acompañamiento integral",
+    description:
+      "Accede a sesiones de manejo del estrés y apoyo psicológico orientadas a cuidar tu bienestar durante la formación.",
+  },
+  {
+    icon: BriefcaseBusiness,
+    title: "Orientación profesional",
+    description:
+      "Recibe orientación para mejorar tu currículum, desarrollar habilidades de liderazgo, ampliar tu red profesional y conocer oportunidades laborales.",
+  },
+  {
+    icon: Library,
+    title: "Biblioteca digital actualizada",
+    description:
+      "Consulta videos, libros y artículos de apoyo. Los recursos se actualizan mensualmente.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Eventos para la comunidad IMB",
+    description:
+      "Participa en eventos, sesiones de orientación profesional y clases de liderazgo disponibles para la comunidad IMB.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Sesiones de actualización",
+    description:
+      "Mantente al día con sesiones sobre cambios en software, herramientas y normativa relacionados con cada programa.",
+  },
+];
 ---
 
-<BaseLayout title="Programas de Capacitación | IMB Institute" description="Explora nuestra oferta formativa. Filtra por tu área de interés o busca directamente el diplomado, curso o especialización que necesitas.">
+<BaseLayout
+  title="Programas de capacitación | IMB Institute"
+  description="Consulta los cursos y programas disponibles en IMB Institute y filtra el catálogo por área, nombre o docente."
+  image={capacitacionHero}
+>
+  <HeroSection
+    title="Encuentra un programa que encaje con tu trabajo"
+    highlight="tu trabajo"
+    description="Busca por programa o docente y revisa el contenido, la duración y las fechas de cada curso."
+    image={capacitacionHero}
+  />
 
-  <Wrapper class="bg-surface-50" padded={false} class:list={["pt-8 lg:pt-12"]}>
-    <!-- Header -->
-    <div class="mb-10 lg:mb-12">
-      <div class="max-w-3xl">
-        <h1 class="font-display text-4xl lg:text-5xl font-extrabold text-text-primary mb-6 tracking-tight">Encuentra tu próximo paso</h1>
-        <p class="font-sans text-lg text-text-secondary leading-relaxed">
-          Explora nuestra oferta formativa. Filtra por tu área de interés o busca directamente el diplomado, curso o especialización que necesitas para potenciar tu perfil profesional.
+  <section class="relative bg-surface-50" aria-label="Catálogo de cursos">
+    <div
+      class="sticky top-16 z-20 border-b border-border-subtle bg-surface-0/95 py-4 shadow-sm backdrop-blur md:py-5"
+      data-course-filters
+    >
+      <form
+        id="course-filter-form"
+        role="search"
+        class="mx-auto max-w-360 px-4 md:px-8 lg:px-12"
+      >
+        <label for="search-input" class="sr-only">Buscar programas</label>
+        <div class="flex items-center gap-2">
+          <div class="relative min-w-0 flex-1 max-w-3xl">
+            <Search
+              size={19}
+              class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-icon-muted"
+              aria-hidden="true"
+            />
+            <input
+              id="search-input"
+              type="text"
+              autocomplete="off"
+              enterkeyhint="search"
+              placeholder="Nombre del programa"
+              aria-controls="courses-grid"
+              aria-describedby="result-summary"
+              class="min-h-12 w-full rounded-xl border border-border-subtle bg-surface-0 py-3 pl-12 pr-12 font-sans text-base text-text-primary outline-none transition-colors placeholder:text-icon-muted focus:border-imb focus:ring-2 focus:ring-imb/15"
+            />
+            <button
+              id="clear-search"
+              type="button"
+              class="absolute right-0.5 top-1/2 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-100 hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-imb"
+              aria-label="Borrar búsqueda"
+              title="Borrar búsqueda"
+              hidden
+            >
+              <X size={18} aria-hidden="true" />
+            </button>
+          </div>
+
+          <button
+            id="clear-filters"
+            type="button"
+            class="clear-filters flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-border-subtle bg-surface-0 text-text-secondary transition-colors hover:border-imb hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"
+            aria-label="Restablecer todos los filtros"
+            title="Restablecer filtros"
+            aria-controls="courses-grid"
+            hidden
+          >
+            <RotateCcw size={18} aria-hidden="true" />
+          </button>
+        </div>
+
+        <p
+          id="result-summary"
+          class="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          Mostrando {cursos.length} {cursos.length === 1 ? "programa" : "programas"}
+        </p>
+
+        <div class="mt-3 border-t border-border-subtle pt-3">
+          <span id="category-filter-label" class="sr-only">Filtrar por área</span>
+          <div class="flex items-center gap-2">
+            <button
+              id="category-previous"
+              type="button"
+              class="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-surface-0 text-text-secondary transition-colors hover:border-imb hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb disabled:cursor-default disabled:opacity-30"
+              aria-label="Ver categorías anteriores"
+              title="Categorías anteriores"
+              aria-controls="category-track"
+              hidden
+            >
+              <ChevronLeft size={19} aria-hidden="true" />
+            </button>
+
+            <div
+              id="category-track"
+              class="category-track min-w-0 flex-1 snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth motion-reduce:scroll-auto"
+              role="group"
+              aria-labelledby="category-filter-label"
+              tabindex="0"
+            >
+              <div class="flex w-max gap-2">
+                {categoryOptions.map((category) => (
+                  <button
+                    type="button"
+                    class="category-filter inline-flex min-h-11 shrink-0 snap-start cursor-pointer items-center rounded-full border border-border-subtle bg-surface-0 px-4 py-2 font-sans text-sm font-semibold text-text-secondary transition-colors hover:border-imb hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb aria-pressed:border-imb aria-pressed:bg-imb aria-pressed:text-white"
+                    data-category={category.slug}
+                    aria-pressed={category.label === "Todos" ? "true" : "false"}
+                    aria-controls="courses-grid"
+                  >
+                    {category.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button
+              id="category-next"
+              type="button"
+              class="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-surface-0 text-text-secondary transition-colors hover:border-imb hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb disabled:cursor-default disabled:opacity-30"
+              aria-label="Ver más categorías"
+              title="Más categorías"
+              aria-controls="category-track"
+              hidden
+            >
+              <ChevronRight size={19} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <Wrapper id="catalogo" class="bg-surface-50 py-20 lg:py-28" padded={false}>
+      <div
+        id="courses-grid"
+        class="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {
+          cursos.map((course) => (
+            <Card
+              href={COURSE_ROUTES.DETAIL(course.slug)}
+              class="course-card group flex flex-col overflow-hidden rounded-xl! shadow-none! hover:-translate-y-1 hover:shadow-sm! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-imb"
+              data-category={slugify(course.categoria)}
+              data-course-name={course.nombre}
+              data-instructor={course.instructor}
+            >
+            <div class="relative aspect-[16/9] overflow-hidden bg-surface-100">
+              <MediaImage
+                src={course.imagen}
+                alt={course.nombre}
+                class="h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.02]"
+              width={640}
+              height={360}
+              widths={[320, 480, 640, 800]}
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+              loading="lazy"
+              />
+              <div class="absolute left-4 top-4 z-10">
+                <Badge
+                  variant={course.estado === "Activo" ? "success" : "warning"}
+                >
+                  {course.estado}
+                </Badge>
+              </div>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+              <div class="mb-3 flex items-center gap-2 text-meta text-text-secondary">
+                <BarChart2
+                  size={16}
+                  class="shrink-0 text-imb"
+                  aria-hidden="true"
+                />
+                <span>{course.instructor}</span>
+              </div>
+              <h3 class="line-clamp-2 text-card-title transition-colors duration-200 group-hover:text-imb">
+                {course.nombre}
+              </h3>
+              <div class="mt-auto flex flex-wrap gap-4 border-t border-border-muted pt-6 text-meta text-text-secondary">
+                <span class="flex items-center gap-2">
+                  <Clock size={16} aria-hidden="true" />
+                  {course.duracion}
+                </span>
+                <span class="flex items-center gap-2">
+                  <Calendar size={16} aria-hidden="true" />
+                  Inicio: {course.fechaInicio}
+                </span>
+              </div>
+            </div>
+            </Card>
+          ))
+        }
+      </div>
+
+      <div
+        id="empty-state"
+        class="mt-10 rounded-xl border border-border-subtle bg-surface-0 px-6 py-16 text-center"
+        hidden
+      >
+        <div
+          class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-surface-50 text-icon-muted"
+          aria-hidden="true"
+        >
+          <Search size={26} />
+        </div>
+        <h3 class="mt-5 text-card-title">No hay programas con esos filtros</h3>
+        <p class="mx-auto mt-3 max-w-xl text-body text-text-secondary">
+          Prueba con otro término o selecciona otra área.
+        </p>
+        <button
+          id="empty-clear-filters"
+          type="button"
+          class="clear-filters mx-auto mt-7 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-surface-0 text-text-secondary transition-colors hover:border-imb hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"
+          aria-label="Restablecer todos los filtros"
+          title="Restablecer filtros"
+          aria-controls="courses-grid"
+        >
+          <RotateCcw size={18} aria-hidden="true" />
+        </button>
+      </div>
+    </Wrapper>
+  </section>
+
+  <Wrapper class="bg-surface-0 py-20 lg:py-28" padded={false}>
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-4">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">
+          Información académica
+        </p>
+        <h2 class="text-section-title">Formación para tu desarrollo profesional</h2>
+        <p class="mt-6 text-body text-text-secondary">
+          Encuentra cursos para actualizar tus conocimientos, fortalecer tu
+          capacidad de liderazgo y aplicar lo aprendido en tu especialidad.
+        </p>
+      </div>
+      <div class="space-y-4 lg:col-span-8">
+        {
+          faqItems.map((item, index) => (
+            <Accordion title={item.title} isOpen={index === 0}>
+              <p class="text-body">{item.content}</p>
+            </Accordion>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+
+  <Wrapper class="bg-surface-50 py-20 lg:py-28" padded={false}>
+    <div class="mb-14 grid gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">
+          Durante tu formación
+        </p>
+        <h2 class="text-section-title">Nuestros beneficios</h2>
+      </div>
+      <div
+        class="max-w-xl space-y-4 text-body text-text-secondary lg:col-span-5 lg:col-start-8"
+      >
+        <p>
+          Al matricularte, puedes acceder a espacios de acompañamiento, recursos
+          digitales, actividades extracurriculares y oportunidades para conectar
+          con otros profesionales.
+        </p>
+        <p>
+          IMB contempla la devolución del pago de matrícula por cumplimiento
+          puntual y un 50 % de descuento en programas con Sello Embajador.
+          Consulta con admisiones las condiciones, los programas y las fechas
+          vigentes.
         </p>
       </div>
     </div>
 
-  </Wrapper>
-
-  <!-- Full-width Sticky Search & Filter Bar -->
-  <div class="sticky top-16 z-30 bg-surface-50 pt-6 pb-6 mb-6">
-    <div class="mx-auto max-w-360  px-4 md:px-8 lg:px-12">
-      <div class="mb-6 relative w-full lg:max-w-2xl">
-        <Search size={20} class="absolute left-4 top-1/2 -translate-y-1/2 text-icon-muted" />
-        <input
-          id="search-input"
-          type="text"
-          placeholder="Buscar programa o docente..."
-          class="w-full pl-12 pr-4 py-4 bg-surface-0 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-imb/20 transition-all font-sans text-base text-text-primary placeholder:text-icon-muted"
-        />
-      </div>
-
-      <div id="category-filters" class="flex gap-3 overflow-x-auto hide-scrollbar w-full pb-2">
-        {categorias.map(cat => (
-          <button
-            data-category={cat}
-            data-slug={slugify(cat)}
-            class:list={[
-              "category-pill px-6 py-2.5 rounded-full whitespace-nowrap font-sans text-sm font-semibold transition-all duration-200 cursor-pointer",
-              cat === 'Todos' 
-                ? "bg-imb text-white shadow-md" 
-                : "bg-surface-0 text-text-secondary hover:bg-imb hover:text-white shadow-sm"
-            ]}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-    </div>
-  </div>
-
-  <Wrapper class="pt-4!">
-    <!-- Course Grid -->
-    <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-      {cursos.map(course => (
-        <Card 
-          href={COURSE_ROUTES.DETAIL(course.slug)} 
-          class="overflow-hidden flex flex-col group course-card" 
-          data-category={course.categoria} 
-          data-category-slug={slugify(course.categoria)}
-          data-title={course.nombre.toLowerCase()} 
-          data-instructor={course.instructor.toLowerCase()}
-        >
-          <div class="relative h-48 overflow-hidden">
-            <div class="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10"></div>
-            <MediaImage src={course.imagen} alt={course.nombre} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
-            <div class="absolute top-4 left-4 z-20">
-              <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>
-                {course.estado}
-              </Badge>
+    <div class="grid gap-x-12 md:grid-cols-2 lg:grid-cols-3">
+      {
+        benefits.map((benefit) => (
+          <article class="border-t border-border-subtle py-8">
+            <div
+              class="flex h-11 w-11 items-center justify-center rounded-xl bg-surface-0 text-imb"
+              aria-hidden="true"
+            >
+              <benefit.icon size={21} />
             </div>
-          </div>
-          <div class="p-5 flex flex-col flex-grow">
-            <div class="flex items-center gap-2 mb-2 text-text-secondary">
-              <BarChart2 size={16} class="text-imb" />
-              <span class="font-sans text-xs font-medium">{course.instructor}</span>
-            </div>
-            <h3 class="font-display text-lg font-bold text-text-primary mb-4 group-hover:text-imb transition-colors line-clamp-2 leading-snug">
-              {course.nombre}
-            </h3>
-            <div class="mt-auto flex items-center gap-4 text-text-secondary font-sans text-xs font-medium border-t border-border-muted pt-4">
-              <div class="flex items-center gap-1.5">
-                <Clock size={16} class="text-icon-muted" />
-                <span>{course.duracion}</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <Calendar size={16} class="text-icon-muted" />
-                <span>Inicio: {course.fechaInicio}</span>
-              </div>
-            </div>
-          </div>
-        </Card>
-      ))}
-    </div>
-
-    <!-- Empty State -->
-    <div id="empty-state" class="hidden text-center py-20 bg-surface-0 rounded-2xl shadow-sm">
-      <div class="w-16 h-16 bg-surface-50 rounded-full flex items-center justify-center mx-auto mb-4 text-icon-muted">
-        <Search size={32} />
-      </div>
-      <h3 class="font-display text-xl font-bold text-text-primary mb-2">No se encontraron programas</h3>
-      <p class="font-sans text-text-secondary">Intenta ajustando los filtros o utilizando otros términos de búsqueda.</p>
-      <Button variant="outline" class="mt-6" id="btn-clear-search">Limpiar búsqueda</Button>
+            <h3 class="mt-5 text-item-title">{benefit.title}</h3>
+            <p class="mt-3 text-body text-text-secondary">
+              {benefit.description}
+            </p>
+          </article>
+        ))
+      }
     </div>
   </Wrapper>
+
+  <style>
+    .category-track {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .category-track::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
 
   <script is:inline>
-    // Robust slugify for client-side
-    const slugify = (text) => text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+    const filterForm = document.querySelector("#course-filter-form");
+    const searchInput = document.querySelector("#search-input");
+    const clearSearchButton = document.querySelector("#clear-search");
+    const clearFiltersButton = document.querySelector("#clear-filters");
+    const clearFilterButtons = [
+      ...document.querySelectorAll(".clear-filters"),
+    ];
+    const categoryTrack = document.querySelector("#category-track");
+    const categoryPrevious = document.querySelector("#category-previous");
+    const categoryNext = document.querySelector("#category-next");
+    const categoryButtons = [...document.querySelectorAll(".category-filter")];
+    const courseCards = [...document.querySelectorAll(".course-card")];
+    const coursesGrid = document.querySelector("#courses-grid");
+    const emptyState = document.querySelector("#empty-state");
+    const resultSummary = document.querySelector("#result-summary");
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    let activeCategory = "todos";
 
-    const searchInput = document.getElementById('search-input');
-    const categoryPills = document.querySelectorAll('.category-pill');
-    const courseCards = document.querySelectorAll('.course-card');
-    const emptyState = document.getElementById('empty-state');
-    const coursesGrid = document.getElementById('courses-grid');
-    const btnClearSearch = document.getElementById('btn-clear-search');
+    const normalizeText = (value = "") =>
+      value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("es")
+        .trim();
 
-    let currentCategorySlug = 'todos';
-    let searchQuery = '';
+    const getSearchTokens = (value = "") =>
+      normalizeText(value).split(/\s+/).filter(Boolean);
 
-    function getCategorySlugFromUrl() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('category') || 'todos';
-    }
+    const updateUrl = () => {
+      const url = new URL(window.location.href);
+      const query = searchInput?.value.trim() ?? "";
 
-    function updateUrl(categorySlug) {
-      const url = new URL(window.location);
-      if (categorySlug === 'todos') {
-        url.searchParams.delete('category');
-      } else {
-        url.searchParams.set('category', categorySlug);
-      }
-      
-      if (window.location.search !== url.search) {
-        history.pushState(null, '', url);
-      }
-    }
+      if (activeCategory === "todos") url.searchParams.delete("category");
+      else url.searchParams.set("category", activeCategory);
 
-    function filterCourses() {
+      if (query) url.searchParams.set("q", query);
+      else url.searchParams.delete("q");
+
+      window.history.replaceState(null, "", url);
+    };
+
+    const applyFilters = ({ syncUrl = true } = {}) => {
+      const rawQuery = searchInput?.value ?? "";
+      const queryTokens = getSearchTokens(rawQuery);
       let visibleCount = 0;
-      courseCards.forEach(card => {
-        const cardCategorySlug = card.dataset.categorySlug;
-        const cardTitle = card.dataset.title;
-        const cardInstructor = card.dataset.instructor;
 
-        const matchesCategory = currentCategorySlug === 'todos' || cardCategorySlug === currentCategorySlug;
-        const matchesSearch = !searchQuery || cardTitle.includes(searchQuery.toLowerCase()) || cardInstructor.includes(searchQuery.toLowerCase());
+      courseCards.forEach((card) => {
+        const matchesCategory =
+          activeCategory === "todos" ||
+          card.dataset.category === activeCategory;
 
-        if (matchesCategory && matchesSearch) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
+        const searchIndex = normalizeText(
+          `${card.dataset.courseName ?? ""} ${card.dataset.instructor ?? ""}`,
+        );
+        const matchesSearch =
+          queryTokens.length === 0 ||
+          queryTokens.every((token) => searchIndex.includes(token));
+        const isVisible = matchesCategory && matchesSearch;
+
+        card.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
       });
 
-      if (visibleCount === 0) {
-        if (coursesGrid) coursesGrid.style.display = 'none';
-        if (emptyState) emptyState.classList.remove('hidden');
-      } else {
-        if (coursesGrid) coursesGrid.style.display = 'grid';
-        if (emptyState) emptyState.classList.add('hidden');
+      if (coursesGrid) coursesGrid.hidden = visibleCount === 0;
+      if (emptyState) emptyState.hidden = visibleCount !== 0;
+      if (resultSummary)
+        resultSummary.textContent = `Mostrando ${visibleCount} ${visibleCount === 1 ? "programa" : "programas"}`;
+
+      if (clearSearchButton) clearSearchButton.hidden = rawQuery.length === 0;
+      if (clearFiltersButton) {
+        clearFiltersButton.hidden =
+          activeCategory === "todos" && rawQuery.length === 0;
       }
-    }
 
-    function updatePillsUI() {
-      categoryPills.forEach(p => {
-        if (p.dataset.slug === currentCategorySlug) {
-          p.classList.remove('bg-surface-0', 'text-text-secondary', 'shadow-sm', 'hover:bg-imb', 'hover:text-white');
-          p.classList.add('bg-imb', 'text-white', 'shadow-md');
-        } else {
-          p.classList.remove('bg-imb', 'text-white', 'shadow-md');
-          p.classList.add('bg-surface-0', 'text-text-secondary', 'shadow-sm', 'hover:bg-imb', 'hover:text-white');
-        }
+      if (syncUrl) updateUrl();
+    };
+
+    const selectCategory = (category) => {
+      activeCategory = category;
+      let selectedButton;
+
+      categoryButtons.forEach((button) => {
+        const isSelected = button.dataset.category === activeCategory;
+        button.setAttribute(
+          "aria-pressed",
+          String(isSelected),
+        );
+        if (isSelected) selectedButton = button;
       });
-    }
 
-    searchInput?.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      filterCourses();
+      selectedButton?.scrollIntoView({
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    };
+
+    const updateCategoryNavigation = () => {
+      if (!categoryTrack) return;
+
+      const maxScroll = categoryTrack.scrollWidth - categoryTrack.clientWidth;
+      const hasOverflow = maxScroll > 2;
+
+      if (categoryPrevious) {
+        categoryPrevious.hidden = !hasOverflow;
+        categoryPrevious.disabled = !hasOverflow || categoryTrack.scrollLeft <= 2;
+      }
+      if (categoryNext) {
+        categoryNext.hidden = !hasOverflow;
+        categoryNext.disabled =
+          !hasOverflow || categoryTrack.scrollLeft >= maxScroll - 2;
+      }
+    };
+
+    const moveCategoryTrack = (direction) => {
+      if (!categoryTrack) return;
+
+      categoryTrack.scrollBy({
+        left: direction * Math.max(160, categoryTrack.clientWidth * 0.75),
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+      });
+    };
+
+    const clearSearch = () => {
+      if (searchInput) searchInput.value = "";
+      applyFilters();
+      searchInput?.focus();
+    };
+
+    const clearFilters = () => {
+      if (searchInput) searchInput.value = "";
+      selectCategory("todos");
+      applyFilters();
+      searchInput?.focus();
+    };
+
+    const loadFiltersFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const requestedCategory = params.get("category") ?? "todos";
+      const categoryExists = categoryButtons.some(
+        (button) => button.dataset.category === requestedCategory,
+      );
+
+      selectCategory(categoryExists ? requestedCategory : "todos");
+      if (searchInput) searchInput.value = params.get("q") ?? "";
+      applyFilters({ syncUrl: false });
+    };
+
+    filterForm?.addEventListener("submit", (event) => event.preventDefault());
+    searchInput?.addEventListener("input", () => applyFilters());
+    searchInput?.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && searchInput.value) {
+        event.preventDefault();
+        clearSearch();
+      }
     });
-
-    categoryPills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        currentCategorySlug = pill.dataset.slug;
-        updatePillsUI();
-        filterCourses();
-        updateUrl(currentCategorySlug);
+    clearSearchButton?.addEventListener("click", clearSearch);
+    clearFilterButtons.forEach((button) =>
+      button.addEventListener("click", clearFilters),
+    );
+    categoryPrevious?.addEventListener("click", () => moveCategoryTrack(-1));
+    categoryNext?.addEventListener("click", () => moveCategoryTrack(1));
+    categoryTrack?.addEventListener("scroll", updateCategoryNavigation, {
+      passive: true,
+    });
+    window.addEventListener("resize", updateCategoryNavigation);
+    categoryButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        selectCategory(button.dataset.category ?? "todos");
+        applyFilters();
       });
     });
+    window.addEventListener("popstate", loadFiltersFromUrl);
 
-    btnClearSearch?.addEventListener('click', () => {
-      searchQuery = '';
-      currentCategorySlug = 'todos';
-      if (searchInput) searchInput.value = '';
-      updatePillsUI();
-      filterCourses();
-      updateUrl('todos');
-    });
-
-    // Initialize
-    currentCategorySlug = getCategorySlugFromUrl();
-    updatePillsUI();
-    filterCourses();
-
-    window.addEventListener('popstate', () => {
-      currentCategorySlug = getCategorySlugFromUrl();
-      updatePillsUI();
-      filterCourses();
-    });
+    loadFiltersFromUrl();
+    requestAnimationFrame(updateCategoryNavigation);
   </script>
-
 </BaseLayout>

@@ -1,0 +1,87 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import CountrySelect from '../ui/CountrySelect.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
+---
+
+<div>
+  <form
+    id="matricula-portugues-form"
+    data-submission-form
+    data-action="matriculaPortugues"
+    data-submit-label="Enviar ficha"
+    data-pending-label="Enviando..."
+    data-error-id="matricula-portugues-error"
+    data-error-message-id="matricula-portugues-error-message"
+    data-success-id="matricula-portugues-success"
+    method="POST"
+    class="space-y-10"
+    novalidate
+  >
+    <section class="space-y-7" aria-labelledby="matricula-portugues-datos-title">
+      <h2 id="matricula-portugues-datos-title" class="border-b border-border-subtle pb-3 text-item-title">
+        Dados pessoais
+      </h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Programa de capacitação" name="programa" required placeholder="Informe o nome do programa" />
+        <InputField label="Nome e sobrenome completos" name="nome" required placeholder="Mariana Silva" />
+        <InputField label="Número do documento de identidade" name="documento" required placeholder="Informe o tipo e o número do documento" />
+        <InputField label="Data de nascimento" name="data_nascimento" type="date" />
+        <InputField label="E-mail" name="email" type="email" required placeholder="mariana.silva@email.com" />
+        <PhoneInput id="matricula-portugues-whatsapp" label="Número do WhatsApp" name="whatsapp" required />
+        <CountrySelect label="País" name="pais" required placeholder="Informe seu país de residência" />
+      </div>
+    </section>
+
+    <section class="space-y-7" aria-labelledby="matricula-portugues-perfil-title">
+      <h2 id="matricula-portugues-perfil-title" class="border-b border-border-subtle pb-3 text-item-title">
+        Perfil profissional e faturamento
+      </h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <SelectField
+          label="Familiaridade com ferramentas digitais"
+          name="familiaridade_tecnologica"
+          required
+          options={[
+            { value: '', label: 'Selecione uma opção' },
+            'Não tenho experiência prévia',
+            'Básico (uso limitado, com apoio)',
+            'Intermediário (uso habitual de ferramentas digitais)',
+            'Avançado (uso frequente e autônomo)',
+          ]}
+        />
+        <InputField label="Área de formação" name="area_formacao" placeholder="Informe sua área de formação" />
+        <InputField label="Empresa" name="empresa" required placeholder="Informe o nome da empresa" />
+        <InputField label="Cargo" name="cargo" required placeholder="Informe seu cargo atual" />
+        <SelectField
+          label="Tipo de faturamento"
+          name="faturamento"
+          required
+          options={[
+            { value: '', label: 'Selecione uma opção' },
+            'Recibo', 'Nota Fiscal',
+          ]}
+        />
+        <InputField label="Razão social ou nome completo para faturamento" name="razao_social" required placeholder="Informe o nome para faturamento" />
+        <InputField label="CNPJ, CPF, RUT, RFC, NIT ou outro" name="numero_faturamento" required placeholder="Informe o número de identificação fiscal" />
+      </div>
+    </section>
+
+    <FormError id="matricula-portugues-error" messageId="matricula-portugues-error-message" />
+    <div class="pt-2">
+      <FormSubmitButton id="matricula-portugues-submit" label="Matricular-me agora" />
+    </div>
+  </form>
+
+  <FormSuccess id="matricula-portugues-success" title="Ficha enviada">
+    <p>Recebemos seus dados de matrícula. A equipe entrará em contato para confirmar as próximas etapas.</p>
+  </FormSuccess>
+</div>
+
+<script>
+  import '../../scripts/submission-form';
+</script>

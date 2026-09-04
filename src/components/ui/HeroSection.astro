@@ -3,47 +3,66 @@ import Wrapper from './Wrapper.astro';
 import MediaImage from './MediaImage.astro';
 
 interface Props {
-  image: string;
+  title: string;
+  highlight?: string;
+  description?: string;
+  image: any;
   imageAlt?: string;
-  badge?: string;
   class?: string;
 }
 
-const { image, imageAlt = "Hero Image", badge, class: className } = Astro.props;
+const {
+  title,
+  highlight,
+  description,
+  image,
+  imageAlt = '',
+  class: className
+} = Astro.props;
+
+const highlightIndex = highlight ? title.indexOf(highlight) : -1;
+const titleBefore = highlightIndex >= 0 ? title.slice(0, highlightIndex) : title;
+const titleAfter = highlightIndex >= 0 && highlight
+  ? title.slice(highlightIndex + highlight.length)
+  : '';
 ---
 
-<section class:list={["relative min-h-screen flex items-end overflow-hidden bg-surface-50", className]}>
-  <!-- Background Layer — Positioned asymmetrically -->
-  <div class="absolute inset-0 lg:left-1/3 z-0 pointer-events-none">
-    <MediaImage 
-      src={image} 
-      alt={imageAlt} 
-      class="w-full h-full object-cover grayscale opacity-40 mix-blend-multiply"
+<Wrapper
+  class:list={[
+    'relative isolate min-h-[460px] overflow-hidden bg-gray-950 py-20 md:min-h-[520px] md:py-24',
+    className
+  ]}
+  padded={false}
+  full
+>
+  <div class="absolute inset-0 -z-20">
+    <MediaImage
+      src={image}
+      alt={imageAlt}
+      class="h-full w-full object-cover object-center"
+      width={2000}
+      height={1125}
+      widths={[640, 960, 1280, 1600]}
+      sizes="100vw"
       loading="eager"
+      fetchpriority="high"
     />
-    <!-- Stark Swiss Overlay -->
-    <div class="absolute inset-0 bg-linear-to-t from-surface-50 via-transparent to-transparent"></div>
   </div>
+  <div class="absolute inset-0 -z-10 bg-gray-950/65"></div>
 
-  <!-- Content Layer — Aligned to 12-column Swiss Grid -->
-  <Wrapper as="div" padded={false} class="relative z-10 w-full pb-24 lg:pb-32">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <div class="lg:col-span-8 space-y-12">
-        {badge && (
-          <span class="inline-block px-3 py-1 bg-imb text-white text-[10px] font-extrabold uppercase tracking-[0.3em]">
-            {badge}
-          </span>
-        )}
-        <div class="space-y-8">
-          <slot />
-        </div>
-      </div>
-    </div>
-  </Wrapper>
-</section>
-
-<style>
-  :global(h1) {
-    margin-bottom: 0 !important;
-  }
-</style>
+  <div class="mx-auto flex min-h-[300px] max-w-4xl flex-col items-center justify-center text-center md:min-h-[328px]">
+    <h1 class="text-display text-white">
+      {highlightIndex >= 0 && highlight ? (
+        <>
+          {titleBefore}<span class="underline decoration-imb decoration-4 underline-offset-8">{highlight}</span>{titleAfter}
+        </>
+      ) : title}
+    </h1>
+    {description && (
+      <p class="mt-6 max-w-3xl text-lead text-gray-200">
+        {description}
+      </p>
+    )}
+    <slot />
+  </div>
+</Wrapper>

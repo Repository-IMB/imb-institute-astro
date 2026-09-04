@@ -1,23 +1,22 @@
 ---
 import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
+import CountrySelect from '../ui/CountrySelect.astro';
 import Button from '../ui/Button.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
-import { cursos } from '../../data/cursos';
-
-const cursoOptions = [
-  { value: '', label: 'Selecciona un programa de la lista...' },
-  ...cursos.map(c => c.nombre),
-];
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
+import { ROUTES } from '../../config/routes';
 ---
 
 <div id="form-matricula-wrapper">
   <form id="matricula-form" method="POST" class="space-y-8" novalidate>
     <div class="flex items-center justify-between mb-12 relative px-2">
-      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 rounded-full z-0"></div>
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-border-subtle rounded-full z-0"></div>
       <div id="progress-bar" class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-imb rounded-full z-0 transition-all duration-500" style="width: 0%"></div>
       {[1, 2, 3, 4].map((s) => (
-        <div id={`step-circle-${s}`} class={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm transition-all duration-300 border-2 ${s === 1 ? 'bg-imb text-white border-imb shadow-md' : 'bg-surface-0 text-gray-400 border-gray-200'}`}>
+        <div id={`step-circle-${s}`} class={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm transition-all duration-300 border-2 ${s === 1 ? 'bg-imb text-surface-0 border-imb shadow-md' : 'bg-surface-0 text-icon-muted border-border-subtle'}`}>
           <span class="step-number">{s}</span>
           <svg class="step-check hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
@@ -25,50 +24,104 @@ const cursoOptions = [
     </div>
 
     <div id="step-1" class="step-content space-y-8">
-      <h3 class="font-display text-2xl font-bold text-text-primary">Selección de Programa</h3>
-      <SelectField label="Curso / Diplomado a matricularse" name="curso" required options={cursoOptions} />
+      <h3 class="text-component-title">Curso</h3>
+      <InputField label="Escribe el curso al que te matriculas" name="curso" required />
     </div>
 
     <div id="step-2" class="step-content space-y-8 hidden">
-      <h3 class="font-display text-2xl font-bold text-text-primary">Datos Personales</h3>
-      <InputField label="Nombres y Apellidos Completos" name="nombres" required placeholder="Ej. Carlos Mendoza" />
+      <h3 class="text-component-title">Datos personales</h3>
+      <InputField label="Nombres y apellidos completos" name="nombres" required placeholder="María Torres" />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Tipo y Número de Documento" name="documento" required placeholder="Ej. DNI / Pasaporte" />
-        <InputField label="País de Residencia" name="pais" required placeholder="Ej. Perú" />
+        <InputField class="md:[&>label]:min-h-10" label="Número de documento, cédula o carnet de identidad" name="documento" required maxLength={25} help="Máximo 25 caracteres." />
+        <InputField class="md:[&>label]:min-h-10" label="Correo electrónico" name="correo" type="email" required placeholder="maria.torres@correo.com" />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Correo Electrónico" name="correo" type="email" required placeholder="correo@ejemplo.com" />
         <PhoneInput label="Número de WhatsApp" name="whatsapp" id="matricula-whatsapp" required />
+        <CountrySelect label="País" name="pais" required placeholder="Selecciona un país" />
       </div>
     </div>
 
     <div id="step-3" class="step-content space-y-8 hidden">
-      <h3 class="font-display text-2xl font-bold text-text-primary">Perfil Profesional</h3>
+      <h3 class="text-component-title">Datos profesionales y tecnología</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Área de Formación o Profesión" name="formacion" required placeholder="Ej. Ingeniería Industrial" />
-        <InputField label="Empresa Actual (Opcional)" name="empresa" required={false} placeholder="Nombre de la empresa" />
+        <InputField label="Área de formación o profesión" name="formacion" required={false} />
+        <InputField label="Empresa donde trabajas actualmente (o última)" name="empresa" required />
       </div>
-      <InputField label="Cargo u Ocupación" name="cargo" required placeholder="Ej. Jefe de Planta" />
-      <SelectField label="Familiaridad Tecnológica" name="familiaridad_tecnologica" required options={[ { value: '', label: 'Seleccione su nivel de conocimiento tecnológico...' }, 'Básico (Uso redes sociales, correo)', 'Intermedio (Uso Office, Zoom, plataformas web)', 'Avanzado (Dominio de software especializado)' ]} />
+      <InputField label="Cargo u ocupación" name="cargo" required placeholder="Jefe de planta" />
+      <SelectField
+        label="Nivel de familiaridad con el uso de tecnología"
+        name="familiaridad_tecnologica"
+        required
+        options={[
+          { value: '', label: 'Selecciona tu nivel de familiaridad' },
+          'No tengo experiencia previa',
+          'Básico (uso limitado, con apoyo)',
+          'Intermedio (uso habitual de herramientas digitales)',
+          'Avanzado (uso frecuente y autónomo)',
+        ]}
+      />
     </div>
 
     <div id="step-4" class="step-content space-y-8 hidden">
-      <h3 class="font-display text-2xl font-bold text-text-primary">Facturación y Complementos</h3>
-      <SelectField label="Tipo de Comprobante" name="tipo_comprobante" required options={[ { value: '', label: 'Seleccione el tipo de comprobante que requiere...' }, 'Boleta Electrónica (Personal)', 'Factura Electrónica (Empresa)' ]} />
+      <h3 class="text-component-title">Facturación, beneficios adicionales y términos</h3>
+      <SelectField
+        label="Tipo de comprobante de pago"
+        name="tipo_comprobante"
+        required
+        options={[
+          { value: '', label: 'Selecciona el tipo de comprobante' },
+          'Boleta',
+          'Factura',
+          'Recibo',
+        ]}
+      />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Razón Social / Nombre a Facturar" name="razon_social" required placeholder="Nombre para la facturación" />
-        <InputField label="Número Tributario (RUC/RUT/NIT)" name="numero_tributario" required={false} placeholder="Identificación tributaria" />
+        <InputField label="Razón social o nombre completo para registrar la facturación" name="razon_social" required maxLength={25} help="Máximo 25 caracteres." />
+        <InputField label="Número de identificación tributaria" name="numero_tributario" required maxLength={25} help="RUC, RUT, RFC, NIT u otro. Máximo 25 caracteres." />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Nivel actual de Inglés" name="nivel_ingles" required={false} placeholder="Ej. Intermedio" />
-        <InputField label="Nivel actual de Excel" name="nivel_excel" required={false} placeholder="Ej. Avanzado" />
+        <SelectField
+          label="Clases de inglés"
+          name="nivel_ingles"
+          options={[
+            { value: '', label: 'Selecciona tu nivel' },
+            'Ninguno',
+            'Básico',
+            'Intermedio',
+            'Avanzado',
+          ]}
+        />
+        <SelectField
+          label="Clases de Excel"
+          name="nivel_excel"
+          options={[
+            { value: '', label: 'Selecciona tu nivel' },
+            'Ninguno',
+            'Básico',
+            'Intermedio',
+            'Avanzado',
+          ]}
+        />
+      </div>
+
+      <div class="flex items-start gap-3">
+        <input
+          id="matricula-terminos"
+          type="checkbox"
+          name="terminos"
+          required
+          class="mt-1 size-4 shrink-0 cursor-pointer rounded border-border-subtle bg-surface-50 text-imb focus:ring-2 focus:ring-imb/20 focus:ring-offset-2"
+        />
+        <div>
+          <label for="matricula-terminos" class="cursor-pointer font-sans text-sm leading-relaxed text-text-secondary">
+            Acepto los <a href={ROUTES.TERMINOS_CONDICIONES_USO} target="_blank" rel="noopener noreferrer" class="font-semibold text-imb underline decoration-imb/40 underline-offset-3 transition-colors hover:text-imb-hover focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb">Términos y Condiciones de Uso</a>.
+          </label>
+          <span class="mt-1 hidden text-xs font-medium text-feedback-error" data-error-for="terminos"></span>
+        </div>
       </div>
     </div>
 
-    <div id="form-matricula-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
-      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-      <span id="form-matricula-error-msg"></span>
-    </div>
+    <FormError id="form-matricula-error" messageId="form-matricula-error-msg" />
 
     <div class="mt-12 flex justify-between items-center pt-8">
       <div id="btn-back-wrapper" class="hidden">
@@ -76,26 +129,19 @@ const cursoOptions = [
       </div>
       <div class="grow"></div>
       <div id="btn-next-wrapper">
-        <Button type="button" id="btn-next" class="px-10 py-4">Siguiente Paso</Button>
+        <Button type="button" id="btn-next" class="px-10 py-4">Continuar</Button>
       </div>
       <div id="btn-submit-wrapper" class="hidden">
-        <button id="form-matricula-btn" type="submit" class="px-10 py-4 inline-flex items-center justify-center gap-2 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
-          <span class="btn-text">Finalizar Matrícula</span>
-          <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-        </button>
+        <FormSubmitButton id="form-matricula-btn" label="Finalizar matrícula" fullWidth={false} class="px-10" />
       </div>
     </div>
   </form>
 
-  <div id="form-matricula-success" class="hidden flex-col items-center text-center py-12 gap-4">
-    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
-      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-    </div>
-    <h3 class="font-display text-xl font-bold text-text-primary">¡Ficha enviada con éxito!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
+  <FormSuccess id="form-matricula-success" title="Ficha enviada">
+    <p>
       Hemos recibido tu ficha de matrícula. Un asesor académico se comunicará contigo para confirmar los próximos pasos.
     </p>
-  </div>
+  </FormSuccess>
 </div>
 
 <script>
@@ -133,16 +179,16 @@ const cursoOptions = [
         const numEl = circle?.querySelector('.step-number');
         const checkEl = circle?.querySelector('.step-check');
         if (stepNum < currentStep) {
-          circle?.classList.remove('bg-surface-0', 'text-gray-400', 'border-gray-200');
-          circle?.classList.add('bg-imb', 'text-white', 'border-imb', 'shadow-md');
+          circle?.classList.remove('bg-surface-0', 'text-icon-muted', 'border-border-subtle');
+          circle?.classList.add('bg-imb', 'text-surface-0', 'border-imb', 'shadow-md');
           numEl?.classList.add('hidden'); checkEl?.classList.remove('hidden');
         } else if (stepNum === currentStep) {
-          circle?.classList.remove('bg-surface-0', 'text-gray-400', 'border-gray-200');
-          circle?.classList.add('bg-imb', 'text-white', 'border-imb', 'shadow-md');
+          circle?.classList.remove('bg-surface-0', 'text-icon-muted', 'border-border-subtle');
+          circle?.classList.add('bg-imb', 'text-surface-0', 'border-imb', 'shadow-md');
           numEl?.classList.remove('hidden'); checkEl?.classList.add('hidden');
         } else {
-          circle?.classList.remove('bg-imb', 'text-white', 'border-imb', 'shadow-md');
-          circle?.classList.add('bg-surface-0', 'text-gray-400', 'border-gray-200');
+          circle?.classList.remove('bg-imb', 'text-surface-0', 'border-imb', 'shadow-md');
+          circle?.classList.add('bg-surface-0', 'text-icon-muted', 'border-border-subtle');
           numEl?.classList.remove('hidden'); checkEl?.classList.add('hidden');
         }
       });
@@ -172,18 +218,17 @@ const cursoOptions = [
       const currentStepEl = document.getElementById(`step-${currentStep}`);
       if (!currentStepEl) return true;
 
-      const inputs = currentStepEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea');
-      let firstInvalid: HTMLElement | null = null;
-
-      inputs.forEach((input) => {
-        if (!input.checkValidity()) {
-          if (!firstInvalid) firstInvalid = input;
-          // Show native validation message on the first invalid field
-        }
-      });
+      type ValidatableControl = {
+        checkValidity: () => boolean;
+        reportValidity: () => boolean;
+      };
+      const inputs = Array.from(
+        currentStepEl.querySelectorAll('input, select, textarea')
+      ) as unknown as ValidatableControl[];
+      const firstInvalid = inputs.find((input) => !input.checkValidity());
 
       if (firstInvalid) {
-        (firstInvalid as HTMLInputElement).reportValidity();
+        firstInvalid.reportValidity();
         return false;
       }
       return true;
@@ -224,7 +269,7 @@ const cursoOptions = [
               curso: 1,
               nombres: 2, documento: 2, pais: 2, correo: 2, whatsapp: 2,
               formacion: 3, empresa: 3, cargo: 3, familiaridad_tecnologica: 3,
-              tipo_comprobante: 4, razon_social: 4, numero_tributario: 4, nivel_ingles: 4, nivel_excel: 4,
+              tipo_comprobante: 4, razon_social: 4, numero_tributario: 4, nivel_ingles: 4, nivel_excel: 4, terminos: 4,
             };
 
             let firstErrorStep = totalSteps;
@@ -265,7 +310,7 @@ const cursoOptions = [
         errorEl?.classList.add('flex');
       } finally {
         btnSubmit.disabled = false;
-        if (btnText) btnText.textContent = 'Finalizar Matrícula';
+        if (btnText) btnText.textContent = 'Finalizar matrícula';
         btnSpinner?.classList.add('hidden');
       }
     });

@@ -1,6 +1,9 @@
 ---
 import InputField from '../ui/InputField.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
 
 export interface Props {
   cursoNombre: string;
@@ -11,128 +14,38 @@ const { cursoNombre, class: className } = Astro.props;
 ---
 
 <div id="form-asesor-wrapper" class:list={[className]}>
-  <form id="form-asesor" method="POST" class="space-y-8" novalidate data-curso={cursoNombre}>
-    <InputField label="Nombres y Apellidos" name="nombres" placeholder="Carlos Mendoza" />
-    <PhoneInput label="Teléfono / WhatsApp" name="telefono" id="asesor-telefono" />
-    <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
+  <form
+    id="form-asesor"
+    data-submission-form
+    data-action="asesor"
+    data-submit-label="Solicitar información"
+    data-pending-label="Enviando..."
+    data-error-id="form-asesor-error"
+    data-error-message-id="form-asesor-error-msg"
+    data-success-id="form-asesor-success"
+    method="POST"
+    class="space-y-8"
+    novalidate
+  >
+    <input type="hidden" name="cursoNombre" value={cursoNombre} />
+    <InputField label="Nombres y apellidos" name="nombres" placeholder="María Torres" required />
+    <PhoneInput label="Teléfono o WhatsApp" name="telefono" id="asesor-telefono" required />
+    <InputField label="Correo electrónico" name="correo" type="email" placeholder="maria.torres@correo.com" required />
 
-    <div id="form-asesor-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
-      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span id="form-asesor-error-msg"></span>
-    </div>
+    <FormError id="form-asesor-error" messageId="form-asesor-error-msg" />
 
-    <div class="pt-2">
-      <button
-        id="form-asesor-btn"
-        type="submit"
-        class="w-full py-4 inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        <span class="btn-text">Solicitar Información</span>
-        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-        </svg>
-      </button>
+    <div class="pt-4">
+      <FormSubmitButton id="form-asesor-btn" label="Solicitar información" />
     </div>
   </form>
 
-  <div id="form-asesor-success" class="hidden flex-col items-center text-center py-8 gap-4">
-    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
-      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-    </div>
-    <h3 class="font-display text-xl font-bold text-text-primary">¡Solicitud recibida!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
+  <FormSuccess id="form-asesor-success" title="¡Solicitud recibida!">
+    <p>
       Un asesor académico se comunicará contigo en breve con toda la información del programa.
     </p>
-  </div>
+  </FormSuccess>
 </div>
 
 <script>
-  import { actions, isInputError } from 'astro:actions';
-
-  function initAsesor() {
-    const form = document.getElementById('form-asesor') as HTMLFormElement;
-    if (!form || form.dataset.initialized) return;
-    form.dataset.initialized = 'true';
-
-    const errorEl = document.getElementById('form-asesor-error');
-    const errorMsg = document.getElementById('form-asesor-error-msg');
-    const successEl = document.getElementById('form-asesor-success');
-    const btn = document.getElementById('form-asesor-btn') as HTMLButtonElement;
-    const btnText = btn?.querySelector('.btn-text');
-    const btnSpinner = btn?.querySelector('.btn-spinner');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-
-      errorEl?.classList.add('hidden');
-      errorEl?.classList.remove('flex');
-      btn.disabled = true;
-      if (btnText) btnText.textContent = 'Enviando...';
-      btnSpinner?.classList.remove('hidden');
-
-      try {
-        const formData = new FormData(form);
-        if (form.dataset.curso) {
-          formData.append('cursoNombre', form.dataset.curso);
-        }
-
-        const { error } = await actions.asesor(formData);
-
-        if (error) {
-          if (isInputError(error)) {
-            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
-            for (const [field, messages] of Object.entries(error.fields)) {
-              const spanError = form.querySelector(`[data-error-for="${field}"]`);
-              if (spanError && messages) {
-                spanError.textContent = messages[0];
-                spanError.classList.remove('hidden');
-              }
-            }
-            
-            // Hacer scroll hacia el primer error visible
-            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
-            if (firstErrorSpan) {
-              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
-              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
-          }
-          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
-        }
-
-        form.classList.add('hidden');
-        successEl?.classList.remove('hidden');
-        successEl?.classList.add('flex');
-        
-      } catch (err: any) {
-        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
-        errorEl?.classList.remove('hidden');
-        errorEl?.classList.add('flex');
-      } finally {
-        btn.disabled = false;
-        if (btnText) btnText.textContent = 'Solicitar Información';
-        btnSpinner?.classList.add('hidden');
-      }
-    });
-
-    // Ocultar error cuando el usuario modifica un campo
-    form.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-      if (target.name) {
-        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
-        if (errorSpan && !errorSpan.classList.contains('hidden')) {
-          errorSpan.classList.add('hidden');
-        }
-      }
-    });
-  }
-
-  document.addEventListener('astro:page-load', initAsesor);
-  initAsesor();
+  import '../../scripts/submission-form';
 </script>

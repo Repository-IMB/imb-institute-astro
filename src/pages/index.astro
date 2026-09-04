@@ -5,14 +5,24 @@ import Card from '../components/ui/Card.astro';
 import Wrapper from '../components/ui/Wrapper.astro';
 import MediaImage from '../components/ui/MediaImage.astro';
 import FormContacto from '../components/forms/FormContacto.astro';
+import Badge from '../components/ui/Badge.astro';
+import TestimonialCard from '../components/ui/TestimonialCard.astro';
 import { cursos } from '../data/cursos';
 import {
-  Award, MonitorPlay, Users, Target, Globe2, Briefcase,
-  Globe, Cpu, Building, Activity, BarChart2, Clock,
-  Quote, Phone, Mail, ArrowRight, Calendar
+  Award,
+  MonitorPlay,
+  Users,
+  Target,
+  Globe2,
+  Briefcase,
+  Phone,
+  Mail,
+  ArrowRight,
+  BarChart2,
+  Clock,
+  Calendar
 } from 'lucide-astro';
 import { ROUTES, COURSE_ROUTES } from '../config/routes';
-import Badge from '../components/ui/Badge.astro';
 import { CONTACT_INFO } from '../config/contact';
 import logoArgos from '../assets/images/logo-argos.avif';
 import logoCerroVerde from '../assets/images/logo-cerro-verde.avif';
@@ -20,18 +30,19 @@ import logoFerreyros from '../assets/images/logo-ferreyros.avif';
 import logoKia from '../assets/images/logo-kia.avif';
 import logoMundoMujer from '../assets/images/logo-mundo-mujer.avif';
 import logoRankAgile from '../assets/images/logo-rank-agile.avif';
+import logoImb from '../assets/images/logo-negro.avif';
 
 export const prerender = true;
 
 const featuredCourses = cursos.slice(0, 3);
 
 const whyItems = [
-  { icon: Award, title: "Certificaciones con valor curricular", desc: "Respaldamos tu aprendizaje con documentos oficiales que validan tus competencias en el mercado." },
-  { icon: MonitorPlay, title: "Formación online y asincrónica", desc: "Flexibilidad total sin perder rigor. Aprende en tiempo real con expertos o a tu ritmo." },
-  { icon: Users, title: "Asesoría personalizada", desc: "Seguimiento docente continuo para asegurar tu dominio absoluto de los temas impartidos." },
-  { icon: Target, title: "Enfoque aplicado a casos reales", desc: "Aplica lo aprendido inmediatamente en el entorno de tu propia empresa o industria." },
-  { icon: Globe2, title: "Docentes internacionales", desc: "Aprende de directivos y consultores que aplican a diario las metodologías que enseñan." },
-  { icon: Briefcase, title: "Networking estratégico", desc: "Conecta con profesionales y líderes de la industria, ampliando tu red de contactos corporativos." }
+  { icon: Award, title: 'Certificaciones que respaldan tu formación', desc: 'Al terminar, recibes un documento que acredita las competencias desarrolladas durante el curso.' },
+  { icon: MonitorPlay, title: 'Estudia a tu ritmo', desc: 'Organiza tus horarios y avanza con la formación online sin dejar de lado el trabajo u otras responsabilidades.' },
+  { icon: Users, title: 'Acompañamiento durante el curso', desc: 'Resuelve dudas y recibe orientación docente mientras avanzas con los contenidos.' },
+  { icon: Target, title: 'Casos cercanos al trabajo real', desc: 'Los contenidos parten de situaciones reales para que puedas relacionarlos con tu empresa o industria.' },
+  { icon: Globe2, title: 'Docentes con experiencia internacional', desc: 'Aprende con profesionales que enseñan desde su experiencia como directivos y consultores.' },
+  { icon: Briefcase, title: 'Contactos dentro de tu sector', desc: 'Conoce a profesionales de distintas empresas y amplía tu red de contactos.' }
 ];
 
 const stats = [
@@ -49,26 +60,91 @@ const brands = [
   { name: 'Mundo Mujer', src: logoMundoMujer },
   { name: 'Rank Agile', src: logoRankAgile }
 ];
+
+const testimonials = [
+  {
+    quote: 'Cuando estableces un comportamiento de trabajo y procesos con calidad, das el primer paso hacia la excelencia. Esta actitud se convierte en una conducta que, con la práctica, se transforma en una habilidad productiva.',
+    author: 'Ing. Yassín Vázquez',
+    role: 'Docente Principal / Área de Mantenimiento',
+  },
+  {
+    quote: 'Quiero compartir una gran satisfacción personal: haber culminado el curso de Recursos Humanos en IMB Institute. Esta experiencia no solo me brindó conocimientos valiosos, sino que también me ayudó a desenvolverme mejor en mi área profesional.',
+    author: 'Alumno Egresado',
+    role: 'Programa de Recursos Humanos',
+  },
+];
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const organizationId = new URL('/#organization', siteUrl).href;
+const homeUrl = new URL('/', siteUrl).href;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': organizationId,
+    name: 'International Management and Business Institute S.A.C.',
+    alternateName: 'IMB Institute',
+    url: homeUrl,
+    logo: new URL(logoImb.src, siteUrl).href,
+    taxID: '20614051320',
+    email: CONTACT_INFO.emails.info,
+    telephone: CONTACT_INFO.phones.supportRaw,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': new URL('/#website', siteUrl).href,
+    url: homeUrl,
+    name: 'IMB Institute',
+    publisher: { '@id': organizationId },
+    inLanguage: 'es-PE',
+  },
+];
 ---
 
-<BaseLayout title="IMB Institute | Formación Especializada de Alto Impacto" description="Programas de capacitación en calidad, mantenimiento, tecnología, gestión y más. Aprende con expertos, aplica el conocimiento y destaca en tu industria.">
-
-  <!-- Hero -->
-  <Wrapper class="relative bg-gray-950 overflow-hidden py-20 lg:py-24" full>
-    <div class="absolute inset-0 z-0">
-      <MediaImage src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2000" alt="Executive Meeting" class="w-full h-full object-cover object-center" />
-      <div class="absolute inset-0 bg-gray-950/90"></div>
+<BaseLayout
+  title="IMB Institute | Cursos para profesionales"
+  description="Cursos de calidad, mantenimiento, tecnología y gestión para profesionales que quieren aplicar lo aprendido en su trabajo."
+  structuredData={structuredData}
+>
+  <!-- Hero: enfoque académico centrado -->
+  <Wrapper class="relative isolate min-h-[620px] overflow-hidden bg-gray-950 py-20 md:min-h-[680px] md:py-28 lg:min-h-[720px]" padded={false} full>
+    <div class="absolute inset-0 -z-20">
+      <MediaImage
+        src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=85&w=2000"
+        alt=""
+        class="h-full w-full object-cover object-center"
+        width={2000}
+        height={1125}
+        widths={[640, 960, 1280, 1600]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
     </div>
-    <div class="max-w-[1100px] mx-auto text-center relative z-10">
-      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight">
-        Lidera tu crecimiento profesional con <span class="text-imb">formación especializada</span> de alto impacto.
+    <div class="absolute inset-0 -z-10 bg-gray-950/80"></div>
+
+    <div class="mx-auto flex min-h-[460px] max-w-5xl flex-col items-center justify-center text-center md:min-h-[456px] lg:min-h-[496px]">
+      <h1 class="text-display text-white">
+        Aprende con especialistas y <span class="underline decoration-imb decoration-4 underline-offset-8">aplica lo aprendido</span> en tu trabajo.
       </h1>
-      <p class="font-sans text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
-        Programas de capacitación en calidad, mantenimiento, tecnología, gestión y más. Aprende con expertos, aplica el conocimiento y destaca en tu industria.
+      <p class="mt-8 max-w-3xl text-lead text-gray-200">
+        Encuentra cursos de calidad, mantenimiento, tecnología y gestión pensados para los retos que afrontan los profesionales cada día.
       </p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <Button href={ROUTES.CAPACITACION} variant="primary" class="py-4 px-8 text-base shadow-premium">Ver programas</Button>
-        <Button href="#contacto" variant="outline" class="py-4 px-8 text-base border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-transparent hover:text-white!">
+      <div class="mt-10 flex w-full max-w-md flex-col justify-center gap-4 sm:w-auto sm:max-w-none sm:flex-row">
+        <Button
+          href={ROUTES.CAPACITACION}
+          variant="primary"
+          class="min-h-12 px-8 text-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
+          Ver programas <ArrowRight size={18} class="ml-2" aria-hidden="true" />
+        </Button>
+        <Button
+          href={`${CONTACT_INFO.socials.whatsappAdmissions}?text=Deseo%20solicitar%20mayor%20informaci%C3%B3n`}
+          target="_blank"
+          variant="outline"
+          class="min-h-12 border-white/35 bg-transparent px-8 text-base text-white hover:border-white/60 hover:bg-white/10 hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
           Solicitar información
         </Button>
       </div>
@@ -76,203 +152,198 @@ const brands = [
   </Wrapper>
 
   <!-- Trusted Brands -->
-  <Wrapper class="bg-surface-50 text-center" padded={false} class:list={["py-12 overflow-hidden"]}>
-    <div class="overflow-hidden relative w-full opacity-40 mask-gradient select-none">
-      <div class="flex gap-16 md:gap-24 w-max animate-marquee-loop">
+  <Wrapper class="bg-surface-0 text-center" padded={false} class:list={["py-12 overflow-hidden"]}>
+    <div class="mask-gradient relative w-full select-none overflow-hidden opacity-40">
+      <div class="animate-marquee-loop flex w-max gap-16 motion-reduce:animate-none md:gap-24">
         {/* First list of brands */}
         {brands.map(brand => (
-          <div class="shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
-            <MediaImage src={brand.src} alt={brand.name} class="h-6 md:h-8 w-auto object-contain brightness-0" />
+          <div class="flex min-w-[120px] shrink-0 items-center justify-center md:min-w-[160px]">
+            <MediaImage src={brand.src} alt={brand.name} class="h-6 w-auto object-contain brightness-0 md:h-8" />
           </div>
         ))}
         {/* Second list of brands (duplicated for seamless looping) */}
         {brands.map(brand => (
-          <div class="shrink-0 flex items-center justify-center min-w-[120px] md:min-w-[160px]">
-            <MediaImage src={brand.src} alt={brand.name} class="h-6 md:h-8 w-auto object-contain brightness-0" />
+          <div class="flex min-w-[120px] shrink-0 items-center justify-center md:min-w-[160px]" aria-hidden="true">
+            <MediaImage src={brand.src} alt="" class="h-6 w-auto object-contain brightness-0 md:h-8" />
           </div>
         ))}
       </div>
     </div>
   </Wrapper>
 
-  <!-- Stats -->
-  <Wrapper class="bg-surface-0 border-b border-border-muted" padded={false} class:list={["py-16 lg:py-24"]}>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-8">
+  <!-- Resultados -->
+  <Wrapper class="bg-surface-50 py-16 lg:py-24" padded={false}>
+    <div class="grid grid-cols-2 gap-y-12 md:grid-cols-4 md:divide-x md:divide-border-subtle">
       {stats.map(stat => (
-        <div class="text-center md:text-left">
-          <div class="font-display text-5xl lg:text-6xl font-extrabold mb-2 tracking-tighter">{stat.number.replace(/\+/, '')}<span class="text-imb">+</span></div>
-          <p class="font-sans text-xs font-bold uppercase tracking-widest text-text-secondary">{stat.label}</p>
+        <div class="md:px-8 md:first:pl-0 md:last:pr-0">
+          <p class="font-display text-stat text-text-primary">
+            {stat.number.replace(/\+/, '')}<span class="text-imb">+</span>
+          </p>
+          <p class="mt-3 text-meta font-medium text-text-secondary">{stat.label}</p>
         </div>
       ))}
     </div>
   </Wrapper>
 
   <!-- ¿Por qué IMB? -->
-  <Wrapper class="bg-surface-0">
-    <div class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-20">
-      <div class="max-w-2xl">
-        <h2 class="font-display text-3xl lg:text-4xl font-bold tracking-tight">Excelencia Académica.<br />¿Por qué IMB?</h2>
-      </div>
-      <div class="lg:max-w-md pt-2 lg:pt-4">
-        <p class="font-sans text-lg text-text-secondary leading-relaxed">
-          En IMB Institute impulsamos el crecimiento de profesionales y organizaciones a través de una capacitación práctica, flexible y con respaldo académico.
+  <Wrapper class="bg-surface-0 py-24 lg:py-32" padded={false}>
+    <div class="grid gap-16 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Así trabajamos</p>
+        <h2 class="text-section-title">¿Por qué IMB?</h2>
+        <p class="mt-6 max-w-md text-body text-text-secondary">
+          Preparamos cursos para personas que trabajan: contenidos aplicables, horarios flexibles y docentes que conocen su sector.
         </p>
       </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-      {whyItems.map(item => (
-        <Card class="p-6 group hover:shadow-premium">
-          <div class="w-10 h-10 bg-surface-50 rounded-xl flex items-center justify-center text-imb mb-4 shadow-sm">
-            <item.icon size={20} />
-          </div>
-          <h3 class="font-display text-lg font-bold mb-2 leading-snug">{item.title}</h3>
-          <p class="text-text-secondary leading-relaxed">{item.desc}</p>
-        </Card>
-      ))}
+
+      <div class="grid gap-x-12 md:grid-cols-2 lg:col-span-8">
+        {whyItems.map((item, index) => (
+          <article class="grid grid-cols-[48px_1fr] gap-6 border-t border-border-subtle py-8">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-surface-0 text-imb" aria-hidden="true">
+              <item.icon size={22} />
+            </div>
+            <div>
+              <p class="mb-2 text-label text-text-secondary">0{index + 1}</p>
+              <h3 class="text-item-title">{item.title}</h3>
+              <p class="mt-3 text-body text-text-secondary">{item.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   </Wrapper>
 
-  <!-- Cursos Destacados -->
-  <Wrapper class="bg-surface-50">
-    <div class="mb-16 max-w-3xl text-center mx-auto">
-      <h2 class="font-display text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
-        Formación de alto nivel,<br/>accesible y efectiva
-      </h2>
-      <p class="font-sans text-lg text-text-secondary leading-relaxed">
-        Explora nuestros programas más destacados, diseñados para potenciar tus habilidades y acelerar tu crecimiento profesional.
+  <!-- Cursos destacados -->
+  <Wrapper class="bg-surface-50 py-24 lg:py-32" padded={false}>
+    <div class="mb-16 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+      <div class="max-w-2xl">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Cursos destacados</p>
+        <h2 class="text-section-title">
+          Cursos para seguir creciendo en tu profesión
+        </h2>
+      </div>
+      <p class="max-w-xl text-body text-text-secondary lg:text-right">
+        Estos son algunos de los programas disponibles. Revisa el contenido, la duración y la próxima fecha de inicio.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {featuredCourses.map(course => (
-        <Card href={COURSE_ROUTES.DETAIL(course.slug)} class="overflow-hidden flex flex-col group">
-          <div class="relative h-48 overflow-hidden">
-            <div class="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10"></div>
-            <MediaImage src={course.imagen} alt={course.nombre} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
-            <div class="absolute top-4 left-4 z-10">
-              <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>
-                {course.estado}
-              </Badge>
+        <Card
+          href={COURSE_ROUTES.DETAIL(course.slug)}
+          class="group flex flex-col overflow-hidden rounded-xl! shadow-none! hover:-translate-y-1 hover:shadow-sm! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-imb"
+        >
+          <div class="relative aspect-[16/9] overflow-hidden bg-surface-100">
+            <MediaImage
+              src={course.imagen}
+              alt={course.nombre}
+              class="h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.02]"
+              width={640}
+              height={360}
+              widths={[320, 480, 640, 800]}
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+              loading="lazy"
+            />
+            <div class="absolute left-4 top-4 z-10">
+              <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>{course.estado}</Badge>
             </div>
           </div>
-          <div class="p-5 flex flex-col flex-grow">
-            <div class="flex items-center gap-2 mb-2 text-text-secondary">
-              <BarChart2 size={16} class="text-imb" />
-              <span class="font-sans text-xs font-medium">{course.instructor}</span>
+          <div class="flex flex-1 flex-col p-6">
+            <div class="mb-3 flex items-center gap-2 text-meta text-text-secondary">
+              <BarChart2 size={16} class="shrink-0 text-imb" aria-hidden="true" />
+              <span>{course.instructor}</span>
             </div>
-            <h3 class="font-display text-lg font-bold mb-4 group-hover:text-imb transition-colors line-clamp-2 leading-snug">
+            <h3 class="line-clamp-2 text-card-title transition-colors duration-200 group-hover:text-imb">
               {course.nombre}
             </h3>
-            <div class="mt-auto flex items-center gap-4 text-text-secondary font-sans text-xs font-medium border-t border-border-muted pt-4">
-              <div class="flex items-center gap-1.5">
-                <Clock size={16} class="text-icon-muted" />
-                <span>{course.duracion}</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <Calendar size={16} class="text-icon-muted" />
-                <span>Inicio: {course.fechaInicio}</span>
-              </div>
+            <div class="mt-auto flex flex-wrap gap-4 border-t border-border-muted pt-6 text-meta text-text-secondary">
+              <span class="flex items-center gap-2"><Clock size={16} aria-hidden="true" />{course.duracion}</span>
+              <span class="flex items-center gap-2"><Calendar size={16} aria-hidden="true" />Inicio: {course.fechaInicio}</span>
             </div>
           </div>
         </Card>
       ))}
     </div>
 
-    <div class="mt-16 text-center">
-      <Button href={ROUTES.CAPACITACION} variant="primary" class="px-8 py-4 shadow-sm text-base font-bold flex items-center gap-2 mx-auto">
-        Ver todos los programas <ArrowRight size={16} />
+    <div class="mt-12 flex justify-start lg:justify-end">
+      <Button
+        href={ROUTES.CAPACITACION}
+        variant="primary"
+        class="min-h-12 px-8 text-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-imb"
+      >
+        Ver todos los programas <ArrowRight size={18} class="ml-2" aria-hidden="true" />
       </Button>
     </div>
   </Wrapper>
 
   <!-- Testimonios -->
-  <Wrapper class="bg-surface-0 relative overflow-hidden">
-    <div class="relative z-10">
-      <div class="mb-16 max-w-3xl text-center mx-auto">
-        <h2 class="font-display text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
-          Ideas que inspiran.<br/>Conocimiento que transforma.
+  <Wrapper class="bg-surface-0 py-24 lg:py-32" padded={false}>
+    <div class="mb-16 grid gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Testimonios</p>
+        <h2 class="text-section-title">
+          Lo que dicen quienes enseñan y estudian en IMB
         </h2>
-        <p class="font-sans text-lg text-text-secondary">
-          Explora nuevas perspectivas junto a expertos, sumérgete en conocimientos innovadores y amplía tus horizontes con cada conversación.
-        </p>
       </div>
+      <p class="max-w-xl text-body text-text-secondary lg:col-span-5 lg:col-start-8">
+        Sus experiencias cuentan mejor que nosotros cómo se vive la formación dentro y fuera del aula.
+      </p>
+    </div>
 
-      <div class="grid md:grid-cols-2 gap-5 lg:gap-6 max-w-6xl mx-auto">
-        <Card class="p-6 lg:p-8 relative group">
-          <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
-          <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10">
-            "Cuando estableces un comportamiento de trabajo y procesos con calidad, das el primer paso hacia la excelencia. Esta actitud se convierte en una conducta que, con la práctica, se transforma en una habilidad productiva."
-          </blockquote>
-          <div class="flex items-center gap-4 mt-auto">
-            <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm">
-              <Users size={20} />
-            </div>
-            <div>
-              <h4 class="font-display text-sm font-bold">Ing. Yassín Vázquez</h4>
-              <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">Docente Principal / Área de Mantenimiento</p>
-            </div>
-          </div>
-        </Card>
-
-        <Card class="p-6 lg:p-8 relative group">
-          <Quote size={32} class="text-imb/10 absolute top-6 right-8 group-hover:text-imb/20 transition-colors" />
-          <blockquote class="font-display text-base md:text-lg font-medium leading-relaxed mb-6 relative z-10">
-            "Quiero compartir una gran satisfacción personal: haber culminado el curso de Recursos Humanos en IMB Institute. Esta experiencia no solo me brindó conocimientos valiosos, sino que también me ayudó a desenvolverme mejor en mi área profesional."
-          </blockquote>
-          <div class="flex items-center gap-4 mt-auto">
-            <div class="w-10 h-10 bg-surface-50 rounded-full flex items-center justify-center text-text-secondary shadow-sm">
-              <Award size={20} />
-            </div>
-            <div>
-              <h4 class="font-display text-sm font-bold">Alumno Egresado</h4>
-              <p class="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-secondary mt-0.5">Programa de Recursos Humanos</p>
-            </div>
-          </div>
-        </Card>
-      </div>
+    <div class="grid gap-6 md:grid-cols-2">
+      {testimonials.map((testimonial) => (
+        <TestimonialCard {...testimonial} />
+      ))}
     </div>
   </Wrapper>
 
-  <!-- Contacto Rápido -->
-  <Wrapper id="contacto" class="bg-surface-50">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="max-w-xl">
-        <h2 class="font-display text-3xl lg:text-4xl font-bold mb-6 tracking-tight">Da el siguiente paso en tu carrera profesional</h2>
-        <p class="font-sans text-lg text-text-secondary leading-relaxed mb-8">Déjanos tus datos y un asesor académico especializado se comunicará contigo.</p>
-        <div class="flex flex-col gap-5">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-surface-0 rounded-xl flex items-center justify-center text-imb shadow-sm">
+  <!-- Contacto rápido -->
+  <Wrapper id="contacto" class="bg-surface-50 py-24 lg:py-32" padded={false}>
+    <div class="grid items-start gap-16 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Contacto</p>
+        <h2 class="max-w-xl text-section-title">
+          ¿Buscas un curso para ti o para tu equipo?
+        </h2>
+        <p class="mt-6 max-w-xl text-body text-text-secondary">
+          Cuéntanos qué necesitas. Un asesor académico te ayudará a encontrar el programa adecuado.
+        </p>
+
+        <div class="mt-10 grid gap-6 border-t border-border-subtle pt-8">
+          <a
+            href={`tel:${CONTACT_INFO.phones.supportRaw}`}
+            class="group flex min-h-12 items-center gap-4 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-imb"
+          >
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-surface-50 text-imb" aria-hidden="true">
               <Phone size={20} />
             </div>
             <div>
-              <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Llámanos</p>
-              <h3 class="font-display text-xl font-bold">
-                <a href={`tel:${CONTACT_INFO.phones.supportRaw}`} class="hover:text-imb transition-colors">
-                  {CONTACT_INFO.phones.support}
-                </a>
-              </h3>
+              <p class="text-label uppercase tracking-wider text-text-secondary">Llámanos</p>
+              <p class="mt-1 font-display text-item-title transition-colors duration-200 group-hover:text-imb">{CONTACT_INFO.phones.support}</p>
             </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-surface-0 rounded-xl flex items-center justify-center text-imb shadow-sm">
+          </a>
+
+          <a
+            href={`mailto:${CONTACT_INFO.emails.admission}`}
+            class="group flex min-h-12 items-center gap-4 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-imb"
+          >
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-surface-50 text-imb" aria-hidden="true">
               <Mail size={20} />
             </div>
-            <div>
-              <p class="font-sans text-[11px] font-bold uppercase tracking-widest text-text-secondary">Escríbenos</p>
-              <h3 class="font-display text-[16px] sm:text-xl font-bold">
-                <a href={`mailto:${CONTACT_INFO.emails.admission}`} class="hover:text-imb transition-colors break-all">
-                  {CONTACT_INFO.emails.admission}
-                </a>
-              </h3>
+            <div class="min-w-0">
+              <p class="text-label uppercase tracking-wider text-text-secondary">Escríbenos</p>
+              <p class="mt-1 [overflow-wrap:anywhere] font-display text-body-title transition-colors duration-200 group-hover:text-imb">{CONTACT_INFO.emails.admission}</p>
             </div>
-          </div>
+          </a>
         </div>
       </div>
-      <Card class="rounded-2xl p-8 lg:p-12 shadow-premium relative">
-        <h3 class="font-display text-2xl font-bold mb-10 tracking-tight">Solicita Información</h3>
+
+      <Card class="rounded-xl! p-8 shadow-none! hover:shadow-none! lg:col-span-7 lg:p-12">
+        <div class="mb-10 border-b border-border-subtle pb-8">
+          <h3 class="text-component-title">Cuéntanos qué necesitas</h3>
+        </div>
         <FormContacto />
       </Card>
     </div>
   </Wrapper>
-
 </BaseLayout>

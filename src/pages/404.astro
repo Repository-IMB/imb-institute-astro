@@ -1,0 +1,38 @@
+---
+import { FileQuestion, ArrowLeft, BookOpen } from 'lucide-astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import { ROUTES } from '../config/routes';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Página no encontrada | IMB Institute"
+  description="La página que buscas no está disponible. Puedes volver al inicio o revisar los programas de capacitación de IMB Institute."
+  robots="noindex, nofollow"
+>
+  <Wrapper class="flex min-h-[65vh] items-center bg-surface-50 py-20 lg:py-28" padded={false}>
+    <div class="mx-auto max-w-2xl text-center">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-0 text-imb shadow-sm" aria-hidden="true">
+        <FileQuestion size={30} />
+      </div>
+      <p class="mt-8 text-label uppercase tracking-widest text-imb">Error 404</p>
+      <h1 class="mt-3 text-page-title">No encontramos esta página</h1>
+      <p class="mx-auto mt-5 max-w-xl text-lead text-text-secondary">
+        Es posible que el enlace haya cambiado o que la página ya no esté disponible.
+      </p>
+      <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+        <Button href={ROUTES.HOME} variant="primary" class="min-h-12 gap-2">
+          <ArrowLeft size={18} aria-hidden="true" />
+          Volver al inicio
+        </Button>
+        <Button href={ROUTES.CAPACITACION} variant="outline" class="min-h-12 gap-2">
+          <BookOpen size={18} aria-hidden="true" />
+          Ver programas
+        </Button>
+      </div>
+    </div>
+  </Wrapper>
+</BaseLayout>

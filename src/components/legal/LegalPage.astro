@@ -1,0 +1,415 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Wrapper from '../ui/Wrapper.astro';
+import { slugify } from '../../config/routes';
+
+export interface Props {
+  title: string;
+  description: string;
+  content: string;
+}
+
+type TextBlock =
+  | { type: 'heading'; level: 2 | 3 | 4; text: string; id: string }
+  | { type: 'label'; text: string }
+  | { type: 'paragraph'; text: string }
+  | { type: 'list'; items: Array<{ text: string; depth: number }> }
+  | { type: 'detail-list'; items: Array<{ term: string; paragraphs: string[] }> }
+  | { type: 'table'; rows: string[][] };
+
+const { title, description, content } = Astro.props;
+const sourceLines = content.replace(/\r\n?/g, '\n').split('\n');
+const updatedAtIndex = sourceLines.findIndex((line) => line.trim().startsWith('Última actualización:'));
+const updatedAt = updatedAtIndex >= 0
+  ? sourceLines[updatedAtIndex].trim().replace(/^Última actualización:\s*/, '')
+  : undefined;
+
+let bodyLines = updatedAtIndex >= 0
+  ? sourceLines.slice(updatedAtIndex + 1)
+  : sourceLines.slice(sourceLines.findIndex((line) => line.trim() === description) + 1);
+
+while (bodyLines[0]?.trim() === '') bodyLines = bodyLines.slice(1);
+
+const blocks: TextBlock[] = [];
+let index = 0;
+const headingIds = new Map<string, number>();
+
+const makeHeadingId = (text: string) => {
+  const base = slugify(text.replace(/^\d+(?:\.\d+)*\.\s*/, '')) || 'seccion';
+  const count = headingIds.get(base) ?? 0;
+  headingIds.set(base, count + 1);
+  return count === 0 ? base : `${base}-${count + 1}`;
+};
+
+const getInlineDefinition = (text: string) => {
+  const match = text.match(/^([^:]{2,70}):\s+(.+)$/);
+  return match ? { term: match[1], description: match[2] } : undefined;
+};
+
+const isStandaloneDetail = (text: string) =>
+  /^(Cookies (?:técnicas \(necesarias\)|de personalización|de análisis|publicitarias y de terceros)|Google Chrome|Mozilla Firefox|Safari|Microsoft Edge):$/.test(text);
+
+const isNarrativeBoundary = (text: string) =>
+  /^(El Sitio (?:está|se encuentra)|Nos reservamos|Para (?:configurar|más información)|Ten en cuenta|Te recomendamos|En ningún caso|Cualquier uso|No garantizamos|El incumplimiento|Los pagos se procesan|A todas las solicitudes|Si solicita|Todas las solicitudes|International Management|Estamos comprometidos|Gracias por)/.test(text);
+
+while (index < bodyLines.length) {
+  const rawLine = bodyLines[index];
+  const line = rawLine.trim();
+
+  if (!line) {
+    index += 1;
+    continue;
+  }
+
+  const markdownHeadingMatch = line.match(/^(#{2,4})\s+(.+)$/);
+  if (markdownHeadingMatch) {
+    const level = markdownHeadingMatch[1].length as 2 | 3 | 4;
+    const text = markdownHeadingMatch[2];
+    blocks.push({ type: 'heading', level, text, id: makeHeadingId(text) });
+    index += 1;
+    continue;
+  }
+
+  const headingMatch = line.match(/^(\d+(?:\.\d+)*)\.\s+(.+)$/);
+  if (headingMatch) {
+    const depth = headingMatch[1].split('.').length;
+    blocks.push({
+      type: 'heading',
+      level: depth === 1 ? 2 : depth === 2 ? 3 : 4,
+      text: line,
+      id: makeHeadingId(line),
+    });
+    index += 1;
+    continue;
+  }
+
+  if (rawLine.includes('\t')) {
+    const rows: string[][] = [];
+    while (index < bodyLines.length && bodyLines[index].includes('\t')) {
+      rows.push(bodyLines[index].split('\t').map((cell) => cell.trim()));
+      index += 1;
+    }
+    blocks.push({ type: 'table', rows });
+    continue;
+  }
+
+  if (isStandaloneDetail(line)) {
+    const items: Array<{ term: string; paragraphs: string[] }> = [];
+
+    while (index < bodyLines.length && isStandaloneDetail(bodyLines[index].trim())) {
+      const term = bodyLines[index].trim().replace(/:$/, '');
+      const paragraphs: string[] = [];
+      index += 1;
+
+      while (index < bodyLines.length) {
+        const detailLine = bodyLines[index].trim();
+        if (!detailLine || isStandaloneDetail(detailLine) || /^\d+(?:\.\d+)*\.\s+/.test(detailLine)) break;
+        if (paragraphs.length >= 1 && isNarrativeBoundary(detailLine)) break;
+        paragraphs.push(detailLine);
+        index += 1;
+      }
+
+      items.push({ term, paragraphs });
+    }
+
+    blocks.push({ type: 'detail-list', items });
+    continue;
+  }
+
+  if (/^\s*-\s+/.test(rawLine)) {
+    const items: Array<{ text: string; depth: number }> = [];
+    while (index < bodyLines.length && /^\s*-\s+/.test(bodyLines[index])) {
+      const itemLine = bodyLines[index];
+      const indentation = itemLine.match(/^\s*/)?.[0].length ?? 0;
+      items.push({
+        text: itemLine.replace(/^\s*-\s+/, '').trim(),
+        depth: Math.min(Math.floor(indentation / 2), 2),
+      });
+      index += 1;
+    }
+    blocks.push({ type: 'list', items });
+    continue;
+  }
+
+  const inlineDefinition = getInlineDefinition(line);
+  if (inlineDefinition) {
+    const items: Array<{ text: string; depth: number }> = [];
+    let definitionIndex = index;
+
+    while (definitionIndex < bodyLines.length) {
+      const definitionLine = bodyLines[definitionIndex].trim();
+      if (!definitionLine) break;
+      if (!getInlineDefinition(definitionLine)) break;
+      items.push({ text: definitionLine, depth: 0 });
+      definitionIndex += 1;
+    }
+
+    if (items.length >= 2) {
+      blocks.push({ type: 'list', items });
+      index = definitionIndex;
+      continue;
+    }
+  }
+
+  if (line.endsWith(':')) {
+    let listIndex = index + 1;
+    let separatedFromIntro = false;
+
+    while (bodyLines[listIndex]?.trim() === '') {
+      separatedFromIntro = true;
+      listIndex += 1;
+    }
+
+    const firstCandidate = bodyLines[listIndex]?.trim() ?? '';
+    const canCollectPlainList = separatedFromIntro
+      && firstCandidate
+      && !isStandaloneDetail(firstCandidate)
+      && !getInlineDefinition(firstCandidate)
+      && !firstCandidate.includes('\t')
+      && !/^\s*-\s+/.test(bodyLines[listIndex] ?? '');
+
+    if (canCollectPlainList) {
+      const items: Array<{ text: string; depth: number }> = [];
+
+      while (listIndex < bodyLines.length) {
+        const candidate = bodyLines[listIndex].trim();
+        if (!candidate || /^\d+(?:\.\d+)*\.\s+/.test(candidate)) break;
+        if (items.length >= 2 && (isNarrativeBoundary(candidate) || candidate.endsWith(':'))) break;
+        if (getInlineDefinition(candidate) && items.length >= 1) break;
+        items.push({ text: candidate, depth: 0 });
+        listIndex += 1;
+      }
+
+      if (items.length >= 2) {
+        blocks.push({ type: 'paragraph', text: line });
+        blocks.push({ type: 'list', items });
+        index = listIndex;
+        continue;
+      }
+    }
+  }
+
+  if (line.endsWith(':') && line.length <= 90) {
+    blocks.push({ type: 'label', text: line });
+    index += 1;
+    continue;
+  }
+
+  blocks.push({ type: 'paragraph', text: line });
+  index += 1;
+}
+---
+
+<BaseLayout title={`${title} | IMB Institute`} description={description}>
+  <header class="bg-text-primary py-16 md:py-20 lg:py-24">
+    <Wrapper as="div" padded={false}>
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="mb-4 text-label uppercase tracking-[0.2em] text-imb-hover">
+          Información legal
+        </p>
+        <h1 class="text-page-title text-surface-0">
+          {title}
+        </h1>
+        <div aria-hidden="true" class="mx-auto mt-5 h-1 w-16 rounded-full bg-imb"></div>
+        <p class="mx-auto mt-6 max-w-3xl text-lead text-surface-100">
+          {description}
+        </p>
+        {updatedAt && (
+          <p class="mt-6 text-meta font-semibold text-icon-muted">
+            Última actualización: {updatedAt}
+          </p>
+        )}
+      </div>
+    </Wrapper>
+  </header>
+
+  <Wrapper class="bg-surface-0 py-14 md:py-20 lg:py-24" padded={false}>
+    <article class="legal-content mx-auto max-w-6xl">
+      {blocks.map((block, blockIndex) => {
+        if (block.type === 'heading') {
+          const Heading = `h${block.level}` as 'h2' | 'h3' | 'h4';
+          return <Heading id={block.id}>{block.text}</Heading>;
+        }
+
+        if (block.type === 'label') {
+          return <p class="legal-label">{block.text}</p>;
+        }
+
+        if (block.type === 'list') {
+          return (
+            <ul>
+              {block.items.map((item) => {
+                const definition = getInlineDefinition(item.text);
+                return (
+                  <li class:list={[item.depth === 1 && 'ml-5', item.depth === 2 && 'ml-10']}>
+                    {definition ? <><strong>{definition.term}:</strong> {definition.description}</> : item.text}
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        }
+
+        if (block.type === 'detail-list') {
+          return (
+            <ul class="legal-detail-list">
+              {block.items.map((item) => (
+                <li>
+                  <strong>{item.term}:</strong>
+                  {item.paragraphs.map((paragraph) => (
+                    <p class:list={[paragraph.startsWith('Ejemplo:') && 'legal-example']}>{paragraph}</p>
+                  ))}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+
+        if (block.type === 'table') {
+          return (
+            <div class="legal-table" role="region" aria-label="Tabla de información" tabindex="0">
+              <table>
+                <thead>
+                  <tr>{block.rows[0].map((cell) => <th scope="col">{cell}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {block.rows.slice(1).map((row) => (
+                    <tr>{row.map((cell) => <td>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+
+        return <p class:list={[blockIndex === 0 && 'legal-introduction']}>{block.text}</p>;
+      })}
+    </article>
+  </Wrapper>
+</BaseLayout>
+
+<style>
+  .legal-content :global(h2) {
+    margin-top: 3.75rem;
+    scroll-margin-top: 7rem;
+    border-top: 1px solid var(--color-border-subtle);
+    padding-top: 2.5rem;
+    font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+    letter-spacing: -0.025em;
+  }
+
+  .legal-content :global(h3) {
+    margin-top: 2.5rem;
+    scroll-margin-top: 7rem;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+
+  .legal-content :global(h4) {
+    margin-top: 2rem;
+    scroll-margin-top: 7rem;
+    font-size: 1.15rem;
+  }
+
+  .legal-content :global(p) {
+    margin-top: 1.15rem;
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .legal-content :global(.legal-introduction) {
+    margin-top: 0;
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+    line-height: 1.75;
+  }
+
+  .legal-content :global(.legal-label) {
+    margin-top: 1.5rem;
+    color: var(--color-text-primary);
+    font-weight: 700;
+  }
+
+  .legal-content :global(ul) {
+    margin: 1.15rem 0 1.75rem;
+    display: grid;
+    gap: 0.75rem;
+    padding-left: 1.5rem;
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    list-style-type: disc;
+  }
+
+  .legal-content :global(li) {
+    padding-left: 0.4rem;
+  }
+
+  .legal-content :global(li::marker) {
+    color: var(--color-imb);
+  }
+
+  .legal-content :global(li strong) {
+    color: var(--color-text-primary);
+    font-weight: 700;
+  }
+
+  .legal-content :global(.legal-detail-list) {
+    gap: 1.4rem;
+    margin-top: 1.5rem;
+  }
+
+  .legal-content :global(.legal-detail-list li) {
+    padding-left: 0.55rem;
+  }
+
+  .legal-content :global(.legal-detail-list p) {
+    margin-top: 0.35rem;
+  }
+
+  .legal-content :global(.legal-detail-list .legal-example) {
+    font-style: italic;
+  }
+
+  .legal-table {
+    margin: 2rem 0 2.5rem;
+    overflow-x: auto;
+    border-top: 1px solid var(--color-border-subtle);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .legal-table:focus-visible {
+    outline: 2px solid var(--color-imb);
+    outline-offset: 3px;
+  }
+
+  .legal-table table {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .legal-table th,
+  .legal-table td {
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 0.85rem 1rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .legal-table th {
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .legal-table td {
+    color: var(--color-text-secondary);
+  }
+
+  .legal-table tr:last-child td {
+    border-bottom: 0;
+  }
+</style>

@@ -18,6 +18,7 @@ const userEmail = Astro.request.headers.get('Cf-Access-Authenticated-User-Email'
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +29,7 @@ const userEmail = Astro.request.headers.get('Cf-Access-Authenticated-User-Email'
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center gap-3">
-            <span class="font-display font-bold text-lg text-text-primary">IMB Institute</span>
+            <span class="font-display text-item-title">IMB Institute</span>
             <span class="px-2 py-0.5 bg-gray-100 text-text-secondary text-xs font-medium rounded-full">Admin</span>
           </div>
           <nav class="flex items-center gap-4">

@@ -1,0 +1,24 @@
+---
+import { Quote } from 'lucide-astro';
+import Card from './Card.astro';
+
+interface Props {
+  quote: string;
+  author: string;
+  role: string;
+  class?: string;
+}
+
+const { quote, author, role, class: className } = Astro.props;
+---
+
+<Card class:list={['rounded-xl! p-8 shadow-none! hover:shadow-none! lg:p-10', className]}>
+  <Quote size={24} class="mb-6 text-imb" aria-hidden="true" />
+  <blockquote class="font-display text-quote text-text-primary">
+    “{quote}”
+  </blockquote>
+  <footer class="mt-8 border-t border-border-subtle pt-6">
+    <p class="text-body-title">{author}</p>
+    <p class="mt-2 text-meta text-text-secondary">{role}</p>
+  </footer>
+</Card>

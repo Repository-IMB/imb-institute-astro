@@ -2,6 +2,12 @@
 import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
+import FileUploadField from '../ui/FileUploadField.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
+import AddressFields from './fields/AddressFields.astro';
+import { ROUTES } from '../../config/routes';
 
 export interface Props {
   class?: string;
@@ -11,173 +17,115 @@ const { class: className } = Astro.props;
 ---
 
 <div id="form-reclamaciones-wrapper" class:list={[className]}>
-  <form id="form-reclamaciones" method="POST" class:list={["space-y-12", className]} novalidate>
+  <form
+    id="form-reclamaciones"
+    data-submission-form
+    data-action="reclamaciones"
+    data-submit-label="Registrar reclamación"
+    data-pending-label="Enviando..."
+    data-error-id="form-reclamaciones-error"
+    data-error-message-id="form-reclamaciones-error-msg"
+    data-success-id="form-reclamaciones-success"
+    method="POST"
+    class="space-y-12"
+    novalidate
+  >
     <div class="space-y-8">
-      <h3 class="font-display text-xl font-bold text-text-primary border-b-2 border-gray-100 pb-4">1. Datos del Consumidor</h3>
+      <h3 class="border-b border-border-subtle pb-4 text-card-title">1. Datos del consumidor</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Fecha del suceso" name="fecha" type="date" />
-        <InputField label="Nombre Completo" name="nombres" placeholder="Sus nombres y apellidos" />
+        <InputField label="Fecha" name="fecha" type="date" required />
+        <InputField label="Nombre completo" name="nombres" placeholder="María Torres" required />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <InputField label="Documento de Identidad" name="documento" placeholder="Ej. DNI / Pasaporte" />
-        <PhoneInput label="Teléfono / Celular" name="telefono" id="reclamaciones-telefono" />
+        <InputField label="Documento de identidad (DNI, CE o pasaporte)" name="documento" placeholder="Número de documento" required />
+        <PhoneInput label="Teléfono o celular" name="telefono" id="reclamaciones-telefono" required />
       </div>
-      <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <InputField label="Dirección" name="direccion" placeholder="Calle y número" />
-        <InputField label="Ciudad" name="ciudad" placeholder="Ciudad" />
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <InputField label="Región/Estado" name="region" placeholder="Región" />
-        <InputField label="País" name="pais" placeholder="País" />
-      </div>
-      <InputField label="Nombre del Apoderado (Solo si es menor de edad)" name="apoderado" required={false} placeholder="Nombres del tutor" />
+      <InputField label="Correo electrónico" name="correo" type="email" placeholder="maria.torres@correo.com" required />
+      <AddressFields required />
+      <InputField label="Nombre del apoderado (solo si es menor de edad)" name="apoderado" required={false} placeholder="Carlos Torres" />
     </div>
 
     <div class="space-y-8">
-      <h3 class="font-display text-xl font-bold text-text-primary border-b-2 border-gray-100 pb-4">2. Detalle del Bien Contratado</h3>
+      <h3 class="border-b border-border-subtle pb-4 text-card-title">2. Detalle del bien contratado</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <SelectField
-          label="Tipo de Bien"
+          label="Indique el tipo de bien"
           name="tipoBien"
+          required
           options={[
-            { value: '', label: 'Seleccione el tipo de servicio...' },
-            'Servicio Educativo (Curso/Diplomado)',
-            'Producto Físico/Certificado'
+            { value: '', label: 'Seleccione el tipo de bien' },
+            'Producto',
+            'Servicio'
           ]}
         />
-        <InputField label="Número de Comprobante / Boleta" name="comprobante" required={false} placeholder="Ej. B001-000000" />
+        <InputField label="Número de comprobante (boleta o factura)" name="comprobante" required={false} />
       </div>
-      <InputField label="Nombre exacto del curso o servicio adquirido" name="detalleBien" placeholder="Ej. Diplomado en Mantenimiento" />
+      <InputField label="Producto o servicio adquirido" name="detalleBien" required />
+      <InputField label="Monto reclamado" name="montoReclamado" type="number" required />
+      <InputField
+        label="Descripción del producto o servicio reclamado"
+        name="descripcionBien"
+        type="textarea"
+        rows={4}
+        required
+        placeholder="Describa el producto o servicio relacionado con su solicitud"
+      />
     </div>
 
     <div class="space-y-8">
-      <h3 class="font-display text-xl font-bold text-text-primary border-b-2 border-gray-100 pb-4">3. Detalle del Reclamo o Queja</h3>
+      <h3 class="border-b border-border-subtle pb-4 text-card-title">3. Detalle del reclamo o queja</h3>
       <SelectField
-        label="Tipo de Solicitud"
+        label="Tipo de solicitud"
         name="tipoSolicitud"
+        required
         options={[
-          { value: '', label: 'Seleccione el motivo de su reporte...' },
-          'Reclamo (Disconformidad con el servicio)',
-          'Queja (Malestar por atención recibida)'
+          { value: '', label: 'Seleccione el motivo de su reporte' },
+          'Reclamo',
+          'Queja'
         ]}
       />
-      <InputField label="Detalle exhaustivo del reclamo" name="detalleReclamo" type="textarea" rows={4} placeholder="Describa detalladamente los hechos ocurridos..." />
+      <InputField label="Detalle" name="detalleReclamo" type="textarea" rows={4} placeholder="Describa los hechos y las fechas relevantes" required />
+      <InputField label="Pedido" name="pedido" type="textarea" rows={4} placeholder="Indique qué solución solicita" required />
+      <FileUploadField
+        id="reclamaciones-archivo"
+        name="archivo"
+        label="Documento de respaldo"
+        accept=".pdf,.jpg,.jpeg,.png"
+        maxFileSizeMB={5}
+        help="PDF, JPG o PNG. Máximo 5 MB."
+      />
+      <div>
+        <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-border-subtle px-4 py-3 font-sans text-sm leading-relaxed text-text-secondary transition-colors hover:border-imb/50 focus-within:border-imb focus-within:ring-2 focus-within:ring-imb/15">
+          <input
+            type="checkbox"
+            name="privacidad"
+            required
+            class="mt-1 size-4 shrink-0 cursor-pointer rounded border-border-subtle bg-surface-50 text-imb focus:ring-2 focus:ring-imb/20 focus:ring-offset-2"
+          />
+          <span>
+            Autorizo el tratamiento de mis datos personales para atender esta solicitud, de acuerdo con la
+            <a href={ROUTES.POLITICA_PRIVACIDAD} target="_blank" rel="noopener noreferrer" class="font-semibold text-imb underline decoration-imb/40 underline-offset-3 transition-colors hover:text-imb-hover focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"> Política de Privacidad</a>.
+            <span class="text-imb">*</span>
+          </span>
+        </label>
+        <span class="mt-1 hidden text-xs font-medium text-feedback-error" data-error-for="privacidad"></span>
+      </div>
     </div>
 
-    <div id="form-reclamaciones-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
-      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span id="form-reclamaciones-error-msg"></span>
-    </div>
+    <FormError id="form-reclamaciones-error" messageId="form-reclamaciones-error-msg" />
 
     <div class="pt-6">
-      <button
-        id="form-reclamaciones-btn"
-        type="submit"
-        class="w-full py-4 inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        <span class="btn-text">Registrar Reclamación Oficial</span>
-        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-        </svg>
-      </button>
+      <FormSubmitButton id="form-reclamaciones-btn" label="Registrar reclamación" />
     </div>
   </form>
 
-  <div id="form-reclamaciones-success" class="hidden flex-col items-center text-center py-12 gap-4">
-    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
-      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-    </div>
-    <h3 class="font-display text-xl font-bold text-text-primary">¡Reclamación Registrada!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
-      Tu caso ha sido registrado oficialmente en nuestro libro de reclamaciones. Recibirás una respuesta en un plazo máximo de 30 días hábiles.
+  <FormSuccess id="form-reclamaciones-success" title="Reclamación registrada">
+    <p>
+      Su solicitud quedó registrada en el Libro de Reclamaciones. Enviaremos una constancia al correo electrónico indicado.
     </p>
-  </div>
+  </FormSuccess>
 </div>
 
 <script>
-  import { actions, isInputError } from 'astro:actions';
-
-  function initReclamaciones() {
-    const form = document.getElementById('form-reclamaciones') as HTMLFormElement;
-    if (!form || form.dataset.initialized) return;
-    form.dataset.initialized = 'true';
-
-    const errorEl = document.getElementById('form-reclamaciones-error');
-    const errorMsg = document.getElementById('form-reclamaciones-error-msg');
-    const successEl = document.getElementById('form-reclamaciones-success');
-    const btn = document.getElementById('form-reclamaciones-btn') as HTMLButtonElement;
-    const btnText = btn?.querySelector('.btn-text');
-    const btnSpinner = btn?.querySelector('.btn-spinner');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-
-      errorEl?.classList.add('hidden');
-      errorEl?.classList.remove('flex');
-      btn.disabled = true;
-      if (btnText) btnText.textContent = 'Enviando...';
-      btnSpinner?.classList.remove('hidden');
-
-      try {
-        const formData = new FormData(form);
-        const { error } = await actions.reclamaciones(formData);
-
-        if (error) {
-          if (isInputError(error)) {
-            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
-            for (const [field, messages] of Object.entries(error.fields)) {
-              const spanError = form.querySelector(`[data-error-for="${field}"]`);
-              if (spanError && messages) {
-                spanError.textContent = messages[0];
-                spanError.classList.remove('hidden');
-              }
-            }
-            
-            // Hacer scroll hacia el primer error visible
-            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
-            if (firstErrorSpan) {
-              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
-              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
-          }
-          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
-        }
-
-        form.classList.add('hidden');
-        successEl?.classList.remove('hidden');
-        successEl?.classList.add('flex');
-        
-      } catch (err: any) {
-        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
-        errorEl?.classList.remove('hidden');
-        errorEl?.classList.add('flex');
-      } finally {
-        btn.disabled = false;
-        if (btnText) btnText.textContent = 'Registrar Reclamación Oficial';
-        btnSpinner?.classList.add('hidden');
-      }
-    });
-
-    // Ocultar error cuando el usuario modifica un campo
-    form.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-      if (target.name) {
-        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
-        if (errorSpan && !errorSpan.classList.contains('hidden')) {
-          errorSpan.classList.add('hidden');
-        }
-      }
-    });
-  }
-
-  document.addEventListener('astro:page-load', initReclamaciones);
-  initReclamaciones();
+  import '../../scripts/submission-form';
 </script>

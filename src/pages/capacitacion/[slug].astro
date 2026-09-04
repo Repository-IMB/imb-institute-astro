@@ -4,62 +4,97 @@ import Card from '../../components/ui/Card.astro';
 import Wrapper from '../../components/ui/Wrapper.astro';
 import Accordion from '../../components/ui/Accordion.astro';
 import FormAsesor from '../../components/forms/FormAsesor.astro';
-import { cursos, categorias } from '../../data/cursos';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import { cursos, type Curso } from '../../data/cursos';
 import { Clock, Calendar, FileText } from 'lucide-astro';
-import MediaImage from '../../components/ui/MediaImage.astro';
-import { ROUTES, slugify } from '../../config/routes';
+import { ROUTES, COURSE_ROUTES } from '../../config/routes';
 import Badge from '../../components/ui/Badge.astro';
 
-const { slug } = Astro.params;
+export const prerender = true;
 
-if (!slug) {
-  return Astro.redirect(ROUTES.CURSOS);
+export function getStaticPaths() {
+  return cursos.map((course) => ({
+    params: { slug: course.slug },
+    props: { course },
+  }));
 }
 
-// Search for a course with this slug
-const course = cursos.find(c => c.slug === slug);
-
-// If it's a category slug, redirect to index with filter
-const isCategorySlug = categorias.some(cat => cat !== 'Todos' && slugify(cat) === slug);
-if (isCategorySlug) {
-  return Astro.redirect(`${ROUTES.CURSOS}?category=${slug}`);
+interface Props {
+  course: Curso;
 }
 
-if (!course) {
-  return Astro.redirect('/404');
-}
+const { course } = Astro.props;
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const courseUrl = new URL(COURSE_ROUTES.DETAIL(course.slug), siteUrl).href;
+const catalogUrl = new URL(ROUTES.CAPACITACION, siteUrl).href;
+const homeUrl = new URL(ROUTES.HOME, siteUrl).href;
+
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  '@id': `${courseUrl}#course`,
+  name: course.nombre,
+  description: course.descripcion,
+  image: course.imagen,
+  provider: {
+    '@type': 'Organization',
+    name: 'IMB Institute',
+    url: homeUrl,
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: homeUrl },
+    { '@type': 'ListItem', position: 2, name: 'Capacitación', item: catalogUrl },
+    { '@type': 'ListItem', position: 3, name: course.nombre, item: courseUrl },
+  ],
+};
 ---
 
-<BaseLayout title={`${course.nombre} | IMB Institute`} description={course.descripcion}>
-  
+<BaseLayout
+  title={`${course.nombre} | IMB Institute`}
+  description={course.descripcion}
+  image={course.imagen}
+  structuredData={[courseSchema, breadcrumbSchema]}
+>
+
   <Wrapper class="relative overflow-x-clip" padded={false}>
+    <Breadcrumb
+      class="pt-8 lg:pt-10"
+      items={[
+        { label: 'Inicio', href: ROUTES.HOME },
+        { label: 'Capacitación', href: ROUTES.CAPACITACION },
+        { label: course.nombre },
+      ]}
+    />
     <div class="grid lg:grid-cols-3 gap-12 lg:gap-16 items-start relative">
-      
       <!-- FIRST COLUMN: Main content flow -->
       <div class="lg:col-span-2">
-        
         <!-- SECTION 1: Course Header Info -->
         <div class="relative py-12 lg:py-20">
           <!-- Full-width breakout background (White) -->
           <div class="absolute inset-y-0 left-[-100vw] right-[-100vw] bg-surface-0 z-0 shadow-sm border-b border-border-subtle/30"></div>
-          
+
           <div class="relative z-10">
             <div class="mb-4">
               <Badge variant={course.estado === 'Activo' ? 'success' : 'warning'}>
                 {course.estado}
               </Badge>
             </div>
-            <h1 class="font-display text-4xl lg:text-5xl font-extrabold text-text-primary leading-tight mb-6 tracking-tight">{course.nombre}</h1>
-            <p class="font-sans text-xl text-text-secondary leading-relaxed mb-10">{course.descripcion}</p>
-            
+            <h1 class="mb-6 text-page-title">{course.nombre}</h1>
+            <p class="mb-10 text-lead text-text-secondary">{course.descripcion}</p>
+
             <div class="flex flex-wrap items-center gap-8 lg:gap-12">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-imb/5 flex items-center justify-center">
                   <Clock size={20} class="text-imb" />
                 </div>
                 <div>
-                  <p class="font-sans text-[10px] font-bold uppercase tracking-widest text-text-secondary">Duración</p>
-                  <h4 class="font-display text-base font-bold text-text-primary">{course.duracion}</h4>
+                  <p class="text-label uppercase tracking-widest text-text-secondary">Duración</p>
+                  <h4 class="text-body-title">{course.duracion}</h4>
                 </div>
               </div>
               <div class="flex items-center gap-3">
@@ -67,8 +102,8 @@ if (!course) {
                   <Calendar size={20} class="text-imb" />
                 </div>
                 <div>
-                  <p class="font-sans text-[10px] font-bold uppercase tracking-widest text-text-secondary">Inicio y Fin</p>
-                  <h4 class="font-display text-base font-bold text-text-primary">{course.fechaInicio} / {course.fechaFin}</h4>
+                  <p class="text-label uppercase tracking-widest text-text-secondary">Inicio y Fin</p>
+                  <h4 class="text-body-title">{course.fechaInicio} / {course.fechaFin}</h4>
                 </div>
               </div>
               <div class="flex items-center gap-3">
@@ -76,8 +111,8 @@ if (!course) {
                   <FileText size={20} class="text-imb" />
                 </div>
                 <div>
-                  <p class="font-sans text-[10px] font-bold uppercase tracking-widest text-text-secondary">Certificación</p>
-                  <h4 class="font-display text-base font-bold text-text-primary">{course.certificacion}</h4>
+                  <p class="text-label uppercase tracking-widest text-text-secondary">Certificación</p>
+                  <h4 class="text-body-title">{course.certificacion}</h4>
                 </div>
               </div>
             </div>
@@ -88,21 +123,20 @@ if (!course) {
         <div class="relative py-16 lg:py-24 space-y-20">
           <!-- Full-width breakout background (Surface 50) -->
           <div class="absolute inset-y-0 left-[100vw] -right-[100vw] bg-surface-50 z-0"></div>
-          
+
           <div class="relative z-10 space-y-20">
             <!-- About Section -->
             <section>
-              <h2 class="font-display text-3xl lg:text-4xl font-bold text-text-primary mb-6 tracking-tight">Acerca del programa</h2>
+              <h2 class="mb-6 text-section-title">Acerca del programa</h2>
               <div class="prose prose-lg text-text-secondary max-w-none leading-relaxed space-y-6">
                 <p>{course.descripcion}</p>
-                <p>Este programa ha sido diseñado cuidadosamente por expertos de la industria para proporcionarte las habilidades prácticas y teóricas necesarias para destacar en tu campo profesional, utilizando metodologías actualizadas y casos de estudio reales.</p>
               </div>
             </section>
 
             <!-- Curriculum Section -->
             <section>
               <div class="mb-10">
-                <h2 class="font-display text-3xl lg:text-4xl font-bold text-text-primary mb-2 tracking-tight">Plan de Estudios</h2>
+                <h2 class="mb-2 text-section-title">Plan de Estudios</h2>
                 <p class="font-sans text-text-secondary">Explora los módulos y temas que desarrollaremos a lo largo del programa.</p>
               </div>
               <div class="space-y-4">
@@ -122,7 +156,6 @@ if (!course) {
             </section>
           </div>
         </div>
-
       </div>
 
       <!-- SECOND COLUMN: Sticky Sidebar Form -->
@@ -130,8 +163,8 @@ if (!course) {
         <div class="sticky top-28 z-20">
           <Card class="rounded-3xl p-8 lg:p-10 shadow-premium border border-border-subtle/20 bg-surface-0">
             <div class="mb-8">
-              <h3 class="font-display text-2xl font-bold text-text-primary mb-2 tracking-tight">Contactar a un Asesor</h3>
-              <p class="font-sans text-sm text-text-secondary leading-relaxed">Déjanos tus datos para enviarte el brochure detallado y el cronograma del programa.</p>
+              <h3 class="mb-2 text-component-title">Contactar a un Asesor</h3>
+              <p class="text-meta text-text-secondary">Déjanos tus datos para enviarte el brochure detallado y el cronograma del programa.</p>
             </div>
             <FormAsesor cursoNombre={course.nombre} />
           </Card>
@@ -139,5 +172,4 @@ if (!course) {
       </aside>
     </div>
   </Wrapper>
-
 </BaseLayout>

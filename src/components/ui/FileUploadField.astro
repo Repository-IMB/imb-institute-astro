@@ -1,0 +1,248 @@
+---
+import { Upload } from 'lucide-astro';
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  accept?: string;
+  required?: boolean;
+  multiple?: boolean;
+  help?: string;
+  size?: 'compact' | 'default' | 'large';
+  maxFiles?: number;
+  maxFileSizeMB?: number;
+  maxTotalSizeMB?: number;
+  class?: string;
+}
+
+const {
+  id,
+  name,
+  label,
+  accept,
+  required = false,
+  multiple = false,
+  help,
+  size = 'default',
+  maxFiles = multiple ? 5 : 1,
+  maxFileSizeMB,
+  maxTotalSizeMB,
+  class: className,
+} = Astro.props;
+
+const triggerClasses = {
+  compact: 'min-h-20 flex-row justify-start gap-4 p-4 text-left',
+  default: 'min-h-36 flex-col justify-center gap-3 p-6 text-center',
+  large: 'min-h-48 flex-col justify-center gap-3 p-8 text-center',
+};
+
+const iconClasses = {
+  compact: 'size-10 rounded-lg',
+  default: 'size-11 rounded-xl',
+  large: 'size-12 rounded-xl',
+};
+
+const helperId = `${id}-help`;
+const errorId = `${id}-error`;
+---
+
+<div
+  class:list={['file-upload-field space-y-2', className]}
+  data-file-upload
+  data-max-files={maxFiles}
+  data-max-file-size={maxFileSizeMB ? maxFileSizeMB * 1024 * 1024 : undefined}
+  data-max-total-size={maxTotalSizeMB ? maxTotalSizeMB * 1024 * 1024 : undefined}
+  data-required={required ? 'true' : 'false'}
+>
+  <label for={id} class="block font-sans text-sm font-medium text-text-secondary">
+    {label} {required && <span class="text-imb">*</span>}
+  </label>
+
+  <input
+    id={id}
+    type="file"
+    name={name}
+    accept={accept}
+    required={required}
+    multiple={multiple}
+    class="sr-only"
+    tabindex="-1"
+    aria-describedby={[help ? helperId : '', errorId].filter(Boolean).join(' ')}
+  />
+
+  <button
+    type="button"
+    data-file-trigger
+    class:list={[
+      'group/file flex w-full cursor-pointer items-center rounded-xl border-2 border-dashed border-border-subtle bg-surface-0 transition-colors duration-200 hover:border-imb hover:bg-surface-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb',
+      triggerClasses[size],
+    ]}
+    aria-controls={id}
+  >
+    <span class:list={[
+      'flex shrink-0 items-center justify-center border border-border-subtle bg-surface-50 text-icon-muted transition-colors duration-200 group-hover/file:border-imb/40 group-hover/file:text-imb',
+      iconClasses[size],
+    ]} aria-hidden="true">
+      <Upload size={size === 'compact' ? 18 : 24} />
+    </span>
+
+    <span class:list={['min-w-0', size === 'compact' ? 'grow' : 'max-w-lg']}>
+      <span class="block text-meta font-semibold text-text-primary">
+        {multiple ? 'Haz clic o arrastra archivos a esta área' : 'Haz clic o arrastra un archivo a esta área'}
+      </span>
+      <span data-file-status class="mt-1 block truncate text-caption text-text-secondary">
+        {multiple ? `Puedes seleccionar hasta ${maxFiles} archivos` : 'Sin archivo seleccionado'}
+      </span>
+    </span>
+
+  </button>
+
+  {help && <p id={helperId} class="text-caption text-text-secondary">{help}</p>}
+  <p id={errorId} data-file-error data-error-for={name} class="hidden text-xs font-medium text-feedback-error" role="alert"></p>
+  <div data-file-list class="mt-3 space-y-2" aria-live="polite"></div>
+</div>
+
+<script>
+  function initFileUploadFields() {
+    document.querySelectorAll<HTMLElement>('[data-file-upload]').forEach((container) => {
+      const input = container.querySelector<HTMLInputElement>('input[type="file"]');
+      const trigger = container.querySelector<HTMLButtonElement>('[data-file-trigger]');
+      const status = container.querySelector<HTMLElement>('[data-file-status]');
+      const list = container.querySelector<HTMLElement>('[data-file-list]');
+      const error = container.querySelector<HTMLElement>('[data-file-error]');
+      if (!input || !trigger || !status || !list || !error || input.dataset.initialized) return;
+      input.dataset.initialized = 'true';
+
+      const maxFiles = Number(container.dataset.maxFiles || (input.multiple ? 5 : 1));
+      const maxFileSize = Number(container.dataset.maxFileSize || 0);
+      const maxTotalSize = Number(container.dataset.maxTotalSize || 0);
+      const required = container.dataset.required === 'true';
+      let selectedFiles: File[] = [];
+
+      const formatBytes = (bytes: number) => {
+        if (bytes < 1024) return `${bytes} B`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+      };
+
+      const acceptsFile = (file: File) => {
+        if (!input.accept) return true;
+        const extension = `.${file.name.split('.').pop()?.toLowerCase() ?? ''}`;
+        return input.accept.split(',').map((value) => value.trim().toLowerCase()).some((rule) => {
+          if (rule.startsWith('.')) return rule === extension;
+          if (rule.endsWith('/*')) return file.type.startsWith(rule.slice(0, -1));
+          return file.type.toLowerCase() === rule;
+        });
+      };
+
+      const showError = (message: string) => {
+        error.textContent = message;
+        error.classList.remove('hidden');
+      };
+
+      const clearError = () => {
+        error.textContent = '';
+        error.classList.add('hidden');
+      };
+
+      const syncInput = () => {
+        const transfer = new DataTransfer();
+        selectedFiles.forEach((file) => transfer.items.add(file));
+        input.files = transfer.files;
+        input.setCustomValidity(required && selectedFiles.length === 0 ? 'Adjunta el archivo solicitado.' : '');
+      };
+
+      const renderFiles = () => {
+        list.replaceChildren();
+        status.textContent = selectedFiles.length === 0
+          ? (input.multiple ? `Puedes seleccionar hasta ${maxFiles} archivos` : 'Sin archivo seleccionado')
+          : `${selectedFiles.length} ${selectedFiles.length === 1 ? 'archivo seleccionado' : 'archivos seleccionados'}`;
+
+        selectedFiles.forEach((file, index) => {
+          const row = document.createElement('div');
+          row.className = 'flex min-h-11 items-center justify-between gap-3 rounded-lg border border-border-subtle bg-surface-0 px-4 py-2.5';
+
+          const details = document.createElement('div');
+          details.className = 'min-w-0';
+          const filename = document.createElement('p');
+          filename.className = 'truncate text-meta font-medium text-text-primary';
+          filename.textContent = file.name;
+          const filesize = document.createElement('p');
+          filesize.className = 'text-caption text-text-secondary';
+          filesize.textContent = formatBytes(file.size);
+          details.appendChild(filename);
+          details.appendChild(filesize);
+
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'min-h-11 shrink-0 cursor-pointer px-2 font-sans text-sm font-semibold text-imb hover:text-imb-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb';
+          remove.textContent = 'Eliminar';
+          remove.setAttribute('aria-label', `Eliminar ${file.name}`);
+          remove.addEventListener('click', () => {
+            selectedFiles.splice(index, 1);
+            clearError();
+            syncInput();
+            renderFiles();
+          });
+
+          row.appendChild(details);
+          row.appendChild(remove);
+          list.appendChild(row);
+        });
+      };
+
+      const addFiles = (incoming: FileList) => {
+        clearError();
+        const nextFiles = input.multiple ? [...selectedFiles] : [];
+
+        for (const file of Array.from(incoming)) {
+          if (nextFiles.length >= maxFiles) {
+            showError(`Puedes adjuntar un máximo de ${maxFiles} archivos.`);
+            break;
+          }
+          if (!acceptsFile(file)) {
+            showError(`El archivo “${file.name}” no tiene un formato permitido.`);
+            continue;
+          }
+          if (maxFileSize > 0 && file.size > maxFileSize) {
+            showError(`El archivo “${file.name}” supera el máximo de ${formatBytes(maxFileSize)}.`);
+            continue;
+          }
+          const projectedSize = [...nextFiles, file].reduce((total, current) => total + current.size, 0);
+          if (maxTotalSize > 0 && projectedSize > maxTotalSize) {
+            showError(`El peso total de los archivos no puede superar ${formatBytes(maxTotalSize)}.`);
+            continue;
+          }
+          if (!nextFiles.some((current) => current.name === file.name && current.size === file.size)) nextFiles.push(file);
+        }
+
+        selectedFiles = nextFiles;
+        syncInput();
+        renderFiles();
+      };
+
+      trigger.addEventListener('click', () => input.click());
+      input.addEventListener('invalid', () => {
+        showError('Adjunta el archivo solicitado antes de continuar.');
+        trigger.focus();
+      });
+      input.addEventListener('change', () => { if (input.files) addFiles(input.files); });
+      trigger.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        trigger.classList.add('border-imb', 'bg-surface-50');
+      });
+      trigger.addEventListener('dragleave', () => trigger.classList.remove('border-imb', 'bg-surface-50'));
+      trigger.addEventListener('drop', (event) => {
+        event.preventDefault();
+        trigger.classList.remove('border-imb', 'bg-surface-50');
+        if (event.dataTransfer?.files) addFiles(event.dataTransfer.files);
+      });
+
+      syncInput();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initFileUploadFields);
+  initFileUploadFields();
+</script>

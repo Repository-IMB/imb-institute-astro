@@ -1,0 +1,20 @@
+---
+import { CircleAlert } from 'lucide-astro';
+
+interface Props {
+  id: string;
+  messageId: string;
+}
+
+const { id, messageId } = Astro.props;
+---
+
+<div
+  id={id}
+  class="hidden items-start gap-3 rounded-lg border border-feedback-error-border bg-feedback-error-bg p-4 font-sans text-sm leading-relaxed text-feedback-error-text"
+  role="alert"
+  aria-live="polite"
+>
+  <CircleAlert size={20} class="mt-0.5 shrink-0 text-feedback-error" aria-hidden="true" />
+  <span id={messageId}></span>
+</div>

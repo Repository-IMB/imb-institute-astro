@@ -1,6 +1,9 @@
 ---
 import InputField from '../ui/InputField.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
 
 export interface Props {
   cursoNombre?: string;
@@ -9,155 +12,52 @@ export interface Props {
 
 const { cursoNombre, class: className } = Astro.props;
 const formId = cursoNombre ? 'form-asesor' : 'form-contacto';
-const btnText = cursoNombre ? 'Solicitar Información' : 'Enviar Mensaje';
+const btnText = cursoNombre ? 'Solicitar información' : 'Enviar mensaje';
 ---
 
 <div id={`${formId}-wrapper`} class:list={[className]}>
   <!-- Formulario (con method="POST" para fallback sin JS) -->
-  <form id={formId} method="POST" class="space-y-8" novalidate data-curso={cursoNombre || ''}>
+  <form
+    id={formId}
+    data-submission-form
+    data-action={cursoNombre ? 'asesor' : 'contacto'}
+    data-submit-label={btnText}
+    data-pending-label="Enviando..."
+    data-error-id={`${formId}-error`}
+    data-error-message-id={`${formId}-error-msg`}
+    data-success-id={`${formId}-success`}
+    method="POST"
+    class="space-y-8"
+    novalidate
+  >
+    {cursoNombre && <input type="hidden" name="cursoNombre" value={cursoNombre} />}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <InputField label="Nombres" name="nombres" placeholder="Carlos" />
-      <InputField label="Apellidos" name="apellidos" placeholder="Mendoza" />
+      <InputField label="Nombres" name="nombres" placeholder="María" required />
+      <InputField label="Apellidos" name="apellidos" placeholder="Torres" required />
     </div>
 
-    <PhoneInput label="WhatsApp" name="telefono" id={`${formId}-telefono`} />
+    <PhoneInput label="WhatsApp" name="telefono" id={`${formId}-telefono`} required />
 
-    <InputField label="Correo Electrónico" name="correo" type="text" placeholder="correo@ejemplo.com" />
+    <InputField label="Correo electrónico" name="correo" type="email" placeholder="maria.torres@correo.com" required />
 
     {!cursoNombre && (
-      <InputField label="Consulta" name="consulta" required={false} type="textarea" rows={4} placeholder="¿En qué programa estás interesado o cómo podemos ayudarte?" />
+      <InputField label="Consulta" name="consulta" required type="textarea" rows={4} placeholder="Cuéntanos qué programa buscas o cómo podemos ayudarte" />
     )}
 
-    <!-- Error inline -->
-    <div id={`${formId}-error`} class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
-      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span id={`${formId}-error-msg`}></span>
-    </div>
+    <FormError id={`${formId}-error`} messageId={`${formId}-error-msg`} />
 
     <div class="pt-4">
-      <button
-        id={`${formId}-btn`}
-        type="submit"
-        class="w-full py-4 inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        <span class="btn-text">{btnText}</span>
-        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-        </svg>
-      </button>
+      <FormSubmitButton id={`${formId}-btn`} label={btnText} />
     </div>
   </form>
 
-  <!-- Estado de éxito -->
-  <div id={`${formId}-success`} class="hidden flex-col items-center text-center py-8 gap-4">
-    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
-      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-    </div>
-    <h3 class="font-display text-xl font-bold text-text-primary">¡Mensaje enviado!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
+  <FormSuccess id={`${formId}-success`} title="¡Mensaje enviado!">
+    <p>
       Hemos recibido tu consulta. Un asesor académico se comunicará contigo en breve.
     </p>
-  </div>
+  </FormSuccess>
 </div>
 
 <script>
-  import { actions, isInputError } from 'astro:actions';
-
-  function initContacto() {
-    // Buscamos ambos posibles IDs por si se reusa el componente
-    const formContacto = document.getElementById('form-contacto') as HTMLFormElement;
-    const formAsesor = document.getElementById('form-asesor') as HTMLFormElement;
-    const form = formContacto || formAsesor;
-    
-    if (!form || form.dataset.initialized) return;
-    form.dataset.initialized = 'true';
-
-    const isAsesor = form.id === 'form-asesor';
-    const errorEl = document.getElementById(`${form.id}-error`);
-    const errorMsg = document.getElementById(`${form.id}-error-msg`);
-    const successEl = document.getElementById(`${form.id}-success`);
-    const btn = document.getElementById(`${form.id}-btn`) as HTMLButtonElement;
-    const btnText = btn?.querySelector('.btn-text');
-    const btnSpinner = btn?.querySelector('.btn-spinner');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // 1. Validación nativa (removida para usar Zod)
-
-      // 2. Limpiar errores previos y mostrar carga
-      errorEl?.classList.add('hidden');
-      errorEl?.classList.remove('flex');
-      btn.disabled = true;
-      if (btnText) btnText.textContent = 'Enviando...';
-      btnSpinner?.classList.remove('hidden');
-
-      try {
-        const formData = new FormData(form);
-        
-        // Inyectamos cursoNombre si es form-asesor
-        if (isAsesor && form.dataset.curso) {
-          formData.append('cursoNombre', form.dataset.curso);
-        }
-
-        // 3. Llamada al SDK oficial de Astro Actions
-        const { error } = isAsesor 
-          ? await actions.asesor(formData) 
-          : await actions.contacto(formData);
-
-        if (error) {
-          if (isInputError(error)) {
-            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
-
-            for (const [field, messages] of Object.entries(error.fields)) {
-              const spanError = form.querySelector(`[data-error-for="${field}"]`);
-              if (spanError && messages) {
-                spanError.textContent = messages[0];
-                spanError.classList.remove('hidden')
-              }
-            }
-
-            return;
-
-          }
-          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
-        }
-
-        // 4. Éxito
-        form.classList.add('hidden');
-        successEl?.classList.remove('hidden');
-        successEl?.classList.add('flex');
-        
-      } catch (err: any) {
-        // 5. Mostrar error
-        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
-        errorEl?.classList.remove('hidden');
-        errorEl?.classList.add('flex');
-      } finally {
-        // 6. Restaurar botón
-        btn.disabled = false;
-        if (btnText) btnText.textContent = isAsesor ? 'Solicitar Información' : 'Enviar Mensaje';
-        btnSpinner?.classList.add('hidden');
-      }
-    });
-
-    // Ocultar error cuando el usuario modifica un campo
-    form.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-      if (target.name) {
-        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
-        if (errorSpan && !errorSpan.classList.contains('hidden')) {
-          errorSpan.classList.add('hidden');
-        }
-      }
-    });
-  }
-
-  document.addEventListener('astro:page-load', initContacto);
-  initContacto();
+  import '../../scripts/submission-form';
 </script>

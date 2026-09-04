@@ -1,0 +1,43 @@
+---
+import { ChevronRight } from 'lucide-astro';
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<nav class={className} aria-label="Migas de pan">
+  <ol class="flex flex-wrap items-center gap-2 text-meta text-text-secondary">
+    {items.map((item, index) => {
+      const isCurrent = index === items.length - 1;
+
+      return (
+        <li class="flex min-w-0 items-center gap-2">
+          {index > 0 && (
+            <ChevronRight size={14} class="shrink-0 text-icon-muted" aria-hidden="true" />
+          )}
+          {item.href && !isCurrent ? (
+            <a
+              href={item.href}
+              class="rounded-sm transition-colors hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span class="truncate text-text-primary" aria-current={isCurrent ? 'page' : undefined}>
+              {item.label}
+            </span>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

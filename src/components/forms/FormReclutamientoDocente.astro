@@ -1,0 +1,92 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import FileUploadField from '../ui/FileUploadField.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
+import AddressFields from './fields/AddressFields.astro';
+---
+
+<div>
+  <form
+    id="reclutamiento-docente-form"
+    data-submission-form
+    data-action="reclutamientoDocente"
+    data-submit-label="Enviar postulación"
+    data-pending-label="Enviando..."
+    data-error-id="reclutamiento-docente-error"
+    data-error-message-id="reclutamiento-docente-error-message"
+    data-success-id="reclutamiento-docente-success"
+    method="POST"
+    class="space-y-10"
+    novalidate
+  >
+    <section class="space-y-7" aria-labelledby="reclutamiento-contacto-title">
+      <h2 id="reclutamiento-contacto-title" class="border-b border-border-subtle pb-3 text-item-title">
+        Datos de contacto
+      </h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Nombre completo" name="nombre" required placeholder="María Torres" />
+        <InputField label="Correo electrónico" name="correo" type="email" required placeholder="maria.torres@correo.com" />
+        <AddressFields class="md:col-span-2" required />
+        <InputField class="md:col-span-2" label="Perfil de LinkedIn" name="linkedin" required placeholder="https://www.linkedin.com/in/tu-perfil" />
+      </div>
+    </section>
+
+    <section class="space-y-7" aria-labelledby="reclutamiento-perfil-title">
+      <h2 id="reclutamiento-perfil-title" class="border-b border-border-subtle pb-3 text-item-title">
+        Perfil profesional
+      </h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <SelectField
+          label="Especialidad"
+          name="especialidad"
+          required
+          options={[
+            { value: '', label: 'Selecciona una opción' },
+            'Mantenimiento', 'Producción', 'Finanzas', 'RRHH', 'Construcción', 'TI',
+            'Salud', 'Agroindustria', 'Calidad', 'Energía', 'Idiomas', 'Legal',
+            'Logística', 'Marketing', 'Medio Ambiente', 'Minería', 'Proyectos',
+            'Seguridad', 'Innovación y Desarrollo', 'Gestión y Liderazgo',
+          ]}
+        />
+        <InputField class="md:col-span-2" label="Experiencia profesional" name="experiencia_profesional" type="textarea" required placeholder="Resume tu experiencia profesional relevante" />
+        <InputField class="md:col-span-2" label="Experiencia docente" name="experiencia_docente" type="textarea" required placeholder="Describe tu experiencia como docente o facilitador" />
+        <InputField class="md:col-span-2" label="Habilidades y certificaciones" name="habilidades_certificaciones" type="textarea" required placeholder="Indica las habilidades y certificaciones relevantes" />
+        <InputField class="md:col-span-2" label="Disponibilidad horaria" name="disponibilidad" required placeholder="Indica días y horarios disponibles" />
+        <FileUploadField
+          class="md:col-span-2"
+          id="reclutamiento-cv-pdf"
+          name="cv_pdf"
+          label="CV en formato PDF"
+          accept=".pdf"
+          required
+          maxFileSizeMB={5}
+          help="Archivo PDF. Máximo 5 MB."
+        />
+        <InputField class="md:col-span-2" label="Comentarios opcionales" name="comentarios" type="textarea" placeholder="Añade información que consideres relevante" />
+        <div class="md:col-span-2">
+          <label class="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-border-subtle px-4 py-3 font-sans text-sm text-text-primary transition-colors hover:border-imb/50 focus-within:border-imb focus-within:ring-2 focus-within:ring-imb/15">
+            <input type="checkbox" name="aceptacion_datos" value="Acepto" required class="mt-0.5 size-4 shrink-0 cursor-pointer border-border-subtle text-imb focus:ring-imb/20" />
+            <span>Acepto el tratamiento de mis datos personales conforme a la política de privacidad de IMB Institute. <span class="text-imb">*</span></span>
+          </label>
+          <span class="mt-1 hidden text-xs font-medium text-feedback-error" data-error-for="aceptacion_datos"></span>
+        </div>
+      </div>
+    </section>
+
+    <FormError id="reclutamiento-docente-error" messageId="reclutamiento-docente-error-message" />
+    <div class="pt-2">
+      <FormSubmitButton id="reclutamiento-docente-submit" label="Enviar postulación" />
+    </div>
+  </form>
+
+  <FormSuccess id="reclutamiento-docente-success" title="Postulación enviada">
+    <p>Registramos tu postulación docente. El equipo académico revisará la información y el CV adjunto.</p>
+  </FormSuccess>
+</div>
+
+<script>
+  import '../../scripts/submission-form';
+</script>

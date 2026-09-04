@@ -1,0 +1,21 @@
+---
+import { CircleCheck } from 'lucide-astro';
+
+interface Props {
+  id: string;
+  title: string;
+  class?: string;
+}
+
+const { id, title, class: className } = Astro.props;
+---
+
+<div id={id} class:list={['hidden flex-col items-center gap-4 py-10 text-center', className]} role="status" aria-live="polite">
+  <div class="mb-1 flex size-16 items-center justify-center rounded-full border border-feedback-success-border bg-feedback-success-bg">
+    <CircleCheck size={32} class="text-feedback-success" aria-hidden="true" />
+  </div>
+  <h3 class="text-card-title">{title}</h3>
+  <div class="max-w-md font-sans leading-relaxed text-text-secondary">
+    <slot />
+  </div>
+</div>

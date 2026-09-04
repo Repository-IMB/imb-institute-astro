@@ -1,0 +1,88 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+import FileUploadField from '../ui/FileUploadField.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
+import AddressFields from './fields/AddressFields.astro';
+---
+
+<div>
+  <form
+    id="registro-docentes-form"
+    data-submission-form
+    data-action="registroDocentes"
+    data-submit-label="Enviar registro"
+    data-pending-label="Enviando..."
+    data-error-id="registro-docentes-error"
+    data-error-message-id="registro-docentes-error-message"
+    data-success-id="registro-docentes-success"
+    method="POST"
+    class="space-y-10"
+    novalidate
+  >
+    <section class="space-y-7" aria-labelledby="registro-docentes-datos-title">
+      <h2 id="registro-docentes-datos-title" class="border-b border-border-subtle pb-3 text-item-title">
+        Datos personales
+      </h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Nombre completo" name="nombre" required placeholder="María Torres" />
+        <InputField label="Documento de Identidad (CURP, DNI, etc.)" name="documento" required placeholder="" />
+        <InputField label="Correo electrónico" name="correo" type="email" required placeholder="maria.torres@correo.com" />
+        <PhoneInput id="registro-docentes-telefono" label="Teléfono" name="telefono" required />
+        <AddressFields class="md:col-span-2" required />
+      </div>
+    </section>
+
+    <section class="space-y-7" aria-labelledby="registro-docentes-perfil-title">
+      <h2 id="registro-docentes-perfil-title" class="border-b border-border-subtle pb-3 text-item-title">
+        Perfil académico
+      </h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <SelectField
+          label="Grado académico más alto"
+          name="grado_academico"
+          options={[
+            { value: '', label: 'Selecciona una opción' },
+            'Licenciatura', 'Tecnicatura', 'Maestría', 'Doctorado',
+          ]}
+        />
+        <InputField class="md:col-span-2" label="Experiencia en toma de decisiones" name="experiencia_decisiones" type="textarea" placeholder="Describe tu experiencia en gerencia, dirección o jefatura" />
+        <InputField class="md:col-span-2" label="Experiencia docente" name="experiencia_docente" type="textarea" placeholder="Describe tu experiencia como docente" />
+        <FileUploadField
+          class="md:col-span-2"
+          id="registro-docentes-foto"
+          name="foto_personal"
+          label="Fotografía profesional"
+          accept=".jpg,.jpeg,.png,.webp"
+          maxFileSizeMB={5}
+          help="JPG, PNG o WebP. Máximo 5 MB."
+        />
+        <FileUploadField
+          class="md:col-span-2"
+          id="registro-docentes-cv"
+          name="cv_documentado"
+          label="CV documentado"
+          accept=".pdf,.doc,.docx"
+          maxFileSizeMB={5}
+          help="PDF, DOC o DOCX. Máximo 5 MB."
+        />
+      </div>
+    </section>
+
+    <FormError id="registro-docentes-error" messageId="registro-docentes-error-message" />
+    <div class="pt-2">
+      <FormSubmitButton id="registro-docentes-submit" label="Enviar registro" />
+    </div>
+  </form>
+
+  <FormSuccess id="registro-docentes-success" title="Registro enviado">
+    <p>La ficha docente fue registrada correctamente. El equipo académico revisará la información y los archivos adjuntos.</p>
+  </FormSuccess>
+</div>
+
+<script>
+  import '../../scripts/submission-form';
+</script>

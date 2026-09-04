@@ -1,0 +1,37 @@
+---
+import InputField from '../../ui/InputField.astro';
+import CountrySelect from '../../ui/CountrySelect.astro';
+
+interface Props {
+  required?: boolean;
+  class?: string;
+}
+
+const { required = false, class: className } = Astro.props;
+---
+
+<div class:list={['grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2', className]}>
+  <InputField
+    class="md:col-span-2"
+    label="Dirección"
+    name="direccion"
+    required={required}
+    placeholder="Calle, número y referencia"
+  />
+  <InputField
+    class="md:col-span-2"
+    label="Dirección 2 (Opcional)"
+    name="direccion2"
+    required={false}
+    placeholder="Apartamento, suite, unidad, edificio, piso, etc."
+  />
+  <InputField label="Ciudad" name="ciudad" required={required} />
+  <InputField label="Región, departamento o estado" name="region" required={required} />
+  <InputField label="Código Postal" name="codigo_postal" required={required} placeholder="Ej. 15001" />
+  <CountrySelect
+    label="País"
+    name="pais"
+    required={required}
+    placeholder="Selecciona un país"
+  />
+</div>

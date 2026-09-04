@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import FormMatricula from '../components/forms/FormMatricula.astro';
+import { Clock, Mail, Phone } from 'lucide-astro';
+import { CONTACT_INFO } from '../config/contact';
+
+export const prerender = true;
+
+const supportContacts = [
+  {
+    title: 'Soporte académico',
+    description: 'Resolvemos tus dudas sobre cursos, horarios, temarios y certificaciones.',
+    email: 'academicsupport@imbinstitute.com',
+    phone: CONTACT_INFO.phones.sales,
+    phoneHref: CONTACT_INFO.phones.salesRaw,
+  },
+  {
+    title: 'Soporte administrativo',
+    description: '¿Problemas con el pago, la facturación o el llenado de la ficha? Contáctanos directamente.',
+    email: 'customermanagement@imbinstitute.com',
+    phone: CONTACT_INFO.phones.academic,
+    phoneHref: CONTACT_INFO.phones.academicRaw,
+  },
+];
+---
+
+<BaseLayout
+  title="Ficha de matrícula | IMB Institute"
+  description="Completa los datos necesarios para registrar tu matrícula en un programa de IMB Institute."
+  robots="noindex, nofollow"
+>
+  <Wrapper class="border-b border-border-subtle bg-surface-0 py-16 text-center lg:py-20" padded={false}>
+    <div class="mx-auto max-w-3xl">
+      <p class="mb-4 text-label uppercase tracking-widest text-imb">Matrícula</p>
+      <h1 class="text-page-title">Completa tu ficha de matrícula</h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lead text-text-secondary">
+        Ingresa tus datos personales, académicos y de facturación para registrar tu solicitud.
+      </p>
+    </div>
+  </Wrapper>
+
+  <Wrapper class="bg-surface-50 py-16 lg:py-24" padded={false}>
+    <div class="grid min-w-0 grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(20rem,1fr)] xl:gap-10">
+      <Card class="min-w-0 rounded-xl! p-6 shadow-none! hover:shadow-none! md:p-10 lg:p-12">
+        <FormMatricula />
+      </Card>
+
+      <aside class="min-w-0 space-y-4 lg:sticky lg:top-24" aria-labelledby="matricula-support-title">
+        <Card class="min-w-0 rounded-xl! border-l-4 border-l-imb p-6 shadow-none! hover:shadow-none!">
+          <h2 id="matricula-support-title" class="text-card-title">¿Te ayudamos con tu inscripción?</h2>
+          <p class="mt-3 text-body text-text-secondary">
+            Sabemos que dar el paso para capacitarte es importante. Si tienes alguna duda sobre el formulario, los medios de pago o los detalles del programa, nuestro equipo está listo para asistirte.
+          </p>
+        </Card>
+
+        {supportContacts.map((contact) => (
+          <Card class="min-w-0 rounded-xl! p-6 shadow-none! hover:shadow-none!">
+            <h3 class="text-item-title">{contact.title}</h3>
+            <p class="mt-3 text-body text-text-secondary">{contact.description}</p>
+
+            <address class="mt-5 space-y-1 not-italic">
+              <a
+                href={`mailto:${contact.email}`}
+                class="-mx-3 flex min-h-11 items-center gap-3 rounded-lg px-3 text-meta font-medium text-text-primary transition-colors hover:bg-surface-50 hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"
+              >
+                <Mail size={18} class="shrink-0 text-imb" aria-hidden="true" />
+                <span class="min-w-0 break-all sm:break-normal">{contact.email}</span>
+              </a>
+              <a
+                href={`tel:${contact.phoneHref}`}
+                class="-mx-3 flex min-h-11 items-center gap-3 rounded-lg px-3 text-meta font-medium text-text-primary transition-colors hover:bg-surface-50 hover:text-imb focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb"
+              >
+                <Phone size={18} class="shrink-0 text-imb" aria-hidden="true" />
+                <span>{contact.phone}</span>
+              </a>
+              <p class="flex items-start gap-3 px-0 py-2 text-meta text-text-secondary">
+                <Clock size={18} class="mt-0.5 shrink-0 text-imb" aria-hidden="true" />
+                <span>Lunes a viernes de 9:00 a.m. a 6:00 p.m. (hora de Lima, GMT-5)</span>
+              </p>
+            </address>
+          </Card>
+        ))}
+      </aside>
+    </div>
+  </Wrapper>
+</BaseLayout>

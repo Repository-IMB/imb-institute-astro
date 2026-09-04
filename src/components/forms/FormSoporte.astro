@@ -2,6 +2,10 @@
 import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
 import PhoneInput from '../ui/PhoneInput.astro';
+import { ROUTES } from '../../config/routes';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
 
 export interface Props {
   class?: string;
@@ -11,149 +15,72 @@ const { class: className } = Astro.props;
 ---
 
 <div id="form-soporte-wrapper" class:list={[className]}>
-  <form id="form-soporte" method="POST" class="space-y-8" novalidate>
-    <InputField label="Nombres Completos" name="nombres" placeholder="Tus nombres y apellidos" />
+  <form
+    id="form-soporte"
+    data-submission-form
+    data-action="soporte"
+    data-submit-label="Enviar consulta"
+    data-pending-label="Enviando..."
+    data-error-id="form-soporte-error"
+    data-error-message-id="form-soporte-error-msg"
+    data-success-id="form-soporte-success"
+    method="POST"
+    class="space-y-8"
+    novalidate
+  >
+    <InputField label="Nombres y apellidos" name="nombres" placeholder="María Torres" required />
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <InputField label="Correo Electrónico" name="correo" type="email" placeholder="correo@ejemplo.com" />
-      <PhoneInput label="Teléfono / WhatsApp" name="telefono" id="soporte-telefono" />
-    </div>
+    <InputField label="Correo electrónico" name="correo" type="email" placeholder="maria.torres@correo.com" required />
+    <PhoneInput label="Teléfono o WhatsApp" name="telefono" id="soporte-telefono" required />
 
-    <InputField label="Curso matriculado" name="curso" placeholder="Ej. Diplomado en Mantenimiento" />
+    <InputField label="Curso matriculado" name="curso" placeholder="Escribe el nombre que figura en tu matrícula" required />
 
     <SelectField
       label="Categoría de ayuda"
       name="categoria"
+      required
       options={[
-        { value: '', label: 'Seleccione el motivo de su consulta...' },
-        'Problemas con el Aula Virtual',
+        { value: '', label: 'Selecciona el motivo de tu consulta' },
+        'Problemas con el Aula Virtual (no carga, no se ve)',
         'Consulta sobre Certificados',
-        'Soporte Técnico',
-        'Links de clase y Grabaciones',
+        'Soporte Técnico (plataforma, acceso)',
+        'Problemas con Links de clase',
+        'Problemas con Grabaciones',
         'Otros'
       ]}
     />
 
-    <InputField label="Mensaje" name="mensaje" type="textarea" rows={4} placeholder="Detalla tu problema para ayudarte mejor..." />
+    <input type="hidden" name="estado" value="Pendiente" />
+
+    <InputField label="Mensaje" name="mensaje" type="textarea" rows={4} placeholder="Describe el problema y cuándo comenzó" required />
 
     <div class="flex items-start gap-3">
-      <input type="checkbox" name="terminos" required class="mt-1 w-4 h-4 text-imb bg-surface-50 rounded border-gray-300 focus:ring-imb/20 cursor-pointer" />
-      <p class="font-sans text-sm text-text-secondary leading-relaxed">
-        Acepto los términos y condiciones y el tratamiento de mis datos personales para gestionar esta solicitud.
-      </p>
+      <input
+        id="soporte-privacidad"
+        type="checkbox"
+        name="terminos"
+        required
+        class="mt-1 size-4 shrink-0 cursor-pointer rounded border-border-subtle bg-surface-50 text-imb focus:ring-2 focus:ring-imb/20 focus:ring-offset-2"
+      />
+      <label for="soporte-privacidad" class="cursor-pointer font-sans text-sm leading-relaxed text-text-secondary">
+        Acepto la <a href={ROUTES.POLITICA_PRIVACIDAD} class="font-semibold text-imb underline decoration-imb/40 underline-offset-3 transition-colors hover:text-imb-hover focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-imb">Política de Privacidad</a> y el tratamiento de mis datos para recibir asistencia académica.
+      </label>
     </div>
 
-    <div id="form-soporte-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
-      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span id="form-soporte-error-msg"></span>
-    </div>
+    <FormError id="form-soporte-error" messageId="form-soporte-error-msg" />
 
-    <button
-      id="form-soporte-btn"
-      type="submit"
-      class="w-full py-4 inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out text-sm tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-    >
-      <span class="btn-text">Enviar Consulta al Soporte</span>
-      <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-      </svg>
-    </button>
+    <div class="pt-4">
+      <FormSubmitButton id="form-soporte-btn" label="Enviar consulta" />
+    </div>
   </form>
 
-  <div id="form-soporte-success" class="hidden flex-col items-center text-center py-8 gap-4">
-    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
-      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-    </div>
-    <h3 class="font-display text-xl font-bold text-text-primary">¡Consulta enviada!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
+  <FormSuccess id="form-soporte-success" title="¡Consulta enviada!">
+    <p>
       Nuestro equipo de soporte atenderá tu caso y te contactará en el menor tiempo posible.
     </p>
-  </div>
+  </FormSuccess>
 </div>
 
 <script>
-  import { actions, isInputError } from 'astro:actions';
-
-  function initSoporte() {
-    const form = document.getElementById('form-soporte') as HTMLFormElement;
-    if (!form || form.dataset.initialized) return;
-    form.dataset.initialized = 'true';
-
-    const errorEl = document.getElementById('form-soporte-error');
-    const errorMsg = document.getElementById('form-soporte-error-msg');
-    const successEl = document.getElementById('form-soporte-success');
-    const btn = document.getElementById('form-soporte-btn') as HTMLButtonElement;
-    const btnText = btn?.querySelector('.btn-text');
-    const btnSpinner = btn?.querySelector('.btn-spinner');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-
-      errorEl?.classList.add('hidden');
-      errorEl?.classList.remove('flex');
-      btn.disabled = true;
-      if (btnText) btnText.textContent = 'Enviando...';
-      btnSpinner?.classList.remove('hidden');
-
-      try {
-        const formData = new FormData(form);
-        const { error } = await actions.soporte(formData);
-
-        if (error) {
-          if (isInputError(error)) {
-            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
-            for (const [field, messages] of Object.entries(error.fields)) {
-              const spanError = form.querySelector(`[data-error-for="${field}"]`);
-              if (spanError && messages) {
-                spanError.textContent = messages[0];
-                spanError.classList.remove('hidden');
-              }
-            }
-            
-            // Hacer scroll hacia el primer error visible
-            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
-            if (firstErrorSpan) {
-              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
-              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
-          }
-          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
-        }
-
-        form.classList.add('hidden');
-        successEl?.classList.remove('hidden');
-        successEl?.classList.add('flex');
-        
-      } catch (err: any) {
-        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
-        errorEl?.classList.remove('hidden');
-        errorEl?.classList.add('flex');
-      } finally {
-        btn.disabled = false;
-        if (btnText) btnText.textContent = 'Enviar Consulta al Soporte';
-        btnSpinner?.classList.add('hidden');
-      }
-    });
-
-    // Ocultar error cuando el usuario modifica un campo
-    form.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-      if (target.name) {
-        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
-        if (errorSpan && !errorSpan.classList.contains('hidden')) {
-          errorSpan.classList.add('hidden');
-        }
-      }
-    });
-  }
-
-  document.addEventListener('astro:page-load', initSoporte);
-  initSoporte();
+  import '../../scripts/submission-form';
 </script>

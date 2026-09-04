@@ -1,0 +1,99 @@
+---
+import InputField from '../ui/InputField.astro';
+import SelectField from '../ui/SelectField.astro';
+import PhoneInput from '../ui/PhoneInput.astro';
+import FileUploadField from '../ui/FileUploadField.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
+import AddressFields from './fields/AddressFields.astro';
+---
+
+<div>
+  <form
+    id="ficha-datos-form"
+    data-submission-form
+    data-action="fichaDatos"
+    data-submit-label="Enviar ficha"
+    data-pending-label="Enviando..."
+    data-error-id="ficha-datos-error"
+    data-error-message-id="ficha-datos-error-message"
+    data-success-id="ficha-datos-success"
+    method="POST"
+    class="space-y-10"
+    novalidate
+  >
+    <section class="space-y-7" aria-labelledby="ficha-datos-personales-title">
+      <h2 id="ficha-datos-personales-title" class="border-b border-border-subtle pb-3 text-item-title">Datos personales</h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Nombre completo" name="nombre" required placeholder="María Torres" />
+        <InputField label="Fecha de nacimiento" name="fecha_nacimiento" type="date" required />
+        <InputField label="DNI" name="dni" required />
+        <InputField label="Correo electrónico" name="correo" type="email" required placeholder="maria.torres@correo.com" />
+        <PhoneInput class="md:col-span-2" id="ficha-datos-celular" label="Celular" name="celular" required />
+      </div>
+    </section>
+
+    <section class="space-y-7" aria-labelledby="ficha-datos-laborales-title">
+      <h2 id="ficha-datos-laborales-title" class="border-b border-border-subtle pb-3 text-item-title">Información laboral</h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Fecha de inicio" name="fecha_inicio" type="date" required />
+        <InputField label="Puesto" name="puesto" required />
+        <SelectField
+          class="md:col-span-2"
+          label="Turno"
+          name="turno"
+          required
+          options={[
+            { value: '', label: 'Selecciona un turno' },
+            'Turno mañana',
+            'Turno tarde',
+            'Tiempo completo',
+          ]}
+        />
+      </div>
+      <AddressFields required />
+      <InputField label="Contacto de referencia" name="contacto_referencia" required help="Incluye el nombre y el teléfono de la persona de referencia." />
+    </section>
+
+    <section class="space-y-7" aria-labelledby="ficha-datos-formacion-title">
+      <h2 id="ficha-datos-formacion-title" class="border-b border-border-subtle pb-3 text-item-title">Formación</h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Área de formación" name="area_formacion" required />
+        <InputField label="Nivel de formación" name="nivel_formacion" required />
+        <InputField class="md:col-span-2" label="Centro de estudios" name="centro_estudios" required />
+      </div>
+    </section>
+
+    <section class="space-y-7" aria-labelledby="ficha-datos-bancarios-title">
+      <h2 id="ficha-datos-bancarios-title" class="border-b border-border-subtle pb-3 text-item-title">Datos bancarios y documentos</h2>
+      <div class="grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
+        <InputField label="Entidad bancaria" name="entidad_bancaria" required />
+        <InputField label="Número de cuenta" name="numero_cuenta" required />
+        <FileUploadField
+          class="md:col-span-2"
+          id="ficha-datos-cv"
+          name="cv_documentado"
+          label="CV documentado"
+          accept=".pdf,.doc,.docx"
+          maxFileSizeMB={5}
+          required
+          help="PDF, DOC o DOCX. Máximo 5 MB."
+        />
+      </div>
+    </section>
+
+    <FormError id="ficha-datos-error" messageId="ficha-datos-error-message" />
+    <div class="pt-2">
+      <FormSubmitButton id="ficha-datos-submit" label="Enviar ficha" />
+    </div>
+  </form>
+
+  <FormSuccess id="ficha-datos-success" title="Ficha enviada">
+    <p>Registramos tus datos. El equipo administrativo revisará la información proporcionada.</p>
+  </FormSuccess>
+</div>
+
+<script>
+  import '../../scripts/submission-form';
+</script>

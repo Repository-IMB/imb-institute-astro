@@ -7,18 +7,28 @@ export interface Props {
 const { variant = 'primary', class: className } = Astro.props;
 
 const variantClasses = {
-  primary: 'bg-imb text-white',
+  primary: 'border-imb bg-imb text-white',
   secondary: 'bg-surface-100 text-text-secondary border border-border-subtle',
   outline: 'bg-transparent text-text-primary border border-border-subtle',
-  success: 'bg-green-500/10 text-green-700 border border-green-500/20',
-  warning: 'bg-yellow-500/10 text-yellow-700 border border-yellow-500/20'
+  success: 'border-status-active-border bg-status-active-bg text-status-active-text',
+  warning: 'border-status-inactive-border bg-status-inactive-bg text-status-inactive-text'
 };
+
+const indicatorClasses = {
+  success: 'bg-status-active-indicator',
+  warning: 'bg-status-inactive-indicator'
+};
+
+const indicatorClass = variant === 'success' || variant === 'warning'
+  ? indicatorClasses[variant]
+  : undefined;
 ---
 
 <span class:list={[
-  "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-widest whitespace-nowrap",
+  "inline-flex min-h-7 items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1 text-label uppercase shadow-sm",
   variantClasses[variant],
   className
 ]}>
+  {indicatorClass && <span class:list={["size-2 shrink-0 rounded-full", indicatorClass]} aria-hidden="true"></span>}
   <slot />
 </span>

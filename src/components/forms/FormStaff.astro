@@ -1,7 +1,10 @@
 ---
 import InputField from '../ui/InputField.astro';
 import SelectField from '../ui/SelectField.astro';
-import { Upload } from 'lucide-astro';
+import FileUploadField from '../ui/FileUploadField.astro';
+import FormError from '../ui/FormError.astro';
+import FormSubmitButton from '../ui/FormSubmitButton.astro';
+import FormSuccess from '../ui/FormSuccess.astro';
 
 export interface Props {
   class?: string;
@@ -11,13 +14,26 @@ const { class: className } = Astro.props;
 ---
 
 <div id="form-staff-wrapper" class:list={[className]}>
-  <form id="form-staff" method="POST" class:list={["space-y-6", className]} novalidate>
-    <InputField label="Nombre Completo" name="nombre_completo" placeholder="Ej. Juan Pérez" />
-    <InputField label="Correo Electrónico" name="correo_electronico" type="email" placeholder="juan@correo.com" />
+  <form
+    id="form-staff"
+    data-submission-form
+    data-action="staff"
+    data-submit-label="Enviar postulación"
+    data-pending-label="Enviando..."
+    data-error-id="form-staff-error"
+    data-error-message-id="form-staff-error-msg"
+    data-success-id="form-staff-success"
+    method="POST"
+    class="space-y-8"
+    novalidate
+  >
+    <InputField label="Nombre completo" name="nombre_completo" placeholder="María Torres" required />
+    <InputField label="Correo electrónico" name="correo_electronico" type="email" placeholder="maria.torres@correo.com" required />
 
     <SelectField
       label="Área de postulación"
       name="area_postulacion"
+      required
       options={[
         { value: '', label: 'Seleccionar área' },
         'Docentes', 'Asesores de Venta', 'Growth', 'Product Management',
@@ -25,156 +41,31 @@ const { class: className } = Astro.props;
       ]}
     />
 
-    <div class="relative group">
-      <label class="block font-sans text-sm font-medium text-text-secondary mb-2">
-        Adjuntar CV PDF <span class="text-imb">*</span>
-      </label>
-      <label class="imb-custom-file flex items-center justify-between border-2 border-dashed border-border-subtle rounded-xl p-4 cursor-pointer hover:border-imb transition-colors group/file bg-surface-50 hover:bg-red-50/10">
-        <input type="file" name="cv_pdf" accept=".pdf,application/pdf" required class="hidden" id="cv-file-input" />
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-surface-0 border border-border-subtle flex items-center justify-center text-text-secondary group-hover/file:text-imb group-hover/file:border-imb transition-all duration-300">
-            <Upload size={18} />
-          </div>
-          <div class="text-left">
-            <span class="block text-xs font-bold text-text-primary group-hover/file:text-imb transition-colors">Seleccionar archivo PDF</span>
-            <span id="cv-file-name" class="block text-[10px] text-text-secondary">Sin archivo seleccionado</span>
-          </div>
-        </div>
-        <span class="text-[10px] font-bold text-text-secondary uppercase tracking-wider bg-surface-0 border border-border-subtle rounded px-2.5 py-1.5 shadow-sm group-hover/file:border-imb transition-all">Buscar</span>
-      </label>
-    </div>
+    <FileUploadField
+      id="cv-file-input"
+      name="cv_pdf"
+      label="Adjuntar CV PDF"
+      accept=".pdf,application/pdf"
+      required
+      size="compact"
+      maxFileSizeMB={10}
+      help="Archivo PDF. Máximo 10 MB."
+    />
 
-    <div id="form-staff-error" class="hidden items-start gap-3 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm leading-relaxed">
-      <svg class="w-5 h-5 shrink-0 mt-0.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span id="form-staff-error-msg"></span>
-    </div>
+    <FormError id="form-staff-error" messageId="form-staff-error-msg" />
 
-    <div class="pt-2">
-      <button
-        id="form-staff-btn"
-        type="submit"
-        class="w-full py-4 text-base font-bold inline-flex items-center justify-center gap-2 px-6 rounded-md font-display font-semibold transition-all duration-200 ease-out tracking-wide cursor-pointer bg-imb text-white hover:bg-imb-hover shadow-premium disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        <span class="btn-text">Enviar postulación</span>
-        <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-        </svg>
-      </button>
+    <div class="pt-4">
+      <FormSubmitButton id="form-staff-btn" label="Enviar postulación" />
     </div>
   </form>
 
-  <div id="form-staff-success" class="hidden flex-col items-center text-center py-8 gap-4">
-    <div class="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-2">
-      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-    </div>
-    <h3 class="font-display text-xl font-bold text-text-primary">¡Postulación enviada!</h3>
-    <p class="font-sans text-text-secondary leading-relaxed max-w-sm">
+  <FormSuccess id="form-staff-success" title="¡Postulación enviada!">
+    <p>
       Nuestro equipo revisará tu CV y se pondrá en contacto pronto si tu perfil encaja con lo que buscamos.
     </p>
-  </div>
+  </FormSuccess>
 </div>
 
 <script>
-  import { actions, isInputError } from 'astro:actions';
-
-  function initStaff() {
-    const form = document.getElementById('form-staff') as HTMLFormElement;
-    if (!form || form.dataset.initialized) return;
-    form.dataset.initialized = 'true';
-
-    const fileInput = document.getElementById('cv-file-input') as HTMLInputElement;
-    const fileNameEl = document.getElementById('cv-file-name');
-
-    fileInput?.addEventListener('change', () => {
-      if (fileInput.files && fileInput.files.length > 0) {
-        if (fileNameEl) fileNameEl.textContent = fileInput.files[0].name;
-      } else {
-        if (fileNameEl) fileNameEl.textContent = 'Sin archivo seleccionado';
-      }
-    });
-
-    const errorEl = document.getElementById('form-staff-error');
-    const errorMsg = document.getElementById('form-staff-error-msg');
-    const successEl = document.getElementById('form-staff-success');
-    const btn = document.getElementById('form-staff-btn') as HTMLButtonElement;
-    const btnText = btn?.querySelector('.btn-text');
-    const btnSpinner = btn?.querySelector('.btn-spinner');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-
-      errorEl?.classList.add('hidden');
-      errorEl?.classList.remove('flex');
-      btn.disabled = true;
-      if (btnText) btnText.textContent = 'Enviando...';
-      btnSpinner?.classList.remove('hidden');
-
-      try {
-        const formData = new FormData(form);
-        
-        // Validación de tamaño máximo de archivo (1MB)
-        const cvFile = formData.get('cv_pdf');
-        if (cvFile && cvFile.size > 1048576) {
-          throw new Error('El archivo PDF pesa demasiado. El límite es 1 MB.');
-        }
-
-        const { error } = await actions.staff(formData);
-
-        if (error) {
-          if (isInputError(error)) {
-            form.querySelectorAll('[data-error-for]').forEach(el => el.classList.add('hidden'));
-            for (const [field, messages] of Object.entries(error.fields)) {
-              const spanError = form.querySelector(`[data-error-for="${field}"]`);
-              if (spanError && messages) {
-                spanError.textContent = messages[0];
-                spanError.classList.remove('hidden');
-              }
-            }
-            
-            // Hacer scroll hacia el primer error visible
-            const firstErrorSpan = form.querySelector('[data-error-for]:not(.hidden)');
-            if (firstErrorSpan) {
-              const fieldEl = firstErrorSpan.parentElement || firstErrorSpan;
-              fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
-          }
-          throw new Error(error.message || 'Ocurrió un error al enviar el formulario.');
-        }
-
-        form.classList.add('hidden');
-        successEl?.classList.remove('hidden');
-        successEl?.classList.add('flex');
-        
-      } catch (err: any) {
-        if (errorMsg) errorMsg.textContent = err.message || 'Error de conexión. Intente de nuevo.';
-        errorEl?.classList.remove('hidden');
-        errorEl?.classList.add('flex');
-      } finally {
-        btn.disabled = false;
-        if (btnText) btnText.textContent = 'Enviar postulación';
-        btnSpinner?.classList.add('hidden');
-      }
-    });
-
-    // Ocultar error cuando el usuario modifica un campo
-    form.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-      if (target.name) {
-        const errorSpan = form.querySelector(`[data-error-for="${target.name}"]`);
-        if (errorSpan && !errorSpan.classList.contains('hidden')) {
-          errorSpan.classList.add('hidden');
-        }
-      }
-    });
-  }
-
-  document.addEventListener('astro:page-load', initStaff);
-  initStaff();
+  import '../../scripts/submission-form';
 </script>

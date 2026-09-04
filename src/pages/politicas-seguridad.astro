@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/legal/LegalPage.astro';
+import content from '../data/legal/politicas-seguridad.txt?raw';
+
+export const prerender = true;
+
+const title = 'Políticas de Seguridad';
+const description = 'Conoce las medidas técnicas y organizativas que IMB Institute aplica para proteger la información y los datos personales en sus servicios digitales.';
+---
+
+<LegalPage {title} {description} {content} />

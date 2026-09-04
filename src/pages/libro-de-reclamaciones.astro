@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import Wrapper from '../components/ui/Wrapper.astro';
+import FormReclamaciones from '../components/forms/FormReclamaciones.astro';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Libro de reclamaciones | IMB Institute"
+  description="Formulario virtual para registrar un reclamo o una queja en IMB Institute."
+>
+  <Wrapper class="border-b border-border-subtle bg-surface-0 py-16 lg:py-20" padded={false}>
+    <div class="mx-auto max-w-4xl">
+      <p class="mb-4 text-label uppercase tracking-widest text-imb">Atención al usuario</p>
+      <h1 class="text-page-title">Libro de reclamaciones</h1>
+      <p class="mt-6 max-w-3xl text-lead text-text-secondary">
+        Utilice este formulario para registrar una queja o un reclamo. Complete la información del producto o servicio y describa lo ocurrido con el mayor detalle posible.
+      </p>
+    </div>
+  </Wrapper>
+
+  <Wrapper class="bg-surface-50 py-16 lg:py-24" padded={false}>
+    <div class="mx-auto max-w-4xl">
+      <Card class="rounded-xl! p-6 shadow-none! hover:shadow-none! md:p-10 lg:p-14">
+        <FormReclamaciones />
+      </Card>
+    </div>
+  </Wrapper>
+</BaseLayout>

@@ -1,66 +1,92 @@
 ---
 import { ROUTES } from '../../config/routes';
 import { CONTACT_INFO } from '../../config/contact';
+import MediaImage from './MediaImage.astro';
+import claimsBook from '@assets/images/libro-de-reclamaciones.png';
+import logo from '@assets/images/logo-blanco.avif';
+
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-surface-0 py-16 mt-auto">
-  <div class="max-w-360 mx-auto px-6 lg:px-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 mb-8">
-      <!-- Column 1: Logo + Description + Contact -->
+<footer class="mt-auto bg-surface-0 py-16">
+  <div class="mx-auto max-w-360 px-6 lg:px-12">
+    <div class="mb-8 grid grid-cols-1 gap-10 pb-12 md:grid-cols-2 lg:grid-cols-4 xl:gap-8">
       <div class="lg:col-span-1">
-        <h3 class="font-display font-extrabold text-2xl tracking-tight mb-6 text-text-primary">
-          IMB <span class="font-medium text-text-secondary">Institute</span>
-        </h3>
-        <p class="font-sans text-sm text-text-secondary max-w-sm mb-6 leading-relaxed">
+        <a
+          href={ROUTES.HOME}
+          class="mb-6 inline-flex focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-imb"
+          aria-label="Ir al inicio de IMB Institute"
+        >
+          <MediaImage src={logo} alt="IMB Institute" class="h-auto w-30 brightness-0" />
+        </a>
+        <p class="mb-2 font-sans text-sm text-text-primary"><strong>RUC:</strong> 20614051320</p>
+        <p class="mb-4 max-w-sm font-sans text-sm leading-relaxed text-text-secondary">
+          International Management and Business Institute S.A.C. – IMB Institute S.A.C.
+        </p>
+        <p class="mb-6 max-w-sm text-meta text-text-secondary">
           Transformando profesionales en líderes ejecutivos. Educación premium para la industria moderna.
         </p>
-        <div class="font-sans text-sm text-text-secondary space-y-2 font-medium">
+        <div class="space-y-2 font-sans text-sm font-medium text-text-secondary">
           <p>
-            <a href={`mailto:${CONTACT_INFO.emails.info}`} class="hover:text-imb transition-colors">
+            <a href={`mailto:${CONTACT_INFO.emails.info}`} class="transition-colors hover:text-imb">
               {CONTACT_INFO.emails.info}
             </a>
           </p>
           <p>
-            <a href={`tel:${CONTACT_INFO.phones.supportRaw}`} class="hover:text-imb transition-colors">
+            <a href={`tel:${CONTACT_INFO.phones.supportRaw}`} class="transition-colors hover:text-imb">
               {CONTACT_INFO.phones.support}
             </a>
           </p>
         </div>
+
+        <a
+          href={ROUTES.RECLAMACIONES}
+          class="mt-6 inline-flex rounded-lg bg-surface-0 p-3 transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-imb"
+          aria-label="Abrir el Libro de Reclamaciones Digital"
+        >
+          <MediaImage
+            src={claimsBook}
+            alt="Libro de Reclamaciones Digital"
+            class="h-auto w-40 brightness-0"
+            width={160}
+            loading="lazy"
+          />
+        </a>
       </div>
 
-      <!-- Column 2: Programas y Admisión -->
       <div>
-        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Programas y Admisión</h4>
+        <h4 class="mb-4 text-body-title">Programas</h4>
         <ul class="space-y-3 font-sans text-sm text-text-secondary">
-          <li><a href={ROUTES.CAPACITACION} class="hover:text-imb transition-colors">Capacitación</a></li>
-          <li><a href={ROUTES.MATRICULA} class="hover:text-imb transition-colors">Ficha de Matrícula</a></li>
-          <li><a href={ROUTES.PROGRAMA} class="hover:text-imb transition-colors">Programa de Becarios</a></li>
+          <li><a href={ROUTES.CAPACITACION} class="transition-colors hover:text-imb">Capacitación</a></li>
+          <li><a href={ROUTES.PROGRAMA} class="transition-colors hover:text-imb">Programa de Becarios</a></li>
         </ul>
       </div>
 
-      <!-- Column 3: Institución -->
       <div>
-        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Institución</h4>
+        <h4 class="mb-4 text-body-title">Institución</h4>
         <ul class="space-y-3 font-sans text-sm text-text-secondary">
-          <li><a href={ROUTES.NOSOTROS} class="hover:text-imb transition-colors">Nosotros</a></li>
-          <li><a href={ROUTES.STAFF} class="hover:text-imb transition-colors">Staff IMB</a></li>
-          <li><a href={ROUTES.CONTACTO} class="hover:text-imb transition-colors">Contacto</a></li>
+          <li><a href={ROUTES.HOME} class="transition-colors hover:text-imb">Inicio</a></li>
+          <li><a href={ROUTES.NOSOTROS} class="transition-colors hover:text-imb">Nosotros</a></li>
+          <li><a href={ROUTES.STAFF} class="transition-colors hover:text-imb">Staff IMB</a></li>
+          <li><a href={ROUTES.CONTACTO} class="transition-colors hover:text-imb">Contacto</a></li>
         </ul>
       </div>
 
-      <!-- Column 4: Ayuda -->
       <div>
-        <h4 class="font-display font-bold text-base mb-4 tracking-wide text-text-primary">Ayuda</h4>
+        <h4 class="mb-4 text-body-title">Información y ayuda</h4>
         <ul class="space-y-3 font-sans text-sm text-text-secondary">
-          <li><a href={ROUTES.SOPORTE} class="hover:text-imb transition-colors">Soporte</a></li>
-          <li><a href={ROUTES.RECLAMACIONES} class="hover:text-imb transition-colors">Libro de Reclamaciones</a></li>
+          <li><a href={ROUTES.SOPORTE_ACADEMICO} class="transition-colors hover:text-imb">Soporte académico</a></li>
+          <li><a href={ROUTES.POLITICA_PRIVACIDAD} class="transition-colors hover:text-imb">Política de Privacidad</a></li>
+          <li><a href={ROUTES.POLITICA_COOKIES} class="transition-colors hover:text-imb">Política de Cookies</a></li>
+          <li><a href={ROUTES.TERMINOS_CONDICIONES_USO} class="transition-colors hover:text-imb">Términos y Condiciones</a></li>
+          <li><a href={ROUTES.POLITICA_REEMBOLSOS_DEVOLUCIONES} class="transition-colors hover:text-imb">Reembolsos y Devoluciones</a></li>
+          <li><a href={ROUTES.POLITICAS_SEGURIDAD} class="transition-colors hover:text-imb">Políticas de Seguridad</a></li>
+          <li><a href={ROUTES.AVISO_LEGAL} class="transition-colors hover:text-imb">Aviso Legal</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Bottom bar -->
-    <div class="border-t border-border-muted pt-8 flex flex-col md:flex-row justify-between items-center font-sans text-xs text-text-secondary font-medium uppercase tracking-wide">
+    <div class="flex flex-col items-center justify-between border-t border-border-muted pt-8 font-sans text-xs font-medium uppercase tracking-wide text-text-secondary md:flex-row">
       <p>&copy; {currentYear} IMB Institute. Todos los derechos reservados.</p>
     </div>
   </div>

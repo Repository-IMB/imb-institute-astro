@@ -16,7 +16,7 @@ const alignmentClasses = {
 ---
 
 <div class:list={["max-w-3xl mb-12", alignmentClasses[align], className]}>
-  <h2>{title}</h2>
-  {subtitle && <p class="text-text-secondary text-lg">{subtitle}</p>}
+  <h2 class="text-section-title">{title}</h2>
+  {subtitle && <p class="text-lead text-text-secondary">{subtitle}</p>}
   <slot />
 </div>

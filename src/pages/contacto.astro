@@ -2,47 +2,43 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/ui/Card.astro';
 import Wrapper from '../components/ui/Wrapper.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 import FormAlianzas from '../components/forms/FormAlianzas.astro';
-import { Users2, Building2 } from 'lucide-astro';
 
 export const prerender = true;
 ---
 
-<BaseLayout title="Contacto y Alianzas | IMB Institute" description="En IMB Institute, creemos en el poder de las alianzas estratégicas para transformar sectores clave como la minería, construcción y tecnología. Complete este formulario para que nuestro equipo de Relaciones Institucionales analice su propuesta.">
-  <Wrapper class="pt-12 lg:pt-20 pb-24" padded={false}>
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
-      
-      <!-- Left Column -->
-      <div>
-        <h1 class="font-display text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">Potenciemos juntos el talento de su organización</h1>
-        <p class="font-sans text-lg lg:text-xl text-text-secondary leading-relaxed mb-8">
-          En IMB Institute, creemos en el poder de las alianzas estratégicas para transformar sectores clave como la minería, construcción y tecnología. Complete este formulario para que nuestro equipo de Relaciones Institucionales analice su propuesta y diseñemos juntos una colaboración de alto impacto.
+<BaseLayout
+  title="Contáctanos | IMB Institute"
+  description="Comparte una propuesta de alianza institucional con IMB Institute para que nuestro equipo pueda evaluarla."
+>
+  <HeroSection
+    title="Transformamos Conocimiento en Crecimiento"
+    description="En IMB Institute, creemos en el aprendizaje como el motor que impulsa a profesionales y organizaciones hacia la excelencia. Descubre cómo nuestra pasión por la innovación y la calidad puede potenciar tu futuro."
+    image="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=85&w=2000"
+  />
+
+  <Wrapper class="bg-surface-50 py-20 lg:py-28" padded={false}>
+    <div class="grid items-start gap-14 lg:grid-cols-12 lg:gap-20">
+      <div class="lg:col-span-5">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Relaciones institucionales</p>
+        <h2 class="text-section-title">
+          Conversemos sobre tu propuesta
+        </h2>
+        <p class="mt-6 text-body text-text-secondary">
+          En IMB Institute creemos en el valor de las alianzas estratégicas para desarrollar capacidades en sectores como minería, construcción y tecnología. Cuéntanos sobre tu proyecto para que nuestro equipo de Relaciones Institucionales revise la propuesta y evalúe una posible colaboración.
         </p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
-          <Card class="p-6">
-            <div class="w-10 h-10 bg-surface-50 rounded-xl flex items-center justify-center text-imb mb-4">
-              <Users2 size={20} />
-            </div>
-            <h4 class="font-display text-lg font-bold">Programas a medida</h4>
-            <p class="font-sans text-xs text-text-secondary mt-1">Capacitación 100% enfocada en tus KPIs.</p>        
-          </Card>
-          <Card class="p-6">
-            <div class="w-10 h-10 bg-surface-50 rounded-xl flex items-center justify-center text-imb mb-4">
-              <Building2 size={20} />
-            </div>
-            <h4 class="font-display text-lg font-bold">Alianzas Institucionales</h4>
-            <p class="font-sans text-xs text-text-secondary mt-1">Convenios de valor para tu organización.</p>       
-          </Card>
-        </div>
       </div>
 
-      <!-- Right Column: Form -->
-      <Card class="rounded-3xl p-8 lg:p-12 shadow-premium">
-        <h3 class="font-display text-2xl font-bold mb-2">Propuesta de Alianza</h3>
-        <p class="font-sans text-sm text-text-secondary mb-10">Complete los datos a continuación para iniciar el contacto.</p>
+      <Card class="rounded-xl! p-8 shadow-none! hover:shadow-none! lg:col-span-7 lg:p-12">
+        <div class="mb-10 border-b border-border-subtle pb-8">
+          <h2 class="text-component-title">Comparte los datos de tu propuesta</h2>
+          <p class="mt-3 text-meta text-text-secondary">
+            Nuestro equipo revisará la información de tu organización y se comunicará contigo mediante los datos proporcionados.
+          </p>
+        </div>
         <FormAlianzas />
       </Card>
-
     </div>
   </Wrapper>
 </BaseLayout>

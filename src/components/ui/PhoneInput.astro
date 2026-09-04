@@ -16,7 +16,7 @@ const {
 } = Astro.props;
 
 // Base styles for the input field to match the rest of the UI
-const inputClasses = "w-full pl-3 pr-4 py-2 bg-transparent border-0 border-b-2 border-border-subtle focus:ring-0 focus:border-imb focus:outline-none transition-all font-sans text-base text-text-primary placeholder:text-icon-muted/50";
+const inputClasses = "min-h-11 w-full border-0 border-b-2 border-border-subtle bg-transparent py-2 pl-3 pr-4 font-sans text-base text-text-primary transition-colors duration-200 placeholder:text-icon-muted/50 focus:border-imb focus:outline-none focus:ring-0";
 ---
 
 <div class:list={["relative group intl-tel-input-container", className]}>
@@ -37,7 +37,7 @@ const inputClasses = "w-full pl-3 pr-4 py-2 bg-transparent border-0 border-b-2 b
     <!-- Hidden input to store the full E.164 formatted number -->
     <input type="hidden" name={`${name}_full`} id={`${id}-full`} />
     <!-- Validation error message container -->
-    <div id={`${id}-error`} data-error-for={name} class="hidden mt-1 text-xs text-rose-600 font-medium absolute top-full left-0"></div>
+    <div id={`${id}-error`} data-error-for={name} class="absolute left-0 top-full mt-1 hidden text-xs font-medium text-feedback-error"></div>
   </div>
 </div>
 

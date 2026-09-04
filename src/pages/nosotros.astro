@@ -2,108 +2,115 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/ui/Card.astro';
 import Wrapper from '../components/ui/Wrapper.astro';
-import MediaImage from '../components/ui/MediaImage.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 import FormContacto from '../components/forms/FormContacto.astro';
-import { Award, RefreshCw, HeartHandshake, Users2, Target, Compass } from 'lucide-astro';
+import nosotrosHero from '../assets/images/nosotros-hero.webp';
+import { Award, RefreshCw, HeartHandshake, Users2, Target, Compass, CheckCircle2 } from 'lucide-astro';
 
 export const prerender = true;
 
 const valores = [
-  { icon: Award, title: "Excelencia", desc: "Buscamos los más altos estándares en nuestra enseñanza y procesos metodológicos diarios." },
-  { icon: RefreshCw, title: "Adaptabilidad", desc: "Evolucionamos ágilmente al ritmo de las nuevas demandas tecnológicas del mercado actual." },
-  { icon: HeartHandshake, title: "Compromiso", desc: "Nos involucramos profundamente en el éxito y el crecimiento integral de nuestros alumnos." },
-  { icon: Users2, title: "Empatía", desc: "Entendemos a fondo las necesidades únicas de cada estudiante y organización corporativa." }
+  { icon: Award, title: 'Excelencia', desc: 'Cuidamos la calidad de los contenidos, la enseñanza y cada punto de contacto con nuestros alumnos.' },
+  { icon: RefreshCw, title: 'Adaptabilidad', desc: 'Revisamos nuestros programas para responder a nuevas herramientas y formas de trabajo.' },
+  { icon: HeartHandshake, title: 'Compromiso', desc: 'Acompañamos el proceso de aprendizaje y asumimos con seriedad cada responsabilidad.' },
+  { icon: Users2, title: 'Empatía', desc: 'Escuchamos las necesidades de profesionales y organizaciones antes de proponer una solución.' }
 ];
 ---
 
-<BaseLayout title="Nosotros | IMB Institute" description="Conoce nuestra historia, misión, visión y valores. Transformamos conocimiento en crecimiento.">
+<BaseLayout
+  title="Nosotros | IMB Institute"
+  description="Conoce el enfoque, la misión y los valores que orientan la formación profesional de IMB Institute."
+  image={nosotrosHero}
+>
+  <HeroSection
+    title="Formación conectada con el trabajo real"
+    highlight="trabajo real"
+    description="Diseñamos cursos para profesionales y organizaciones que necesitan aprender, actualizarse y aplicar lo aprendido."
+    image={nosotrosHero}
+  />
 
-  <!-- Hero -->
-  <Wrapper class="relative bg-gray-950 overflow-hidden py-20 lg:py-24" full>
-    <div class="absolute inset-0 z-0">
-      <MediaImage src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=2000" alt="IMB Institute Equipo" class="w-full h-full object-cover object-center" />
-      <div class="absolute inset-0 bg-gray-950/90"></div>
-    </div>
-    <div class="max-w-[1100px] mx-auto text-center relative z-10">
-      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight">
-        Transformamos <span class="text-imb">Conocimiento</span> en Crecimiento.
-      </h1>
-      <p class="font-sans text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
-        Creemos en el aprendizaje como el motor que impulsa a profesionales y organizaciones hacia la excelencia. Descubre cómo nuestra pasión por la innovación puede potenciar tu futuro.
-      </p>
-    </div>
-  </Wrapper>
-
-  <!-- Quiénes Somos -->
-  <Wrapper>
-    <!-- Intro Grid -->
-    <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start mb-16">
+  <Wrapper class="bg-surface-0 py-24 lg:py-32" padded={false}>
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-20">
       <div class="lg:col-span-5">
-        <h2 class="font-display text-3xl lg:text-5xl font-bold text-text-primary tracking-tight leading-tight">
-          Potenciando el talento en un mundo en evolución
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Quiénes somos</p>
+        <h2 class="text-section-title">
+          Cursos pensados para profesionales que siguen aprendiendo
         </h2>
       </div>
-      <div class="lg:col-span-7 pt-2">
-        <p class="font-sans text-lg lg:text-xl text-text-secondary leading-relaxed">
-          Somos una institución líder en formación profesional y empresarial, dedicada a potenciar el talento y la competitividad. Nuestra metodología combina innovación, tecnología y asesoría especializada para brindar programas de alto impacto que transforman el aprendizaje en resultados reales.
+      <div class="lg:col-span-7">
+        <p class="text-lead text-text-secondary">
+          IMB Institute desarrolla programas de capacitación para personas y equipos de trabajo. Combinamos contenidos técnicos, herramientas digitales y acompañamiento docente para facilitar un aprendizaje que pueda trasladarse al día a día profesional.
         </p>
       </div>
     </div>
 
-    <!-- Misión y Visión (Debajo y Centradas) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-16 border-t border-border-subtle">
-      <Card class="p-8 border border-border-subtle bg-surface-0 hover:shadow-premium group flex flex-col items-center text-center">
-        <div class="w-12 h-12 bg-red-50 text-imb rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105">
-          <Target size={24} />
+    <div class="mt-16 grid gap-6 border-t border-border-subtle pt-12 md:grid-cols-2">
+      <Card class="rounded-xl! p-8 shadow-none! hover:shadow-none! lg:p-10">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-surface-50 text-imb" aria-hidden="true">
+          <Target size={22} />
         </div>
-        <h3 class="font-display text-xl font-bold text-text-primary mb-3">Nuestra Misión</h3>
-        <p class="text-text-secondary leading-relaxed">
-          Brindar formación de alta calidad a profesionales que buscan potenciar sus talentos y optimizar procesos corporativos, conectando el conocimiento práctico con las demandas actuales del sector industrial y empresarial.
+        <h3 class="text-card-title">Nuestra misión</h3>
+        <p class="mt-4 leading-relaxed text-text-secondary">
+          Brindar formación útil para profesionales y organizaciones, conectando el conocimiento con los retos de los sectores donde trabajan.
         </p>
       </Card>
 
-      <Card class="p-8 border border-border-subtle bg-surface-0 hover:shadow-premium group flex flex-col items-center text-center">
-        <div class="w-12 h-12 bg-red-50 text-imb rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105">
-          <Compass size={24} />
+      <Card class="rounded-xl! p-8 shadow-none! hover:shadow-none! lg:p-10">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-surface-50 text-imb" aria-hidden="true">
+          <Compass size={22} />
         </div>
-        <h3 class="font-display text-xl font-bold text-text-primary mb-3">Nuestra Visión</h3>
-        <p class="text-text-secondary leading-relaxed">
-          Consolidarnos como la institución líder en América Latina en capacitación especializada en calidad, mantenimiento profesional y gestión de operaciones, siendo reconocidos por la excelencia técnica y metodológica.
+        <h3 class="text-card-title">Nuestra visión</h3>
+        <p class="mt-4 leading-relaxed text-text-secondary">
+          Ser una institución reconocida en América Latina por la calidad de su capacitación especializada y su cercanía con el entorno profesional.
         </p>
       </Card>
     </div>
   </Wrapper>
 
-  <!-- Valores -->
-  <Wrapper class="bg-surface-0 border-t border-border-subtle">
-    <div class="text-center mb-16 max-w-2xl mx-auto">
-      <h2 class="font-display text-3xl lg:text-4xl font-bold text-text-primary mb-4 tracking-tight">Nuestros valores fundamentales</h2>
-      <p class="font-sans text-lg text-text-secondary">Los principios inquebrantables que sostienen nuestra excelencia académica y garantizan el éxito de nuestra comunidad.</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-      {valores.map((v) => (
-        <Card class="p-6 group hover:shadow-premium">
-          <div class="w-10 h-10 bg-surface-50 rounded-xl flex items-center justify-center text-imb mb-4 shadow-sm">
-            <v.icon size={20} />
-          </div>
-          <h3 class="font-display text-lg font-bold text-text-primary mb-2 leading-snug">{v.title}</h3>
-          <p class="text-text-secondary leading-relaxed">{v.desc}</p>
-        </Card>
-      ))}
+  <Wrapper class="bg-surface-50 py-24 lg:py-32" padded={false}>
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-20">
+      <div class="lg:col-span-4">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Cómo trabajamos</p>
+        <h2 class="text-section-title">Nuestros valores</h2>
+        <p class="mt-6 max-w-md leading-relaxed text-text-secondary">
+          Son criterios sencillos, pero importantes. Orientan cómo diseñamos los cursos y cómo acompañamos a cada alumno.
+        </p>
+      </div>
+
+      <div class="grid gap-x-12 md:grid-cols-2 lg:col-span-8">
+        {valores.map((valor) => (
+          <article class="grid grid-cols-[48px_1fr] gap-5 border-t border-border-subtle py-8">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-surface-0 text-imb" aria-hidden="true">
+              <valor.icon size={21} />
+            </div>
+            <div>
+              <h3 class="text-item-title">{valor.title}</h3>
+              <p class="mt-3 leading-relaxed text-text-secondary">{valor.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   </Wrapper>
 
-  <!-- Formulario Contacto -->
-  <Wrapper class="bg-surface-50 border-t border-border-subtle">
-    <div class="max-w-3xl mx-auto">
-      <Card class="rounded-3xl p-8 lg:p-12 shadow-premium">
-        <div class="text-center mb-10">
-          <h3 class="font-display text-3xl font-bold text-text-primary mb-4 tracking-tight">Descubre cómo IMB puede transformar tu futuro</h3>
-          <p class="font-sans text-lg text-text-secondary">Completa tus datos y un asesor académico se comunicará contigo de inmediato.</p>
+  <Wrapper class="bg-surface-0 py-24 lg:py-32" padded={false}>
+    <div class="grid items-start gap-14 lg:grid-cols-12 lg:gap-20">
+      <div class="lg:col-span-5">
+        <p class="mb-4 text-label uppercase tracking-widest text-imb">Conversemos</p>
+        <h2 class="text-section-title">
+          ¿Quieres conocer nuestros programas?
+        </h2>
+        <p class="mt-6 max-w-xl leading-relaxed text-text-secondary">
+          Déjanos tus datos y cuéntanos qué área te interesa. Un asesor académico revisará tu consulta.
+        </p>
+      </div>
+
+      <Card class="rounded-xl! p-8 shadow-none! hover:shadow-none! lg:col-span-7 lg:p-12">
+        <div class="mb-10 flex items-center gap-3 border-b border-border-subtle pb-8">
+          <h3 class="text-component-title">Cuéntanos qué necesitas</h3>
         </div>
         <FormContacto />
       </Card>
     </div>
   </Wrapper>
-
 </BaseLayout>
