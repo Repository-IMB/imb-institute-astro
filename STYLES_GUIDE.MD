@@ -1,134 +1,194 @@
-# IMB Institute — Design System: Premium Editorial
+# Sistema visual — IMB Institute
 
-**Version:** 6.0  
-**Aesthetic Direction:** Premium Academic / Minimalist Editorial  
-**Core Principles:** Visual hierarchy through typography, borderless surfaces, generous whitespace, and refined elegance.
+Este archivo define decisiones visuales. No contiene copy, contratos de API ni reglas de servidor.
 
----
+## Dirección
 
-## 1. Component Construction Strategy
+IMB usa un estilo académico, profesional y minimalista. La interfaz debe sentirse clara y sobria, con suficiente espacio para leer sin parecer fría o corporativa en exceso.
 
-**Primary Mandate:** Prioritize the use of existing components located in `@src/components/ui/**`. These components are pre-configured with the system's aesthetic and functional logic. Manual HTML tags for UI elements (buttons, images, sections, containers) are strictly prohibited when a corresponding UI component exists.
+- Usar rojo IMB como acento, no como fondo dominante.
+- Priorizar composición, tipografía y espacio antes que efectos decorativos.
+- Evitar gradientes llamativos, glassmorphism, sombras pesadas y exceso de cards.
+- Mantener una sola dirección visual en todas las páginas públicas.
 
----
+## Tokens
 
-## 2. Color Architecture
+Los valores se definen en `src/styles/global.css` mediante `@theme`.
 
-The palette is built on extreme clarity. We use pure black as our anchor and brand red for functional emphasis.
+| Token | Valor | Uso |
+|---|---:|---|
+| `imb` | `#841822` | CTA principal, enlaces activos y acentos |
+| `imb-hover` | `#A62632` | Hover del primario |
+| `imb-dark` | `#5E1118` | Estado activo o presionado |
+| `surface-0` | `#FFFFFF` | Superficie principal y cards |
+| `surface-50` | `#F8F9FA` | Fondo secundario |
+| `surface-100` | `#F3F4F6` | Estados suaves y placeholders |
+| `text-primary` | `#000000` | Encabezados y texto principal |
+| `text-secondary` | `#6B7280` | Descripciones y metadatos |
+| `border-subtle` | `#E5E7EB` | Bordes visibles pero discretos |
+| `icon-muted` | `#9CA3AF` | Iconos secundarios |
 
-### Brand Core
-- **Primary:** `#841822` (IMB Red). Used *only* for high-priority CTAs and active states.
-- **Accents:**
-  - `primary-light`: `#A62632` (Interactive hover)
-  - `primary-dark`: `#5E1118` (Pressed/Active)
+No repetir estos valores como hexadecimales en componentes. Usar las clases semánticas de Tailwind.
 
-### Neutral Scale
-Clean, pure-neutral palette to let editorial content breathe.
-- **Surface 0:** `#FFFFFF` (Pure white — elevated cards and main containers) / `#000000` (Pure Black in Dark Mode)
-- **Surface 50:** `#F8F9FA` (Main app background) / `#050505` (Deepest Black in Dark Mode)
-- **Surface 100:** `#F3F4F6` (Subtle hover states, disabled elements) / `#111111` (Elevated surface in Dark Mode)
-- **Text-Primary:** `#000000` (Pure Black — headings, body, input values)
-- **Text-Secondary:** `#6B7280` (Softer Gray — descriptions, metadata, labels, placeholders)
+## Tipografía
 
----
+- Encabezados y botones: Montserrat.
+- Texto, labels y metadatos: Inter.
+- El cuerpo de texto usa como mínimo `16px`; captions, labels y metadatos pueden usar `12px` o `14px` según su función.
+- Los roles tipográficos se definen como tokens `--text-*` en `src/styles/global.css`.
+- La etiqueta HTML expresa jerarquía semántica; el rol tipográfico controla la apariencia.
+- Los títulos grandes usan tracking ajustado y líneas equilibradas; los títulos de componentes y cards usan `text-wrap: pretty`.
+- No usar mayúsculas sostenidas en párrafos.
 
-## 3. Typography: The Editorial Stack
+### Roles tipográficos
 
-We utilize **Montserrat** for display and **Inter** for body text. This pairing creates a strong editorial hierarchy — expressive headings contrasted with clean, readable prose.
+| Rol | Clase | Escala | Uso |
+|---|---|---:|---|
+| Display | `text-display` | `36–60px` fluido | Hero principal y cabeceras visuales de alto impacto |
+| Título de página | `text-page-title` | `36–48px` fluido | Título principal de páginas interiores |
+| Título de sección | `text-section-title` | `30–36px` fluido | Secciones principales de una página |
+| Título de componente | `text-component-title` | `24px` | Formularios, paneles y llamadas internas |
+| Título de card | `text-card-title` | `20px` | Cards de cursos, contenido y estados vacíos |
+| Título de elemento | `text-item-title` | `18px` | Valores, opciones, acordeones y paneles compactos |
+| Título de cuerpo | `text-body-title` | `16px` | Autores, valores cortos y grupos de navegación |
+| Título compacto | `text-compact-title` | `14px` | Alertas y encabezados densos de administración |
+| Lead | `text-lead` | `18–20px` fluido | Introducciones y descripciones principales |
+| Cita | `text-quote` | `16–20px` fluido | Testimonios y citas destacadas |
+| Estadística | `text-stat` | `36–48px` fluido | Cifras y métricas destacadas |
+| Cuerpo | `text-body` | `16px` | Párrafos de contenido |
+| Metadato | `text-meta` | `14px` | Fechas, cargos, ayudas y descripciones compactas |
+| Label | `text-label` | `12px` | Eyebrows y etiquetas breves, normalmente en mayúsculas |
+| Caption | `text-caption` | `12px` | Información auxiliar sin mayúsculas ni tracking especial |
 
-### Display Font: Montserrat
-- **Usage:** Hero titles, section headings (H1–H4), buttons, large statistical numbers.
-- **Weights:** ExtraBold (800) for hero titles, Bold (700) for standard headings, SemiBold (600) for buttons.
-- **Tracking:** Tight (`tracking-tight` or `tracking-tighter`) on large sizes to maintain optical density.
+### Reglas de uso
 
-### Body Font: Inter
-- **Usage:** Body paragraphs, form labels, metadata, navigation links, descriptions.
-- **Weights:** Regular (400) for body, Medium (500) for labels and nav, Bold (700) for small uppercase meta-tags.
-- **Line Height:** Generous (`leading-relaxed` / 1.75) for academic readability.
+- Todo `h1`–`h6` debe recibir un rol tipográfico directamente o mediante un componente compartido como `HeroSection.astro` o `SectionHeader.astro`.
+- No elegir el tamaño por la etiqueta: un `h3` puede usar `text-card-title`, `text-item-title` o `text-compact-title` según su función visual.
+- No combinar un rol con utilidades paralelas de tamaño, peso, tracking o interlineado como `text-xl`, `font-bold`, `tracking-tight` o `leading-snug`.
+- Se permiten utilidades de color, alineación, espaciado, truncado y estados interactivos junto al rol.
+- Para cambiar la escala general, modificar el token correspondiente en `src/styles/global.css`, no cada página.
+- Un tamaño fuera de esta escala debe responder a una necesidad específica de componente y quedar documentado antes de repetirse.
 
-### Scale Reference (Desktop)
-| Level | Font | Size | Weight | Tracking |
-|---|---|---|---|---|
-| H1 / Hero | Montserrat | ≥ 56px | 800 | -0.03em |
-| H2 / Section | Montserrat | 36–48px | 700 | -0.02em |
-| H3 / Card Title | Montserrat | 24–28px | 700 | tight |
-| H4 / Sub-heading | Montserrat | 18–20px | 600 | normal |
-| Body | Inter | 16px | 400 | normal |
-| Label / Meta | Inter | 12–13px | 500–700 | wide |
+## Layout
 
----
+- Todas las secciones usan `Wrapper.astro`.
+- Ancho máximo: `max-w-360`.
+- Usar layout mobile-first.
+- Mantener espacios amplios entre bloques.
+- Alternar `surface-0` y `surface-50` solo cuando ayude a separar secciones; no alternar de forma automática.
+- Evitar scroll horizontal y anchos rígidos en contenido principal.
 
-## 4. Grid & Layout (Editorial Rhythm)
+## Patrón aprobado para páginas públicas
 
-Layout is driven by vertical rhythm and generous proportions. Separation is achieved through surface color shifts and whitespace.
+La portada es la referencia inicial para el resto del sitio:
 
-- **Mandatory Wrapper:** ALL page sections must use the `@src/components/ui/Wrapper.astro` component.
-  - Standard sections use `padded` (default `py-24` to `py-48`).
-  - Hero sections use `full` prop for edge-to-edge backgrounds with constrained internal content.
-- **Max Width:** Content is constrained to `max-w-360` (1440px) via the Wrapper component.
-- **Section Padding:** Controlled by the Wrapper component to maintain "Swiss Tech" high-whitespace priority.
+- Hero con fotografía de fondo, overlay oscuro y contenido centrado.
+- Sin tags decorativos encima del título del hero.
+- Una sola llamada principal y una secundaria cuando sean necesarias.
+- Franja de organizaciones discreta.
+- Secciones informativas con estructura editorial, no una cuadrícula de cards por defecto.
+- Cursos y testimonios en cards simples, con bordes sutiles y sombras mínimas.
+- Contacto visible al final de la página.
 
----
+Cada página puede adaptar la composición a su contenido. No copiar la portada bloque por bloque.
 
-## 5. Component Technical Mandates
+## Componentes
 
-### Media & Images
-- **Mandatory Component:** Use `@src/components/ui/MediaImage.astro` for ALL images. 
-- **Features:** Automated fallback (placeholder), performance optimization (Astro Image), and consistent object-fit handling.
+### Wrapper
 
-### Buttons (Refined CTAs)
-- **Mandatory Component:** Use `@src/components/ui/Button.astro` for ALL buttons and button-like anchors.
-- **Variants:**
-  - **Primary:** Solid `bg-imb` (#841822), white text.
-  - **Outline:** `bg-surface-50` with primary text and subtle border.
-  - **Ghost:** Minimalist interactive state with primary color hover.
+Usar `Wrapper.astro` para secciones, headers y footers. Evitar contenedores paralelos con anchos distintos.
 
-### Cards & Containers
-- **Rule:** Use `@src/components/ui/Card.astro`.
-- **Borders:** Subtle `border-border-subtle` added to cards for visibility in Dark Mode.
-- **Shadows (Theme Aware):**
-  - **Light Mode:** Subtle soft shadows (`shadow-sm`).
-  - **Dark Mode:** Deep shadows with a 1px white/grey glow to provide depth on dark surfaces.
+### Botones
 
-### Dark Mode Logic
-- **Pure Black Foundation:** The system uses `#000000` as the base for surfaces in dark mode.
-- **Fixed Contrast:** Critical sections (Hero, Page Headers) use fixed dark backgrounds (`bg-gray-950` or similar) to ensure white text remains readable regardless of the user's active theme.
-- **Theme Switching:** Managed via the `.dark` class on the `<html>` element.
+Usar `Button.astro`.
 
----
+- `primary`: acciones principales.
+- `outline`: acciones secundarias.
+- `ghost`: acciones de baja prioridad.
+- Altura táctil mínima: `44px`.
+- El foco de teclado debe ser visible.
 
-## 6. Component Technical Specs
+### Cards
 
-### Inputs & Forms (Bottom Border Style)
-Forms must feel lightweight and intentional.
+Usar `Card.astro` para contenido elevado o interactivo.
 
-- **Background:** Transparent (`bg-transparent`).
-- **Borders:** No full borders. Only a `border-b-2 border-gray-200` bottom border.
-- **Focus State:** Bottom border transitions to primary color (`focus:border-imb`). No focus rings or glow.
-- **Labels:** Small, uppercase or standard casing, secondary text color. Placed above the input.
-- **Input Text:** Montserrat `text-base` or `text-lg` for contrast and readability.
-- **Layout:** One field per line, `space-y-8` vertical spacing.
+- Radio moderado.
+- Borde sutil.
+- Sombra ligera o ninguna.
+- Hover discreto y solo en elementos interactivos.
 
----
+### Estados de curso
 
-## 7. Interaction Design
+Usar `Badge.astro` con `success` para cursos activos y `warning` para cursos inactivos.
 
-- **Hover States:** Smooth and intentional. Background surface shifts or shadow elevation changes. No abrupt color swaps.
-- **Transitions:** `duration-200`, `ease-out`. Professional and refined.
-- **Cursor:** `pointer` strictly for actionable elements.
-- **Motion Philosophy:** Subtle and purposeful. One well-orchestrated entrance animation on load is preferred over scattered micro-interactions.
+- Mostrar siempre el texto `Activo` o `Inactivo`; el color no comunica el estado por sí solo.
+- Acompañar el texto con un punto de estado del mismo sistema cromático.
+- Sobre fotografías, usar una superficie opaca, borde suave y sombra mínima para mantener el contraste con cualquier imagen.
+- Mantener el badge en la esquina superior izquierda con una separación de `1rem`.
+- No desaturar ni oscurecer la imagen completa para representar un curso inactivo.
 
----
+### Catálogo de capacitación
 
-## 8. Implementation Checklist
+La oferta se presenta en una sola página bajo `/capacitacion`:
 
-- [ ] Prioritize components from `@src/components/ui/**`.
-- [ ] Use `Button.astro` for all buttons and call-to-actions.
-- [ ] Use `Wrapper.astro` for all section-level containers.
-- [ ] Use `MediaImage.astro` for all image assets.
-- [ ] Use `Card.astro` for all elevated content blocks.
-- [ ] Minimum AA accessibility contrast on all text (target AAA for body copy).
-- [ ] No hard borders between sections — surface shifts and Wrapper padding only.
-- [ ] Display font (Montserrat) for all headings, buttons, and stat numbers.
-- [ ] Hero sections use dark overlay gradient with red text gradient on key H1 word.
-- [ ] Custom scrollbar applied globally.
+- El buscador y los filtros actualizan el listado sin recargar ni abandonar la página.
+- El bloque de búsqueda permanece `sticky` únicamente mientras el usuario recorre el catálogo; termina antes de la siguiente sección informativa.
+- El buscador conserva un label semántico aunque se oculte visualmente en composiciones compactas. El recuento se anuncia mediante una región accesible sin ocupar espacio en móvil.
+- Las acciones auxiliares pueden usar solo iconos cuando sean convenciones claras; deben conservar `aria-label`, tooltip, foco visible y un objetivo táctil de al menos `44px`.
+- Las categorías conservan su nombre, usan `aria-pressed` y se muestran en una sola fila deslizable cuando no caben. El gesto horizontal debe tener controles de flecha equivalentes para ratón y teclado.
+- Las categorías del catálogo se mantienen junto a los cursos en `src/data/cursos.ts`.
+- El estado del filtro puede conservarse en parámetros de URL, pero no genera páginas de categoría independientes.
+- Mostrar el número de resultados y un estado vacío cuando no haya coincidencias.
+- Las preguntas frecuentes se colocan después del catálogo y reutilizan `Accordion.astro`.
+- Los beneficios se presentan como una lista editorial, no como una colección de cards elevadas.
+- Los descuentos, opciones de pago y servicios sujetos a convocatoria deben redactarse como condiciones por confirmar.
+- Crear una página de categoría solo cuando tenga una intención de búsqueda distinta y contenido propio suficiente; no duplicar texto para aumentar el número de URLs.
+
+### Imágenes
+
+Usar `MediaImage.astro`.
+
+- Reservar ancho y alto para evitar saltos de layout.
+- Hero: carga prioritaria cuando sea la imagen principal.
+- Imágenes fuera del primer viewport: `loading="lazy"`.
+- Texto alternativo descriptivo; usar `alt=""` si la imagen es decorativa.
+
+### Formularios
+
+- Labels siempre visibles.
+- Inputs con fondo transparente y borde inferior.
+- Error junto al campo correspondiente.
+- No depender solo del color para comunicar errores.
+- Mantener estados de foco claros.
+- En direcciones completas, agrupar dirección, ciudad, región o departamento y país. El país se elige desde un selector compartido para evitar variaciones de escritura.
+- Los campos internos de gestión, como el estado inicial de una consulta, se envían ocultos y no ocupan espacio ni añaden decisiones innecesarias para la persona usuaria.
+- Cuando una ficha extensa incluya canales de ayuda confirmados, el formulario puede ocupar la columna principal y el soporte una columna lateral `sticky` en escritorio. En móvil, el soporte se coloca después del formulario.
+- El selector de documentos de `FormBecarios.astro` es la referencia visual y conserva su implementación propia por su flujo de varios archivos.
+- Usar `FileUploadField.astro` en los demás formularios para mantener el mismo borde discontinuo, icono de carga, selección por clic o arrastre y listado con opción de eliminar.
+- La zona de carga debe tener fondo blanco (`surface-0`) en reposo y `surface-50` durante la interacción. El icono usa fondo `surface-50` y color neutro, cambiando a IMB al interactuar.
+- Toda la zona funciona como control de selección; no añadir botones visuales secundarios como “Buscar” dentro de ella.
+- En las variantes verticales (`default` y `large`), el icono y los textos permanecen centrados; la variante `compact` los distribuye horizontalmente y centrados en altura.
+- Elegir la altura según el contexto: `large` cuando se necesite una zona amplia, `default` para adjuntos dentro de formularios extensos y `compact` para un único archivo en formularios breves como Staff.
+- Configurar en el componente los formatos, cantidad y límites de peso; la validación del servidor debe conservar los mismos límites.
+
+## Movimiento
+
+- Transiciones entre `200ms` y `300ms`.
+- Animar opacidad y transform cuando sea posible.
+- Evitar animaciones continuas salvo que aporten contexto.
+- Respetar `prefers-reduced-motion`.
+- La navegación entre páginas usa un crossfade breve con un desplazamiento vertical mínimo.
+- Las secciones aparecen una sola vez al entrar en el viewport; no animar cada elemento interno por defecto.
+- El movimiento debe sentirse sobrio y funcional: ayuda a seguir la lectura, no compite con el contenido.
+
+## Checklist
+
+- Contraste AA como mínimo.
+- Navegación completa con teclado.
+- Foco visible.
+- Objetivos táctiles de al menos `44px`.
+- Sin scroll horizontal en móvil.
+- Sin colores raw en componentes.
+- Encabezados y textos recurrentes usan roles tipográficos; no escalas locales duplicadas.
+- Sin emojis como iconos de interfaz.
+- Sin sombras o animaciones que compitan con el contenido.

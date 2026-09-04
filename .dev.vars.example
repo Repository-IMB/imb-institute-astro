@@ -1,0 +1,16 @@
+# URL del gateway de correos (Mail Gateway)
+MAIL_GATEWAY_URL="https://api.tu-gateway.com/correo"
+
+# Token de autorización para enviar a través del Mail Gateway
+MAIL_GATEWAY_TOKEN="tu_token_de_acceso_secreto"
+
+# Correo de origen utilizado en la cabecera 'From'
+MAIL_FROM="no-reply@imbinstitute.com"
+
+# Correo de destino principal para alertas y notificaciones del sistema
+MAIL_ADMISSIONS_TO="admisiones@imbinstitute.com"
+
+# [Opcional] Correo que intercepta todos los envíos (útil para pruebas en desarrollo)
+# Si lo dejas configurado, todos los correos internos irán a esta dirección.
+# Para probar el flujo real, coméntalo o elimínalo.
+MAIL_FORCE_TO="dev-test@imbinstitute.com"
