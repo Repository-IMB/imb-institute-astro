@@ -5,5 +5,6 @@ declare namespace Cloudflare {
     MAIL_GATEWAY_TOKEN: string;
     MAIL_FROM: string;
     MAIL_ADMISSIONS_TO: string;
+    MAIL_FORCE_TO?: string;
   }
 }

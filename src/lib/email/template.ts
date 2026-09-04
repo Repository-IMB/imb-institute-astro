@@ -8,6 +8,15 @@
 
 const BRAND_COLOR = '#841822';
 
+function escapeHtml(value: unknown): string {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export interface EmailRow {
   label: string;
   value: string;
@@ -35,19 +44,19 @@ export function buildEmailBase(opts: EmailBaseOptions): {
         return `
         <tr>
           <td colspan="2" style="padding:16px 0 4px;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">
-            ${row.label}
+            ${escapeHtml(row.label)}
           </td>
         </tr>
         <tr>
           <td colspan="2" style="padding:0 0 16px;font-size:15px;color:#111827;line-height:1.6;white-space:pre-wrap;border-bottom:1px solid #e5e7eb;">
-            ${row.value}
+            ${escapeHtml(row.value)}
           </td>
         </tr>`;
       }
       return `
         <tr>
-          <td style="padding:16px 0;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;width:35%;">${row.label}</td>
-          <td style="padding:16px 0;font-size:15px;color:#111827;font-weight:500;border-bottom:1px solid #e5e7eb;">${row.value}</td>
+          <td style="padding:16px 0;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;width:35%;">${escapeHtml(row.label)}</td>
+          <td style="padding:16px 0;font-size:15px;color:#111827;font-weight:500;border-bottom:1px solid #e5e7eb;">${escapeHtml(row.value)}</td>
         </tr>`;
     })
     .join('');
@@ -62,7 +71,7 @@ export function buildEmailBase(opts: EmailBaseOptions): {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${opts.subject}</title>
+  <title>${escapeHtml(opts.subject)}</title>
 </head>
 <body style="margin:0;padding:0;background-color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#ffffff;padding:40px 16px;">
@@ -74,7 +83,7 @@ export function buildEmailBase(opts: EmailBaseOptions): {
           <tr>
             <td style="padding-bottom:24px;border-bottom:2px solid ${BRAND_COLOR};">
               <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${BRAND_COLOR};">IMB Institute</p>
-              <h1 style="margin:12px 0 0;font-size:24px;font-weight:700;color:#111827;line-height:1.3;">${opts.title}</h1>
+              <h1 style="margin:12px 0 0;font-size:24px;font-weight:700;color:#111827;line-height:1.3;">${escapeHtml(opts.title)}</h1>
             </td>
           </tr>
 
@@ -82,7 +91,7 @@ export function buildEmailBase(opts: EmailBaseOptions): {
           <tr>
             <td style="padding:32px 0;">
               <p style="margin:0 0 32px;font-size:15px;color:#4b5563;line-height:1.6;">
-                ${opts.description}
+                ${escapeHtml(opts.description)}
               </p>
 
               <!-- Data table -->
@@ -93,10 +102,10 @@ export function buildEmailBase(opts: EmailBaseOptions): {
               <!-- CTA -->
               <div style="margin-top:40px;text-align:left;">
                 <a
-                  href="mailto:${opts.replyTo}?subject=Re: ${opts.subject}"
+                  href="mailto:${encodeURIComponent(opts.replyTo)}?subject=${encodeURIComponent(`Re: ${opts.subject}`)}"
                   style="display:inline-block;background-color:${BRAND_COLOR};color:#ffffff;font-size:14px;font-weight:600;padding:12px 28px;border-radius:6px;text-decoration:none;"
                 >
-                  Responder a ${opts.replyName}
+                  Responder a ${escapeHtml(opts.replyName)}
                 </a>
               </div>
             </td>
@@ -143,8 +152,11 @@ export function buildEmail(formName: string, data: Record<string, any>) {
   const rows = Object.entries(data).map(([key, value]) => {
     let stringValue = '';
     
-    if (Array.isArray(value) && value.length > 0 && value[0].name && value[0].size !== undefined) {
+    if (Array.isArray(value) && value.length > 0 && value[0]?.name && value[0]?.size !== undefined) {
       stringValue = value.map(f => `• ${f.name} (${Math.round(f.size / 1024)} KB)`).join('\n');
+    }
+    else if (Array.isArray(value)) {
+      stringValue = value.length > 0 ? value.map((item) => `• ${String(item)}`).join('\n') : 'N/A';
     } 
     else if (typeof value === 'object' && value !== null && value.name && value.size !== undefined) {
       stringValue = `• ${value.name} (${Math.round(value.size / 1024)} KB)`;
@@ -165,8 +177,8 @@ export function buildEmail(formName: string, data: Record<string, any>) {
     return { label: formatLabel(key), value: stringValue, isLong };
   });
 
-  const subjectName = data.nombres || data.nombre_completo || data.empresa || 'Nuevo Usuario';
-  const replyTo = data.correo || data.correo_electronico || 'no-reply@imb.edu.pe';
+  const subjectName = data.nombres || data.nombre || data.nome || data.nombre_completo || data.responsable || data.empresa || data.institucion || 'Nuevo registro';
+  const replyTo = data.correo || data.email || data.correo_electronico || data.correo_corporativo || data.correo_contacto || 'no-reply@imbinstitute.com';
 
   return buildEmailBase({
     subject: `Nuevo registro en ${formatLabel(formName)} — ${subjectName}`,

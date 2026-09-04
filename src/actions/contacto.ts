@@ -1,69 +1,24 @@
-import { defineAction, ActionError } from 'astro:actions';
-import { z } from 'astro/zod';
+import { defineAction } from 'astro:actions';
 import { env } from 'cloudflare:workers';
-import { insertSubmission } from '../lib/db';
 import { sendMail } from '../lib/email';
 import { buildEmail } from '../lib/email/template';
-import { getDB } from './utils';
+import { saveSubmissionAndNotify } from './utils';
+import { getFormRecipients } from '../config/form-recipients';
+import { contactoSchema } from './validation/contacto';
 
-export const contactoActions = {
-  contacto: defineAction({
-    accept: 'form',
-    input: z.object({
-      nombres: z.string().min(2),
-      apellidos: z.string().min(2),
-      telefono: z.string().min(8),
-      correo: z.email(),
-      consulta: z.string().min(10).optional(),
-    }),
-    handler: async (input) => {
-      const db = getDB();
-
-      const emailTemplate = buildEmail('Contacto', input);
-      try {
-        await sendMail({
-          from: env.MAIL_FROM,
-          to: env.MAIL_ADMISSIONS_TO,
-          ...emailTemplate,
-          tag: 'contacto',
-        });
-      } catch (err) {
-        const detail = err instanceof Error ? err.message : String(err);
-        console.error('[contacto] Error enviando correo:', detail);
-        throw new ActionError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message:
-            'No se pudo procesar tu solicitud en este momento. Por favor intenta de nuevo o contáctanos directamente.',
-        });
-      }
-
-      const id = await insertSubmission(db, 'contacto', input);
-      return { success: true, id };
-    }
-  }),
-
-  asesor: defineAction({
-    accept: 'form',
-    input: z.object({
-      nombres: z.string().min(2),
-      telefono: z.string().min(8),
-      correo: z.email(),
-      cursoNombre: z.string().optional(),
-    }),
-    handler: async (input, context) => {
-      const db = getDB();
-      const cursoNombre = context.url.searchParams.get('cursoNombre') || input.cursoNombre;
-      const data = { ...input, cursoNombre };
-      const id = await insertSubmission(db, 'asesor', data);
-      
-      const emailTemplate = buildEmail('Asesor', data);
-      try {
-        await sendMail({ from: env.MAIL_FROM, to: env.MAIL_ADMISSIONS_TO, ...emailTemplate, tag: 'asesor' });
-      } catch (err) {
-        console.error('[asesor] Error enviando correo:', err);
-      }
-      
-      return { success: true, id };
-    }
-  }),
-};
+export const contacto = defineAction({
+  accept: 'form',
+  input: contactoSchema,
+  handler: async (input) => {
+    const emailTemplate = buildEmail('Contacto', input);
+    const id = await saveSubmissionAndNotify('contacto', input, () =>
+      sendMail({
+        from: env.MAIL_FROM,
+        to: getFormRecipients('contacto', env.MAIL_ADMISSIONS_TO, env.MAIL_FORCE_TO),
+        ...emailTemplate,
+        tag: 'contacto',
+      }),
+    );
+    return { success: true, id };
+  }
+});

@@ -1,6 +1,11 @@
 import { ActionError } from 'astro:actions';
 import { env } from 'cloudflare:workers';
 import { z } from 'astro/zod';
+import type { FormType } from '../types/submission';
+import { insertSubmission } from '../lib/db';
+
+const SUBMISSION_SERVICE_ERROR =
+  'No pudimos completar el envío por un problema temporal del servicio. Inténtalo nuevamente en unos minutos.';
 
 export function getDB(): D1Database {
   const db = env.DB;
@@ -11,6 +16,36 @@ export function getDB(): D1Database {
     });
   }
   return db;
+}
+
+/**
+ * Guarda la entrada como fuente de verdad e intenta enviar su notificación.
+ * Un fallo de correo se registra, pero nunca elimina una respuesta válida.
+ */
+export async function saveSubmissionAndNotify(
+  formType: FormType,
+  data: Record<string, unknown>,
+  notify: () => Promise<unknown>,
+): Promise<number> {
+  let id: number;
+
+  try {
+    id = await insertSubmission(getDB(), formType, data);
+  } catch (error) {
+    console.error(`[${formType}] Error guardando el formulario:`, error);
+    throw new ActionError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: SUBMISSION_SERVICE_ERROR,
+    });
+  }
+
+  try {
+    await notify();
+  } catch (error) {
+    console.error(`[${formType}] Entrada ${id} guardada, pero falló la notificación:`, error);
+  }
+
+  return id;
 }
 
 // Configuración global del traductor de errores de Zod 4

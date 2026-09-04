@@ -6,7 +6,11 @@ export type FormType =
   | 'asesor'
   | 'matricula'
   | 'becarios'
-  | 'staff';
+  | 'staff'
+  | 'reclutamiento_docente'
+  | 'registro_docentes'
+  | 'ficha_datos'
+  | 'matricula_portugues';
 
 export interface Submission {
   id: number;
