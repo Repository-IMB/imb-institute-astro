@@ -14,6 +14,7 @@ const nonIndexablePaths = [
 
 export default defineConfig({
   site: 'https://new.imbinstitute.com',
+  trailingSlash: 'never',
   output: 'server',
   actions: true,
   redirects: {
