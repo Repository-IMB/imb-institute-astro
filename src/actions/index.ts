@@ -10,8 +10,10 @@ import { reclutamientoDocente } from './reclutamientoDocente';
 import { registroDocentes } from './registroDocentes';
 import { fichaDatos } from './fichaDatos';
 import { matriculaPortugues } from './matriculaPortugues';
+import { adminActions } from './admin';
 
 export const server = {
+  ...adminActions,
   contacto,
   asesor,
   matricula,

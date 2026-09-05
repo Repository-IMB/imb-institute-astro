@@ -189,7 +189,6 @@ const pageTitle = formTypeFilter
           <table class="w-full text-sm">
             <thead>
               <tr class="bg-surface-50/50 border-b border-border-subtle">
-                <th class="px-6 py-4 text-left font-sans text-xs font-bold uppercase tracking-wider text-text-secondary whitespace-nowrap">ID</th>
                 {!formTypeFilter && (
                   <th class="px-6 py-4 text-left font-sans text-xs font-bold uppercase tracking-wider text-text-secondary whitespace-nowrap">Tipo</th>
                 )}
@@ -204,7 +203,6 @@ const pageTitle = formTypeFilter
                   class="group hover:bg-surface-50/70 transition-colors duration-150 cursor-pointer"
                   onclick={`window.location.href='/admin/submissions/${sub.id}'`}
                 >
-                  <td class="px-6 py-4 font-mono text-xs text-text-secondary whitespace-nowrap">#{sub.id}</td>
                   {!formTypeFilter && (
                     <td class="px-6 py-4 whitespace-nowrap">
                       <span class={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold border ${SUBMISSION_TYPE_META[sub.form_type as FormType]?.badgeClass ?? 'bg-gray-100 text-gray-700'}`}>
@@ -217,12 +215,21 @@ const pageTitle = formTypeFilter
                     {getClientPreview(sub.data)}
                   </td>
                   <td class="px-6 py-4 text-right whitespace-nowrap">
-                    <a 
-                      href={`/admin/submissions/${sub.id}`}
-                      class="text-xs font-bold text-imb hover:underline hover:text-imb-hover transition-colors"
-                    >
-                      Ver detalles
-                    </a>
+                    <div class="flex items-center justify-end gap-3">
+                      <a 
+                        href={`/admin/submissions/${sub.id}`}
+                        class="text-xs font-bold text-imb hover:underline hover:text-imb-hover transition-colors"
+                      >
+                        Ver
+                      </a>
+                      <button
+                        type="button"
+                        class="btn-delete text-xs font-bold text-rose-600 hover:underline hover:text-rose-700 transition-colors"
+                        data-id={sub.id}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -327,6 +334,38 @@ const pageTitle = formTypeFilter
       }
     });
   }
+
+  const deleteButtons = document.querySelectorAll('.btn-delete');
+  deleteButtons.forEach((deleteBtn) => {
+    deleteBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const target = e.currentTarget as HTMLButtonElement;
+      const id = parseInt(target.dataset.id || '0', 10);
+      
+      if (!id || !confirm('¿Estás seguro de eliminar este registro? Esta acción no se puede deshacer.')) return;
+
+      const originalText = target.innerText;
+      target.innerText = '...';
+      target.disabled = true;
+
+      try {
+        const { error } = await actions.deleteSubmission({ id });
+        if (error) {
+          alert('Error al eliminar: ' + error.message);
+          target.innerText = originalText;
+          target.disabled = false;
+        } else {
+          // Remover fila de la tabla
+          const row = target.closest('tr');
+          if (row) row.remove();
+        }
+      } catch (err) {
+        alert('Error al eliminar el registro');
+        target.innerText = originalText;
+        target.disabled = false;
+      }
+    });
+  });
 </script>
 
 <style>

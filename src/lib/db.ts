@@ -128,3 +128,16 @@ export async function getRecentSubmissions(
     created_at: row.created_at as string,
   }));
 }
+
+export async function deleteSubmission(
+  db: D1Database,
+  id: number
+): Promise<boolean> {
+  const result = await db.prepare('DELETE FROM submissions WHERE id = ?').bind(id).run();
+  
+  if (!result.success) {
+    throw new Error('Failed to delete submission');
+  }
+  
+  return true;
+}

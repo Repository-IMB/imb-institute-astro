@@ -58,19 +58,31 @@ const pageTitle = submission ? `Detalle de Formulario de ${formTypeLabels[submis
 <AdminLayout title={`${pageTitle} | Admin IMB`}>
   <div class="space-y-8 animate-fade-in opacity-0">
     <!-- Breadcrumb / Back Button -->
-    <div class="flex items-center gap-4">
-      <a 
-        href={backUrl} 
-        class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border-subtle bg-surface-0 hover:bg-surface-50 transition-colors text-text-secondary hover:text-text-primary"
-      >
-        <ArrowLeft size={16} />
-      </a>
-      <div>
-        <span class="text-xs font-bold text-text-secondary uppercase tracking-widest">Registros de Formularios</span>
-        <h1 class="mt-0.5 text-component-title">
-          {submission ? `${formTypeLabels[submission.form_type as FormType]} #${submission.id}` : 'Registro'}
-        </h1>
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <a 
+          href={backUrl} 
+          class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border-subtle bg-surface-0 hover:bg-surface-50 transition-colors text-text-secondary hover:text-text-primary"
+        >
+          <ArrowLeft size={16} />
+        </a>
+        <div>
+          <span class="text-xs font-bold text-text-secondary uppercase tracking-widest">Registros de Formularios</span>
+          <h1 class="mt-0.5 text-component-title">
+            {submission ? `${formTypeLabels[submission.form_type as FormType]} #${submission.id}` : 'Registro'}
+          </h1>
+        </div>
       </div>
+      {submission && (
+        <button
+          type="button"
+          class="btn-delete px-4 py-2 bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 hover:border-rose-300 rounded-lg text-sm font-semibold transition-colors shadow-sm"
+          data-id={submission.id}
+          data-back={backUrl}
+        >
+          Eliminar registro
+        </button>
+      )}
     </div>
 
     <!-- Error State -->
@@ -150,6 +162,40 @@ const pageTitle = submission ? `Detalle de Formulario de ${formTypeLabels[submis
     )}
   </div>
 </AdminLayout>
+
+<script>
+  import { actions } from 'astro:actions';
+
+  const deleteBtn = document.querySelector('.btn-delete') as HTMLButtonElement | null;
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', async () => {
+      const id = parseInt(deleteBtn.dataset.id || '0', 10);
+      const backUrl = deleteBtn.dataset.back || '/admin/submissions';
+      
+      if (!id || !confirm('¿Estás seguro de eliminar este registro? Esta acción no se puede deshacer.')) return;
+
+      const originalText = deleteBtn.innerText;
+      deleteBtn.innerText = 'Eliminando...';
+      deleteBtn.disabled = true;
+
+      try {
+        const { error } = await actions.deleteSubmission({ id });
+        if (error) {
+          alert('Error al eliminar: ' + error.message);
+          deleteBtn.innerText = originalText;
+          deleteBtn.disabled = false;
+        } else {
+          // Redirigir a la vista anterior
+          window.location.href = backUrl;
+        }
+      } catch (err) {
+        alert('Error al eliminar el registro');
+        deleteBtn.innerText = originalText;
+        deleteBtn.disabled = false;
+      }
+    });
+  }
+</script>
 
 <style>
   .animate-fade-in {

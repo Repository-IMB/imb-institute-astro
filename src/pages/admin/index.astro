@@ -151,7 +151,6 @@ function getClientPreview(data: Record<string, unknown>): string {
             <table class="w-full text-sm">
               <thead>
                 <tr class="border-b border-border-subtle bg-surface-50/50">
-                  <th class="px-6 py-4 text-left font-sans text-xs font-bold uppercase tracking-wider text-text-secondary">ID</th>
                   <th class="px-6 py-4 text-left font-sans text-xs font-bold uppercase tracking-wider text-text-secondary">Tipo</th>
                   <th class="px-6 py-4 text-left font-sans text-xs font-bold uppercase tracking-wider text-text-secondary">Fecha</th>
                   <th class="px-6 py-4 text-left font-sans text-xs font-bold uppercase tracking-wider text-text-secondary">Identificador</th>
@@ -164,7 +163,6 @@ function getClientPreview(data: Record<string, unknown>): string {
                     class="group hover:bg-surface-50/70 transition-colors duration-150 cursor-pointer"
                     onclick={`window.location.href='/admin/submissions/${sub.id}'`}
                   >
-                    <td class="px-6 py-4 font-mono text-xs text-text-secondary">#{sub.id}</td>
                     <td class="px-6 py-4 whitespace-nowrap font-medium text-text-primary">
                       {formTypeLabels[sub.form_type as FormType] ?? sub.form_type}
                     </td>
@@ -175,12 +173,21 @@ function getClientPreview(data: Record<string, unknown>): string {
                       {getClientPreview(sub.data)}
                     </td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
-                      <a 
-                        href={`/admin/submissions/${sub.id}`}
-                        class="text-xs font-bold text-imb hover:underline hover:text-imb-hover transition-colors"
-                      >
-                        Ver detalles
-                      </a>
+                      <div class="flex items-center justify-end gap-3">
+                        <a 
+                          href={`/admin/submissions/${sub.id}`}
+                          class="text-xs font-bold text-imb hover:underline hover:text-imb-hover transition-colors"
+                        >
+                          Ver
+                        </a>
+                        <button
+                          type="button"
+                          class="btn-delete text-xs font-bold text-rose-600 hover:underline hover:text-rose-700 transition-colors"
+                          data-id={sub.id}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -192,6 +199,42 @@ function getClientPreview(data: Record<string, unknown>): string {
     </div>
   </div>
 </AdminLayout>
+
+<script>
+  import { actions } from 'astro:actions';
+
+  const deleteButtons = document.querySelectorAll('.btn-delete');
+  deleteButtons.forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const target = e.currentTarget as HTMLButtonElement;
+      const id = parseInt(target.dataset.id || '0', 10);
+      
+      if (!id || !confirm('¿Estás seguro de eliminar este registro? Esta acción no se puede deshacer.')) return;
+
+      const originalText = target.innerText;
+      target.innerText = '...';
+      target.disabled = true;
+
+      try {
+        const { error } = await actions.deleteSubmission({ id });
+        if (error) {
+          alert('Error al eliminar: ' + error.message);
+          target.innerText = originalText;
+          target.disabled = false;
+        } else {
+          // Remover fila de la tabla
+          const row = target.closest('tr');
+          if (row) row.remove();
+        }
+      } catch (err) {
+        alert('Error al eliminar el registro');
+        target.innerText = originalText;
+        target.disabled = false;
+      }
+    });
+  });
+</script>
 
 <style>
   .animate-fade-in {

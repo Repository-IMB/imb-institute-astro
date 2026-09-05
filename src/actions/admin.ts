@@ -27,5 +27,17 @@ export const adminActions = {
         filename: `submissions_${new Date().toISOString().split('T')[0]}.csv`,
       };
     }
+  }),
+  deleteSubmission: defineAction({
+    accept: 'json',
+    input: z.object({
+      id: z.number(),
+    }),
+    handler: async (input) => {
+      const db = getDB();
+      const { deleteSubmission } = await import('../lib/db');
+      await deleteSubmission(db, input.id);
+      return { success: true };
+    }
   })
 };
